@@ -10,6 +10,15 @@ To install dependencies:
 bun install
 ```
 
+Before performing the following operations, you need to configure `.env` file:
+
+```
+PRIVATE_KEY=<YOUR PRIVATE KEY>
+RPC_URL=<ETHEREUM GOERLI RPC URL>
+```
+
+> `RPC_URL` is optional.
+
 If you want to fully experience the protocol please run the following command:
 
 ```bash
@@ -34,3 +43,8 @@ The script only contains the following three functions:
 - `Wrap` Wrap ERC20 tokens or ETH into NFTs
 - `Unwrap` Unwrap NFT to obtain ERC20 or ETH assets
 - `Update Config` Enter the agent address to obtain relevant information and write it to the configuration file
+
+TODO:
+- svg 渲染
+- `MintFeePercent` > 300
+- `agent.lr` -> `.lr`
