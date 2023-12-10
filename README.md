@@ -1,8 +1,12 @@
 # WrapScript
 
+Before running this script, you need to install `bun`.
+
 ```bash
 curl -fsSL https://bun.sh/install | bash
 ```
+
+> For more detailed installation tutorials, please refer to [this document](https://bun.sh/docs/installation).
 
 To install dependencies:
 
