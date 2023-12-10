@@ -11,6 +11,7 @@ import select from '@inquirer/select'
 import fs from 'fs'
 import chalk from 'chalk'
 import boxen from 'boxen'
+import { sleep } from "bun"
 
 const accountBalance = await publicClient.getBalance(account)
 
@@ -421,11 +422,20 @@ const wrapAgency = async (name: string, price: bigint, agencyAddress: `0x${strin
         if (userApproveValue < price) {
             const userNewApprove = await inputETHNumber("Enter New Approve Value: ", formatEther(price))
             await setERC20Approve(tokenAddress, agencyAddress, userNewApprove)
+            let nowblockNumber = await publicClient.getBlockNumber()
+            const nextBlockNumber = nowblockNumber + BigInt(3)
+
+            while (nowblockNumber < nextBlockNumber) {
+                await sleep(30000)
+
+                nowblockNumber = await publicClient.getBlockNumber()
+            }
 
             const { request, result } = await publicClient.simulateContract({
                 account,
                 address: agencyAddress,
                 abi: agencyABI,
+                blockNumber: nowblockNumber,
                 functionName: 'wrap',
                 args: [
                     toAddress,
