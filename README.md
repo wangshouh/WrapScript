@@ -43,8 +43,3 @@ The script only contains the following three functions:
 - `Wrap` Wrap ERC20 tokens or ETH into NFTs
 - `Unwrap` Unwrap NFT to obtain ERC20 or ETH assets
 - `Update Config` Enter the agent address to obtain relevant information and write it to the configuration file
-
-TODO:
-- svg 渲染
-- `MintFeePercent` > 300
-- `agent.lr` -> `.lr`
