@@ -1,7 +1,8 @@
 import { account, walletClient, publicClient, agencyAndAppConfig, userConfig } from "./config"
-import { deployer } from "./abi/deployer"
+import { deployer, deployerABI } from "./abi/deployer"
 import { factoryABI, wrapFactory } from "./abi/factory"
 import { agencyABI, appABI } from './abi/agency'
+import { agentABI } from './abi/agent'
 import { concat, encodeAbiParameters, formatEther, getAddress, getFunctionSelector, keccak256, toHex, parseAbi } from "viem"
 import { confirm } from '@inquirer/prompts';
 import { displayNotFundAndExit, inputAddress, selectWrapAddress, inputETHNumber, inputMoreThanMinimumValue } from './display'
@@ -68,7 +69,7 @@ export const wrap = async () => {
     const tokenName = await getERC20Name(agencyStrategy[1].currency)
     const userBalance = await getUserBalance(agencyStrategy[1].currency)
 
-    const nowAgencyPrice = await getAgenctMintPrice(agencyAddress, agencyStrategy[0])
+    const nowAgencyPrice = await getAgentMintPrice(agencyAddress, agencyStrategy[0])
     
     console.log(`Agent NFT Price is ${chalk.blue(formatEther(nowAgencyPrice[0]))} ${tokenName}, Fee is ${chalk.blue(formatEther(nowAgencyPrice[1]))} ${tokenName}`)
     console.log(`Your Balance is ${chalk.blue(formatEther(userBalance))} ${tokenName}`)
@@ -76,10 +77,16 @@ export const wrap = async () => {
     displayNotFundAndExit(nowAgencyPrice[0] + nowAgencyPrice[1], accountBalance)
     
     const userSlippagePrice = await inputETHNumber("Maximum cost available for mint: ", formatEther(nowAgencyPrice[0] + nowAgencyPrice[1]))
+    let agencyTokenName = await input({ message: 'Enter Agent Name: ' })
+
+    while (await existAgentName(agencyTokenName, agencyStrategy[0])) {
+        console.log(chalk.red("Name has been registered"))
+        agencyTokenName = await input({ message: 'Enter Agent Name: ' })
+    }
+
     const answer = await confirm({ message: 'Continue Mint Agent NFT?' });
 
     if (answer) {
-        const agencyTokenName = await input({ message: 'Enter Agent Name: ' })
         await wrapAgency(agencyTokenName, userSlippagePrice, agencyAddress, agencyStrategy[1].currency)
     }
 }
@@ -140,6 +147,22 @@ const existName = async (name: string) => {
 
     const request = await publicClient.readContract({
         ...deployer,
+        functionName: "isRecordExists",
+        args: [subNode]
+    })
+
+    return request
+}
+
+const existAgentName = async (name: string, appAddress: `0x${string}`) => {
+    const agentName = await getAgentSymbol(appAddress)
+    const nameHash = keccak256(toHex(agentName))
+    const rootNode = keccak256(concat([toHex(0, { size: 32 }), nameHash]))
+    const subNode = keccak256(concat([rootNode, keccak256(toHex(name))]))
+
+    const request = await publicClient.readContract({
+        address: appAddress,
+        abi: agentABI,
         functionName: "isRecordExists",
         args: [subNode]
     })
@@ -338,7 +361,7 @@ const getAgencyTotalSupply = async (appAddress: `0x${string}`) => {
     return totalSupply
 }
 
-const getAgenctMintPrice = async (agencyAddress: `0x${string}`, appAddress: `0x${string}`) => {
+const getAgentMintPrice = async (agencyAddress: `0x${string}`, appAddress: `0x${string}`) => {
     const totalSupply = await getAgencyTotalSupply(appAddress)
 
     const nowAgencyPrice = await publicClient.readContract({
@@ -349,6 +372,16 @@ const getAgenctMintPrice = async (agencyAddress: `0x${string}`, appAddress: `0x$
     })
 
     return nowAgencyPrice
+}
+
+const getAgentSymbol = async (agencyAddress: `0x${string}`) => {
+    const symbol = await publicClient.readContract({
+        address: agencyAddress,
+        abi: agentABI,
+        functionName: "symbol",
+    })
+
+    return symbol
 }
 
 const getAgenctBurnPrice = async (agencyAddress: `0x${string}`, appAddress: `0x${string}`) => {
