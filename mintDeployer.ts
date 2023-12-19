@@ -398,13 +398,20 @@ const getAgenctBurnPrice = async (agencyAddress: `0x${string}`, appAddress: `0x$
 }
 
 const isApproveOrOwner = async (appAddress: `0x${string}`, agencyAddress: `0x${string}`, tokenId: bigint) => {
-    const nftOwner = await publicClient.readContract({
-        address: appAddress,
-        abi: appABI,
-        functionName: "ownerOf",
-        args: [tokenId]
-    })
 
+    let nftOwner: `0x${string}`
+    
+    try {
+        nftOwner = await publicClient.readContract({
+            address: appAddress,
+            abi: appABI,
+            functionName: "ownerOf",
+            args: [tokenId]
+        })     
+    } catch (error) {
+        return false
+    }
+    
     const results = await publicClient.multicall({
         contracts: [
             {
