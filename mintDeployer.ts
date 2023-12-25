@@ -34,6 +34,7 @@ export const mintDeployer = async () => {
 
         while (await existName(deployerName)) {
             console.log(chalk.red("Name has been registered"))
+            // TODO: Deployer name
             deployerName = await input({ message: 'Enter Deployer Name: ' })
         }
 
@@ -74,7 +75,7 @@ export const wrap = async () => {
     console.log(`Agent NFT Price is ${chalk.blue(formatEther(nowAgencyPrice[0]))} ${tokenName}, Fee is ${chalk.blue(formatEther(nowAgencyPrice[1]))} ${tokenName}`)
     console.log(`Your Balance is ${chalk.blue(formatEther(userBalance))} ${tokenName}`)
 
-    displayNotFundAndExit(nowAgencyPrice[0] + nowAgencyPrice[1], accountBalance)
+    displayNotFundAndExit(nowAgencyPrice[0] + nowAgencyPrice[1], userBalance)
     
     const userSlippagePrice = await inputETHNumber("Maximum cost available for mint: ", formatEther(nowAgencyPrice[0] + nowAgencyPrice[1]))
     let agencyTokenName = await input({ message: 'Enter Agent Name: ' })
