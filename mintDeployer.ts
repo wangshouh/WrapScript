@@ -453,7 +453,7 @@ const wrapAgency = async (name: string, price: bigint, agencyAddress: `0x${strin
             ]
         })
 
-        console.log(`Wrap Agrncy ID: ${chalk.blue(result)}`)
+        console.log(`Wrap Agency ID: ${chalk.blue(result)}`)
         const mintHash = await walletClient.writeContract(request)
         console.log(`Mint Hash: ${chalk.blue(mintHash)}`)
     } else {
@@ -484,7 +484,7 @@ const wrapAgency = async (name: string, price: bigint, agencyAddress: `0x${strin
                 ]
             })
 
-            console.log(`Wrap Agrncy ID: ${chalk.blue(result)}`)
+            console.log(`Wrap Agency ID: ${chalk.blue(result)}`)
             const mintHash = await walletClient.writeContract(request)
             console.log(`Mint Hash: ${chalk.blue(mintHash)}`)
         } else {
@@ -499,7 +499,7 @@ const wrapAgency = async (name: string, price: bigint, agencyAddress: `0x${strin
                 ]
             })
 
-            console.log(`Wrap Agrncy ID: ${chalk.blue(result)}`)
+            console.log(`Wrap Agency ID: ${chalk.blue(result)}`)
             const mintHash = await walletClient.writeContract(request)
             console.log(`Mint Hash: ${chalk.blue(mintHash)}`)
         }
