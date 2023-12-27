@@ -136,6 +136,31 @@ export const unwrap = async () => {
     }
 }
 
+export const setUserTokenURIEngine = async () => {
+    const agencyAddress = await selectWrapAddress(userConfig)
+    const agencyStrategy = await getAgencyStrategy(agencyAddress)
+
+    const agencyTokenId = BigInt(await input({ message: 'Enter Agent NFT ID: ' }))
+    const authorityExist = await isApproveOrOwner(agencyStrategy[0], agencyAddress, agencyTokenId)
+
+    if (!authorityExist) {
+        console.log(chalk.red('Not NFT Approve or Owner'))
+        return
+    } else {
+        const tokenURIEngineAddress = await inputAddress("Enter TokenURI Engine Address: ")
+        const { request } = await publicClient.simulateContract({
+            account,
+            address: agencyStrategy[0],
+            abi: agentABI,
+            functionName: 'setTokenURIEngine',
+            args: [agencyTokenId, tokenURIEngineAddress]
+        })
+    
+        const setTokenURIHash = await walletClient.writeContract(request)
+        console.log(`Set TokenURI Engine Hash: ${chalk.blue(setTokenURIHash)}`)
+    }
+}
+
 export const updateAgenctConfig = async () => {
     const agencyAddress = await inputAddress('Enter Your Agent Address: ')
 

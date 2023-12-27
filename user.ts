@@ -1,5 +1,5 @@
 import select from '@inquirer/select'
-import { wrap, unwrap, updateAgenctConfig } from './mintDeployer'
+import { wrap, unwrap, updateAgenctConfig, setUserTokenURIEngine } from './mintDeployer'
 import chalk from 'chalk'
 
 const userSelect = await select({
@@ -19,6 +19,11 @@ const userSelect = await select({
             name: "Update Config",
             value: "updateAgenctConfig",
             description: `Update Agent Config`
+        },
+        {
+            name: "Set TokenURI Engine",
+            value: "setUserTokenURIEngine",
+            description: `Set up your NFT tokenURI Engine`
         }
     ]
 })
@@ -34,6 +39,9 @@ switch (userSelect) {
     
     case "updateAgenctConfig":
         await updateAgenctConfig()
+        break;
+    case "setUserTokenURIEngine":
+        await setUserTokenURIEngine()
         break;
     default:
         break;

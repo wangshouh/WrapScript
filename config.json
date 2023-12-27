@@ -1,13 +1,1 @@
-{
-    "tokenId": [],
-    "agency": [
-        {
-            "value": "0xDc494Fed7dD8Ab01E4d1b438af9F477d710367eE",
-            "description": "agent.zero"
-        },
-        {
-            "value": "0x4509C32CDeaA3439118b9b40082b67e527eeED86",
-            "description": "agent.one"
-        }
-    ]
-}
+{"tokenId":[{"name":"sol","value":2}],"agency":[{"value":"0xD20C60e2E205D197d66649689683b45Dd15cC872","description":"sol"}]}
