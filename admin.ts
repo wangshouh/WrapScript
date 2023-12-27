@@ -14,16 +14,6 @@ const userSelect = await select({
             name: "Deploy App and Agency",
             value: "deployAppAndAgency",
             description: `Deploy app and agency. This process can be done after ${chalk.blueBright("Mint Deployer")}`
-        },
-        {
-            name: "Wrap",
-            value: "wrap",
-            description: `Use ${chalk.blueBright("Agency")} to complete token Wrap`
-        },
-        {
-            name: "Unwrap",
-            value: "unwrap",
-            description: `Unwrap ${chalk.blueBright("Agency")} NFT To Receive ETH or ERC20 Token`
         }
     ]
 })
@@ -36,14 +26,6 @@ switch (userSelect) {
 
     case "deployAppAndAgency":
         await deployAppAndAgency()
-        break;
-    
-    case "wrap":
-        await wrap()
-        break;
-
-    case "unwrap":
-        await unwrap()
         break;
         
     default:
