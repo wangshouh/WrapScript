@@ -3,16 +3,6 @@ export const agentABI = [
         "type": "constructor",
         "inputs": [
             {
-                "name": "accessManage",
-                "type": "address",
-                "internalType": "address"
-            },
-            {
-                "name": "tokenURIEngine",
-                "type": "address",
-                "internalType": "address"
-            },
-            {
                 "name": "deployer_",
                 "type": "address",
                 "internalType": "address"
@@ -24,19 +14,6 @@ export const agentABI = [
             }
         ],
         "stateMutability": "nonpayable"
-    },
-    {
-        "type": "function",
-        "name": "DEFAULT_ACCOUNT_SALT",
-        "inputs": [],
-        "outputs": [
-            {
-                "name": "",
-                "type": "bytes32",
-                "internalType": "bytes32"
-            }
-        ],
-        "stateMutability": "view"
     },
     {
         "type": "function",
@@ -82,18 +59,18 @@ export const agentABI = [
         "name": "approve",
         "inputs": [
             {
-                "name": "to",
+                "name": "account",
                 "type": "address",
                 "internalType": "address"
             },
             {
-                "name": "tokenId",
+                "name": "id",
                 "type": "uint256",
                 "internalType": "uint256"
             }
         ],
         "outputs": [],
-        "stateMutability": "nonpayable"
+        "stateMutability": "payable"
     },
     {
         "type": "function",
@@ -120,7 +97,7 @@ export const agentABI = [
         ],
         "outputs": [
             {
-                "name": "",
+                "name": "result",
                 "type": "uint256",
                 "internalType": "uint256"
             }
@@ -199,19 +176,6 @@ export const agentABI = [
     },
     {
         "type": "function",
-        "name": "erc6551AccountImp",
-        "inputs": [],
-        "outputs": [
-            {
-                "name": "",
-                "type": "address",
-                "internalType": "address"
-            }
-        ],
-        "stateMutability": "view"
-    },
-    {
-        "type": "function",
         "name": "factory",
         "inputs": [],
         "outputs": [
@@ -241,53 +205,14 @@ export const agentABI = [
         "name": "getApproved",
         "inputs": [
             {
-                "name": "tokenId",
+                "name": "id",
                 "type": "uint256",
                 "internalType": "uint256"
             }
         ],
         "outputs": [
             {
-                "name": "",
-                "type": "address",
-                "internalType": "address"
-            }
-        ],
-        "stateMutability": "view"
-    },
-    {
-        "type": "function",
-        "name": "getDefaultTokenURIEngine",
-        "inputs": [],
-        "outputs": [
-            {
-                "name": "",
-                "type": "address",
-                "internalType": "address"
-            }
-        ],
-        "stateMutability": "view"
-    },
-    {
-        "type": "function",
-        "name": "getDomainSeparator",
-        "inputs": [],
-        "outputs": [
-            {
-                "name": "",
-                "type": "bytes32",
-                "internalType": "bytes32"
-            }
-        ],
-        "stateMutability": "view"
-    },
-    {
-        "type": "function",
-        "name": "getImplementationAgentDefaultTokenURIEngine",
-        "inputs": [],
-        "outputs": [
-            {
-                "name": "",
+                "name": "result",
                 "type": "address",
                 "internalType": "address"
             }
@@ -300,7 +225,7 @@ export const agentABI = [
         "inputs": [],
         "outputs": [
             {
-                "name": "",
+                "name": "maxSupply",
                 "type": "uint256",
                 "internalType": "uint256"
             }
@@ -458,31 +383,7 @@ export const agentABI = [
         ],
         "outputs": [
             {
-                "name": "",
-                "type": "bool",
-                "internalType": "bool"
-            }
-        ],
-        "stateMutability": "view"
-    },
-    {
-        "type": "function",
-        "name": "isApprovedOrOwner",
-        "inputs": [
-            {
-                "name": "spender",
-                "type": "address",
-                "internalType": "address"
-            },
-            {
-                "name": "tokenId",
-                "type": "uint256",
-                "internalType": "uint256"
-            }
-        ],
-        "outputs": [
-            {
-                "name": "",
+                "name": "result",
                 "type": "bool",
                 "internalType": "bool"
             }
@@ -573,164 +474,22 @@ export const agentABI = [
     },
     {
         "type": "function",
-        "name": "onERC721Received",
-        "inputs": [
-            {
-                "name": "",
-                "type": "address",
-                "internalType": "address"
-            },
-            {
-                "name": "",
-                "type": "address",
-                "internalType": "address"
-            },
-            {
-                "name": "",
-                "type": "uint256",
-                "internalType": "uint256"
-            },
-            {
-                "name": "",
-                "type": "bytes",
-                "internalType": "bytes"
-            }
-        ],
-        "outputs": [
-            {
-                "name": "",
-                "type": "bytes4",
-                "internalType": "bytes4"
-            }
-        ],
-        "stateMutability": "nonpayable"
-    },
-    {
-        "type": "function",
         "name": "ownerOf",
         "inputs": [
             {
-                "name": "tokenId",
+                "name": "id",
                 "type": "uint256",
                 "internalType": "uint256"
             }
         ],
         "outputs": [
             {
-                "name": "",
+                "name": "result",
                 "type": "address",
                 "internalType": "address"
             }
         ],
         "stateMutability": "view"
-    },
-    {
-        "type": "function",
-        "name": "paused",
-        "inputs": [],
-        "outputs": [
-            {
-                "name": "",
-                "type": "bool",
-                "internalType": "bool"
-            }
-        ],
-        "stateMutability": "view"
-    },
-    {
-        "type": "function",
-        "name": "permit",
-        "inputs": [
-            {
-                "name": "spender",
-                "type": "address",
-                "internalType": "address"
-            },
-            {
-                "name": "tokenId",
-                "type": "uint256",
-                "internalType": "uint256"
-            },
-            {
-                "name": "sig",
-                "type": "tuple",
-                "internalType": "struct IBaseERC721.EIP712Signature",
-                "components": [
-                    {
-                        "name": "v",
-                        "type": "uint8",
-                        "internalType": "uint8"
-                    },
-                    {
-                        "name": "r",
-                        "type": "bytes32",
-                        "internalType": "bytes32"
-                    },
-                    {
-                        "name": "s",
-                        "type": "bytes32",
-                        "internalType": "bytes32"
-                    },
-                    {
-                        "name": "deadline",
-                        "type": "uint256",
-                        "internalType": "uint256"
-                    }
-                ]
-            }
-        ],
-        "outputs": [],
-        "stateMutability": "nonpayable"
-    },
-    {
-        "type": "function",
-        "name": "permitForAll",
-        "inputs": [
-            {
-                "name": "owner",
-                "type": "address",
-                "internalType": "address"
-            },
-            {
-                "name": "operator",
-                "type": "address",
-                "internalType": "address"
-            },
-            {
-                "name": "approved",
-                "type": "bool",
-                "internalType": "bool"
-            },
-            {
-                "name": "sig",
-                "type": "tuple",
-                "internalType": "struct IBaseERC721.EIP712Signature",
-                "components": [
-                    {
-                        "name": "v",
-                        "type": "uint8",
-                        "internalType": "uint8"
-                    },
-                    {
-                        "name": "r",
-                        "type": "bytes32",
-                        "internalType": "bytes32"
-                    },
-                    {
-                        "name": "s",
-                        "type": "bytes32",
-                        "internalType": "bytes32"
-                    },
-                    {
-                        "name": "deadline",
-                        "type": "uint256",
-                        "internalType": "uint256"
-                    }
-                ]
-            }
-        ],
-        "outputs": [],
-        "stateMutability": "nonpayable"
     },
     {
         "type": "function",
@@ -747,13 +506,13 @@ export const agentABI = [
                 "internalType": "address"
             },
             {
-                "name": "tokenId",
+                "name": "id",
                 "type": "uint256",
                 "internalType": "uint256"
             }
         ],
         "outputs": [],
-        "stateMutability": "nonpayable"
+        "stateMutability": "payable"
     },
     {
         "type": "function",
@@ -770,7 +529,7 @@ export const agentABI = [
                 "internalType": "address"
             },
             {
-                "name": "tokenId",
+                "name": "id",
                 "type": "uint256",
                 "internalType": "uint256"
             },
@@ -781,7 +540,7 @@ export const agentABI = [
             }
         ],
         "outputs": [],
-        "stateMutability": "nonpayable"
+        "stateMutability": "payable"
     },
     {
         "type": "function",
@@ -806,7 +565,7 @@ export const agentABI = [
                 "internalType": "address"
             },
             {
-                "name": "approved",
+                "name": "isApproved",
                 "type": "bool",
                 "internalType": "bool"
             }
@@ -820,19 +579,6 @@ export const agentABI = [
         "inputs": [
             {
                 "name": "newAuthority",
-                "type": "address",
-                "internalType": "address"
-            }
-        ],
-        "outputs": [],
-        "stateMutability": "nonpayable"
-    },
-    {
-        "type": "function",
-        "name": "setDefaultTokenURIEngine",
-        "inputs": [
-            {
-                "name": "defalutTokenURIengine",
                 "type": "address",
                 "internalType": "address"
             }
@@ -950,25 +696,6 @@ export const agentABI = [
     },
     {
         "type": "function",
-        "name": "sigNonces",
-        "inputs": [
-            {
-                "name": "",
-                "type": "address",
-                "internalType": "address"
-            }
-        ],
-        "outputs": [
-            {
-                "name": "",
-                "type": "uint256",
-                "internalType": "uint256"
-            }
-        ],
-        "stateMutability": "view"
-    },
-    {
-        "type": "function",
         "name": "supportsInterface",
         "inputs": [
             {
@@ -1001,59 +728,16 @@ export const agentABI = [
     },
     {
         "type": "function",
-        "name": "tokenByIndex",
-        "inputs": [
-            {
-                "name": "index",
-                "type": "uint256",
-                "internalType": "uint256"
-            }
-        ],
-        "outputs": [
-            {
-                "name": "",
-                "type": "uint256",
-                "internalType": "uint256"
-            }
-        ],
-        "stateMutability": "view"
-    },
-    {
-        "type": "function",
         "name": "tokenIdOfDeployer",
         "inputs": [],
         "outputs": [
             {
-                "name": "app",
+                "name": "tokenId",
                 "type": "uint256",
                 "internalType": "uint256"
             }
         ],
         "stateMutability": "pure"
-    },
-    {
-        "type": "function",
-        "name": "tokenOfOwnerByIndex",
-        "inputs": [
-            {
-                "name": "owner",
-                "type": "address",
-                "internalType": "address"
-            },
-            {
-                "name": "index",
-                "type": "uint256",
-                "internalType": "uint256"
-            }
-        ],
-        "outputs": [
-            {
-                "name": "",
-                "type": "uint256",
-                "internalType": "uint256"
-            }
-        ],
-        "stateMutability": "view"
     },
     {
         "type": "function",
@@ -1102,13 +786,13 @@ export const agentABI = [
                 "internalType": "address"
             },
             {
-                "name": "tokenId",
+                "name": "id",
                 "type": "uint256",
                 "internalType": "uint256"
             }
         ],
         "outputs": [],
-        "stateMutability": "nonpayable"
+        "stateMutability": "payable"
     },
     {
         "type": "event",
@@ -1121,13 +805,13 @@ export const agentABI = [
                 "internalType": "address"
             },
             {
-                "name": "approved",
+                "name": "account",
                 "type": "address",
                 "indexed": true,
                 "internalType": "address"
             },
             {
-                "name": "tokenId",
+                "name": "id",
                 "type": "uint256",
                 "indexed": true,
                 "internalType": "uint256"
@@ -1152,7 +836,7 @@ export const agentABI = [
                 "internalType": "address"
             },
             {
-                "name": "approved",
+                "name": "isApproved",
                 "type": "bool",
                 "indexed": false,
                 "internalType": "bool"
@@ -1306,12 +990,18 @@ export const agentABI = [
     },
     {
         "type": "event",
-        "name": "Paused",
+        "name": "SetProxyTokenURIEngine",
         "inputs": [
             {
-                "name": "account",
+                "name": "oldTokenURIEngine",
                 "type": "address",
                 "indexed": false,
+                "internalType": "address"
+            },
+            {
+                "name": "newTokenURIEngine",
+                "type": "address",
+                "indexed": true,
                 "internalType": "address"
             }
         ],
@@ -1338,25 +1028,6 @@ export const agentABI = [
     },
     {
         "type": "event",
-        "name": "SetTokenURIEngine",
-        "inputs": [
-            {
-                "name": "oldTokenURIEngine",
-                "type": "address",
-                "indexed": false,
-                "internalType": "address"
-            },
-            {
-                "name": "newTokenURIEngine",
-                "type": "address",
-                "indexed": true,
-                "internalType": "address"
-            }
-        ],
-        "anonymous": false
-    },
-    {
-        "type": "event",
         "name": "Transfer",
         "inputs": [
             {
@@ -1372,7 +1043,7 @@ export const agentABI = [
                 "internalType": "address"
             },
             {
-                "name": "tokenId",
+                "name": "id",
                 "type": "uint256",
                 "indexed": true,
                 "internalType": "uint256"
@@ -1381,17 +1052,20 @@ export const agentABI = [
         "anonymous": false
     },
     {
-        "type": "event",
-        "name": "Unpaused",
+        "type": "error",
+        "name": "ANSNameMinted",
         "inputs": [
             {
-                "name": "account",
-                "type": "address",
-                "indexed": false,
-                "internalType": "address"
+                "name": "name",
+                "type": "bytes",
+                "internalType": "bytes"
             }
-        ],
-        "anonymous": false
+        ]
+    },
+    {
+        "type": "error",
+        "name": "ANSNotAuthorised",
+        "inputs": []
     },
     {
         "type": "error",
@@ -1433,6 +1107,11 @@ export const agentABI = [
     },
     {
         "type": "error",
+        "name": "AccountBalanceOverflow",
+        "inputs": []
+    },
+    {
+        "type": "error",
         "name": "AccountCreationFailed",
         "inputs": []
     },
@@ -1460,41 +1139,15 @@ export const agentABI = [
     },
     {
         "type": "error",
-        "name": "ERC721EnumerableForbiddenBatchMint",
+        "name": "AgentInvalidInitialization",
         "inputs": []
     },
     {
         "type": "error",
-        "name": "ERC721IncorrectOwner",
+        "name": "AgentMaxSupplyExceeded",
         "inputs": [
             {
-                "name": "sender",
-                "type": "address",
-                "internalType": "address"
-            },
-            {
-                "name": "tokenId",
-                "type": "uint256",
-                "internalType": "uint256"
-            },
-            {
-                "name": "owner",
-                "type": "address",
-                "internalType": "address"
-            }
-        ]
-    },
-    {
-        "type": "error",
-        "name": "ERC721InsufficientApproval",
-        "inputs": [
-            {
-                "name": "operator",
-                "type": "address",
-                "internalType": "address"
-            },
-            {
-                "name": "tokenId",
+                "name": "maxSupply",
                 "type": "uint256",
                 "internalType": "uint256"
             }
@@ -1502,94 +1155,7 @@ export const agentABI = [
     },
     {
         "type": "error",
-        "name": "ERC721InvalidApprover",
-        "inputs": [
-            {
-                "name": "approver",
-                "type": "address",
-                "internalType": "address"
-            }
-        ]
-    },
-    {
-        "type": "error",
-        "name": "ERC721InvalidOperator",
-        "inputs": [
-            {
-                "name": "operator",
-                "type": "address",
-                "internalType": "address"
-            }
-        ]
-    },
-    {
-        "type": "error",
-        "name": "ERC721InvalidOwner",
-        "inputs": [
-            {
-                "name": "owner",
-                "type": "address",
-                "internalType": "address"
-            }
-        ]
-    },
-    {
-        "type": "error",
-        "name": "ERC721InvalidReceiver",
-        "inputs": [
-            {
-                "name": "receiver",
-                "type": "address",
-                "internalType": "address"
-            }
-        ]
-    },
-    {
-        "type": "error",
-        "name": "ERC721InvalidSender",
-        "inputs": [
-            {
-                "name": "sender",
-                "type": "address",
-                "internalType": "address"
-            }
-        ]
-    },
-    {
-        "type": "error",
-        "name": "ERC721NonexistentToken",
-        "inputs": [
-            {
-                "name": "tokenId",
-                "type": "uint256",
-                "internalType": "uint256"
-            }
-        ]
-    },
-    {
-        "type": "error",
-        "name": "ERC721OutOfBoundsIndex",
-        "inputs": [
-            {
-                "name": "owner",
-                "type": "address",
-                "internalType": "address"
-            },
-            {
-                "name": "index",
-                "type": "uint256",
-                "internalType": "uint256"
-            }
-        ]
-    },
-    {
-        "type": "error",
-        "name": "EnforcedPause",
-        "inputs": []
-    },
-    {
-        "type": "error",
-        "name": "ExpectedPause",
+        "name": "BalanceQueryForZeroAddress",
         "inputs": []
     },
     {
@@ -1610,22 +1176,6 @@ export const agentABI = [
     },
     {
         "type": "error",
-        "name": "NNSNameMinted",
-        "inputs": [
-            {
-                "name": "name",
-                "type": "bytes",
-                "internalType": "bytes"
-            }
-        ]
-    },
-    {
-        "type": "error",
-        "name": "NNSNotAuthorised",
-        "inputs": []
-    },
-    {
-        "type": "error",
         "name": "NameContainsInvalidCharacters",
         "inputs": []
     },
@@ -1641,22 +1191,48 @@ export const agentABI = [
     },
     {
         "type": "error",
+        "name": "NotOwnerNorApproved",
+        "inputs": []
+    },
+    {
+        "type": "error",
         "name": "NotOwnerOrApproved",
         "inputs": []
     },
     {
         "type": "error",
-        "name": "SignatureExpired",
+        "name": "TokenAlreadyExists",
         "inputs": []
     },
     {
         "type": "error",
-        "name": "SignatureInvalid",
+        "name": "TokenDoesNotExist",
         "inputs": []
     },
     {
         "type": "error",
-        "name": "ZeroSpender",
+        "name": "TokenURISettingsNonexistentToken",
+        "inputs": [
+            {
+                "name": "tokenId",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ]
+    },
+    {
+        "type": "error",
+        "name": "TransferFromIncorrectOwner",
+        "inputs": []
+    },
+    {
+        "type": "error",
+        "name": "TransferToNonERC721ReceiverImplementer",
+        "inputs": []
+    },
+    {
+        "type": "error",
+        "name": "TransferToZeroAddress",
         "inputs": []
     }
 ] as const
