@@ -1778,6 +1778,6 @@ export const deployerABI = [
 ] as const;
 
 export const deployer = {
-    address: "0xA2764bB05016598c1b5FAf6eC12AC73886dcfC37",
+    address: "0xc02081a5f80C7FdaA28cF26a40f5aBAe21f20763",
     abi: deployerABI
 } as const;

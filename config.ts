@@ -39,7 +39,7 @@ export const agencyAndAppConfig = [
       "name": "One Percent",
       "value": "onePercentConfig",
       "description": "User minting price increases by basePremium percentage",
-      "agencyImplementation": "0x659CE0D81063e62b1c78FF220781550fDe4c632C",
-      "appImplementation": "0xcF1C0cBa744346925151715bc30632083849e58d"
+      "agencyImplementation": "0xb4972cc5D57cDE9fE905Fa2CEA9e8DbC1749d8E8",
+      "appImplementation": "0x10317e0D2652D6095C7D68c313B7E126aA5cC6cD"
   }
 ]
