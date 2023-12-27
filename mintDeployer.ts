@@ -63,6 +63,25 @@ export const deployAppAndAgency = async () => {
     // console.log(`Agency Implementation: ${chalk.blue(agencyImplementation)}\nApp Implementation: ${chalk.blue(appImplementation)}`)
 }
 
+export const setTokenURIEngine =async () => {
+    const agencyAddress = await selectWrapAddress(userConfig)
+    const agencyStrategy = await getAgencyStrategy(agencyAddress)
+
+    const tokenURIEngineAddress = await inputAddress("Enter TokenURI Engine Address(Default is Mario-style): ", "0x2D2F757877547ef03Ee7d0D7e49AF391b6931071")
+
+    // console.log(`Set TokenURI Engine Address: ${chalk.blue(tokenURIEngineAddress)}`)
+    const { request } = await publicClient.simulateContract({
+        account,
+        address: agencyStrategy[0],
+        abi: agentABI,
+        functionName: 'setProxyTokenURIEngine',
+        args: [tokenURIEngineAddress]
+    })
+
+    const setTokenURIHash = await walletClient.writeContract(request)
+    console.log(`Set TokenURI Engine Hash: ${chalk.blue(setTokenURIHash)}`)
+}
+
 export const wrap = async () => {
     const agencyAddress = await selectWrapAddress(userConfig)
     const agencyStrategy = await getAgencyStrategy(agencyAddress)
@@ -111,7 +130,7 @@ export const unwrap = async () => {
             console.log(chalk.red('Not NFT Approve or Owner'))
             return
         } else {
-            const userSlippagePrice = await inputETHNumber("Minimum available for burn: ", formatEther(burnGet[0] - burnGet[1]))
+            const userSlippagePrice = BigInt(0)
             await unwrapAgency(agencyTokenId, userSlippagePrice, agencyAddress, tokenName)
         }
     }

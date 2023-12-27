@@ -1,5 +1,5 @@
 import select from '@inquirer/select'
-import { mintDeployer, deployAppAndAgency, wrap, unwrap } from './mintDeployer'
+import { mintDeployer, deployAppAndAgency, setTokenURIEngine } from './mintDeployer'
 import chalk from 'chalk'
 
 const userSelect = await select({
@@ -14,6 +14,11 @@ const userSelect = await select({
             name: "Deploy App and Agency",
             value: "deployAppAndAgency",
             description: `Deploy app and agency. This process can be done after ${chalk.blueBright("Mint Deployer")}`
+        },
+        {
+            name: "Manage TokenURI",
+            value: "setTokenURIEngine",
+            description: `Manage agency's TokenURI.`
         }
     ]
 })
@@ -27,7 +32,11 @@ switch (userSelect) {
     case "deployAppAndAgency":
         await deployAppAndAgency()
         break;
-        
+    
+    case "setTokenURIEngine":
+        await setTokenURIEngine()
+        break;
+
     default:
         break;
 }

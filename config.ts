@@ -43,3 +43,13 @@ export const agencyAndAppConfig = [
       "appImplementation": "0x10317e0D2652D6095C7D68c313B7E126aA5cC6cD"
   }
 ]
+
+export const tokenURIEngineConfig = [
+  {
+    "name": "Mairo",
+    "value": "0x2D2F757877547ef03Ee7d0D7e49AF391b6931071" as `0x${string}`,
+    "description": "Generate Mario-style on-chain images",
+  }
+]
+
+// BAYC 0x02E12e3C9996F115fF8470746374e23EeBfFf7AF
