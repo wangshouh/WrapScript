@@ -125,13 +125,15 @@ export const updateAgenctConfig = async () => {
     const tokenName = await getERC20Name(agencySettings[1].currency)
 
     const agencyName = await getAgentName(agencySettings[0])
+    const agentMaxSupply = await getAgentMaxSupply(agencySettings[0])
 
     console.log(boxen(`Agency Name: ${chalk.blue(agencyName)}\n`
         + `Currency: ${chalk.blue(tokenName)}\n`
         + `Currency Address: ${chalk.blue(agencySettings[1].currency)}\n`
         + `Base Premium: ${chalk.blue(agencySettings[1].basePremium.toString(10))}\n`
         + `Mint Fee Percent: ${chalk.blue(agencySettings[1].mintFeePercent.toString(10))}\n`
-        + `Burn Fee Percent: ${chalk.blue(agencySettings[1].burnFeePercent.toString(10))}`, { padding: 1 }))
+        + `Burn Fee Percent: ${chalk.blue(agencySettings[1].burnFeePercent.toString(10))}\n`
+        + `Max Supply: ${chalk.blue(agentMaxSupply.toString(10))}`, { padding: 1 }))
     
     const answer = await confirm({ message: 'Continue Update Agency Config?' })
 
@@ -234,7 +236,7 @@ const setERC20Approve = async (tokenAddress: `0x${string}`, agencyAddress: `0x${
     console.log(`Approve Hash: ${chalk.blue(approveHash)}`)
 }
 
-const getAgentName =async (agentAddress: `0x${string}`) => {
+const getAgentName = async (agentAddress: `0x${string}`) => {
     const agentName = await publicClient.readContract({
         address: agentAddress,
         abi: appABI,
@@ -242,7 +244,18 @@ const getAgentName =async (agentAddress: `0x${string}`) => {
     })
 
     return agentName
-} 
+}
+
+const getAgentMaxSupply = async (agentAddress: `0x${string}`) => {
+    const maxSupply = await publicClient.readContract({
+        address: agentAddress,
+        abi: agentABI,
+        functionName: "getMaxSupply",
+    })
+
+    return maxSupply
+}
+
 const getUserBalance = async (tokenAddress: `0x${string}`) => {
     if (tokenAddress === '0x0000000000000000000000000000000000000000') {
         return accountBalance
@@ -295,10 +308,10 @@ const getAgenctConfig = async (appImplementation: `0x${string}`) => {
     const feeRecipient = getAddress('0x0000000000000000000000000000000000000000')
     const mintFeePercent = await inputMoreThanMinimumValue('Enter Mint Fee Percent(>300):')
     const burnFeePercent = await inputMoreThanMinimumValue('Enter Burn Fee Percent(>300):')
+    const maxSupply = Number.parseInt(await input({ message: 'Enter Max Supply(If set to 0, unlimited supply): ', default: "0" }), 10)
+    console.log(boxen(`Currency: ${chalk.blue(currencyName)}\nBase Premium: ${chalk.blue(basePremium.toString(10))}\nMint Fee Percent: ${chalk.blue(mintFeePercent)}\nBurn Fee Percent: ${chalk.blue(burnFeePercent)}\nMax Supply: ${chalk.blue(maxSupply === 0 ? 'Unlimited' : maxSupply)}`, { padding: 1 }))
 
-    console.log(boxen(`Currency: ${chalk.blue(currencyName)}\nBase Premium: ${chalk.blue(basePremium.toString(10))}\nMint Fee Percent: ${chalk.blue(mintFeePercent)}\nBurn Fee Percent: ${chalk.blue(burnFeePercent)}`, { padding: 1 }))
-
-    return { tokenId, config: { currency, basePremium, feeRecipient, mintFeePercent, burnFeePercent } }
+    return { tokenId, config: { currency, basePremium, feeRecipient, mintFeePercent, burnFeePercent, maxSupply } }
 }
 
 const deployAgencyAndApp = async (
@@ -311,8 +324,17 @@ const deployAgencyAndApp = async (
         feeRecipient: `0x${string}`;
         mintFeePercent: number;
         burnFeePercent: number;
+        maxSupply: number;
     },
 ) => {
+    let appImmutableData: `0x${string}`
+
+    if (assetConfig.maxSupply === 0) {
+        appImmutableData = "0x"
+    } else {
+        appImmutableData = toHex(assetConfig.maxSupply, { size: 32 })
+    }
+
     const { request, result } = await publicClient.simulateContract({
         account,
         ...wrapFactory,
@@ -328,7 +350,7 @@ const deployAgencyAndApp = async (
             },
             {
                 implementation: appImplementation,
-                immutableData: "0x",
+                immutableData: appImmutableData,
                 initData: getFunctionSelector("init()")
             },
             toHex(tokenId, { size: 32 })
