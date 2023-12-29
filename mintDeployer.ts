@@ -1,11 +1,11 @@
 import { account, walletClient, publicClient, agencyAndAppConfig, userConfig } from "./config"
-import { deployer, deployerABI } from "./abi/deployer"
+import { deployer } from "./abi/deployer"
 import { factoryABI, wrapFactory } from "./abi/factory"
 import { agencyABI, appABI } from './abi/agency'
 import { agentABI } from './abi/agent'
 import { concat, encodeAbiParameters, formatEther, getAddress, getFunctionSelector, keccak256, toHex, parseAbi } from "viem"
 import { confirm } from '@inquirer/prompts';
-import { displayNotFundAndExit, inputAddress, selectWrapAddress, inputETHNumber, inputMoreThanMinimumValue } from './display'
+import { displayNotFundAndExit, inputAddress, selectWrapAddress, selectTokenId, inputETHNumber, inputMoreThanMinimumValue } from './display'
 import { exit } from 'node:process';
 import input from '@inquirer/input';
 import select from '@inquirer/select'
@@ -63,7 +63,7 @@ export const deployAppAndAgency = async () => {
     // console.log(`Agency Implementation: ${chalk.blue(agencyImplementation)}\nApp Implementation: ${chalk.blue(appImplementation)}`)
 }
 
-export const setTokenURIEngine =async () => {
+export const setTokenURIEngine = async () => {
     const agencyAddress = await selectWrapAddress(userConfig)
     const agencyStrategy = await getAgencyStrategy(agencyAddress)
 
@@ -81,6 +81,28 @@ export const setTokenURIEngine =async () => {
     const setTokenURIHash = await walletClient.writeContract(request)
     console.log(`Set TokenURI Engine Hash: ${chalk.blue(setTokenURIHash)}`)
 }
+
+export const changeDeployerTokenURI = async () => {
+    const deployerTokenId = await selectTokenId(userConfig)
+
+    const authorityExist = await isApproveOrOwner(deployer.address, BigInt(deployerTokenId))
+
+    if (!authorityExist) {
+        console.log(chalk.red('Not NFT Approve or Owner'))
+        return
+    } else {
+        const tokenURI = await inputAddress('Enter TokenURI Engine Address(Default is histogram-style): ', "0x87441f94a353C90D9AC8b65EE1F4D4350A66DEE1")
+        const { request } = await publicClient.simulateContract({
+            account,
+            ...deployer,
+            functionName: 'setTokenURIEngine',
+            args: [BigInt(deployerTokenId), tokenURI]
+        })
+    
+        const setTokenURIHash = await walletClient.writeContract(request)
+        console.log(`Set Deployer TokenURI Hash: ${chalk.blue(setTokenURIHash)}`)
+    }
+}   
 
 export const wrap = async () => {
     const agencyAddress = await selectWrapAddress(userConfig)
@@ -124,7 +146,7 @@ export const unwrap = async () => {
 
     if (answer) {
         const agencyTokenId = BigInt(await input({ message: 'Enter Agent NFT ID: ' }))
-        const authorityExist = await isApproveOrOwner(agencyStrategy[0], agencyAddress, agencyTokenId)
+        const authorityExist = await isApproveOrOwner(agencyStrategy[0], agencyTokenId)
 
         if (!authorityExist) {
             console.log(chalk.red('Not NFT Approve or Owner'))
@@ -141,7 +163,7 @@ export const setUserTokenURIEngine = async () => {
     const agencyStrategy = await getAgencyStrategy(agencyAddress)
 
     const agencyTokenId = BigInt(await input({ message: 'Enter Agent NFT ID: ' }))
-    const authorityExist = await isApproveOrOwner(agencyStrategy[0], agencyAddress, agencyTokenId)
+    const authorityExist = await isApproveOrOwner(agencyStrategy[0], agencyTokenId)
 
     if (!authorityExist) {
         console.log(chalk.red('Not NFT Approve or Owner'))
@@ -464,7 +486,7 @@ const getAgenctBurnPrice = async (agencyAddress: `0x${string}`, appAddress: `0x$
     return nowAgencyBurnPrice
 }
 
-const isApproveOrOwner = async (appAddress: `0x${string}`, agencyAddress: `0x${string}`, tokenId: bigint) => {
+const isApproveOrOwner = async (appAddress: `0x${string}`, tokenId: bigint) => {
 
     let nftOwner: `0x${string}`
     

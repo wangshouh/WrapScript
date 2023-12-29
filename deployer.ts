@@ -1,10 +1,11 @@
 import select from '@inquirer/select'
-import { mintDeployer, deployAppAndAgency, setTokenURIEngine } from './mintDeployer'
+import { mintDeployer, deployAppAndAgency, setTokenURIEngine, changeDeployerTokenURI } from './mintDeployer'
 import chalk from 'chalk'
 
 const userSelect = await select({
     message: "Wrap Protocol Interaction Selection",
     choices: [
+        //TODO: Deployer NFT TokenURI
         {
             name: "Mint Deployer",
             value: "mintDeployer",
@@ -19,6 +20,11 @@ const userSelect = await select({
             name: "Manage TokenURI",
             value: "setTokenURIEngine",
             description: `Manage agency's TokenURI.`
+        },
+        {
+            name: "Change Deployer NFT TokenURI",
+            value: "changeDeployerTokenURI",
+            description: `Change deployer's TokenURI.`
         }
     ]
 })
@@ -35,6 +41,10 @@ switch (userSelect) {
     
     case "setTokenURIEngine":
         await setTokenURIEngine()
+        break;
+
+    case "changeDeployerTokenURI":
+        await changeDeployerTokenURI()
         break;
 
     default:

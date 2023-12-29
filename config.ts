@@ -23,6 +23,7 @@ export interface UserConfig {
 
 export const userConfig: UserConfig = JSON.parse(fs.readFileSync('./config.json', 'utf8'))
 export const rpcUrl = process.env.RPC_URL
+
 export const walletClient: WalletClient = createWalletClient({
   account,
   chain: goerli,
