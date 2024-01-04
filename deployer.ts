@@ -1,11 +1,10 @@
 import select from '@inquirer/select'
-import { mintDeployer, deployAppAndAgency, setTokenURIEngine, changeDeployerTokenURI } from './mintDeployer'
+import { mintDeployer, deployAppAndAgency, setTokenURIEngine, changeDeployerTokenURI, rebaseFee } from './mintDeployer'
 import chalk from 'chalk'
 
 const userSelect = await select({
     message: "Wrap Protocol Interaction Selection",
     choices: [
-        //TODO: Deployer NFT TokenURI
         {
             name: "Mint Deployer",
             value: "mintDeployer",
@@ -25,6 +24,11 @@ const userSelect = await select({
             name: "Change Deployer NFT TokenURI",
             value: "changeDeployerTokenURI",
             description: `Change deployer's TokenURI.`
+        },
+        {
+            name: "Exact Fee From Agency",
+            value: "rebaseFee",
+            description: `Exact fee from agency to deployer NFT ERC6551 Account.`
         }
     ]
 })
@@ -45,6 +49,10 @@ switch (userSelect) {
 
     case "changeDeployerTokenURI":
         await changeDeployerTokenURI()
+        break;
+
+    case "rebaseFee":
+        await rebaseFee()
         break;
 
     default:

@@ -104,6 +104,34 @@ export const changeDeployerTokenURI = async () => {
     }
 }   
 
+export const rebaseFee = async () => {
+    const agencyAddress = await selectWrapAddress(userConfig)
+    // const agencyStrategy = await getAgencyStrategy(agencyAddress)
+
+    // const agencyBalance = await getERC20Balance(agencyStrategy[1].currency, agencyAddress)
+    const agencyFee = await publicClient.readContract({
+        address: agencyAddress,
+        abi: agencyABI,
+        functionName: "feeCount",
+    })
+
+    const deployerFee = agencyFee / BigInt(6)
+    console.log(`Withdraw Fee: ${chalk.blue(formatEther(deployerFee))}`)
+
+    const answer = await confirm({ message: 'Continue Withdraw Fee?' });
+
+    if (answer) {
+        const { request } = await publicClient.simulateContract({
+            address: agencyAddress,
+            abi: agencyABI,
+            functionName: "rebase",
+        })
+
+        const rebaseHash = await walletClient.writeContract(request)
+
+        console.log(`Withdraw Fee Hash: ${chalk.blue(rebaseHash)}`)
+    }
+}
 export const wrap = async () => {
     const agencyAddress = await selectWrapAddress(userConfig)
     const agencyStrategy = await getAgencyStrategy(agencyAddress)
@@ -322,16 +350,21 @@ const getAgentMaxSupply = async (agentAddress: `0x${string}`) => {
     return maxSupply
 }
 
+const getERC20Balance = async (tokenAddress: `0x${string}`, accountAddress: `0x${string}`) => {
+    const balance = await publicClient.readContract({
+        address: tokenAddress,
+        abi: parseAbi(['function balanceOf(address) view returns (uint256)']),
+        functionName: "balanceOf",
+        args: [accountAddress]
+    }) 
+
+    return balance
+}
 const getUserBalance = async (tokenAddress: `0x${string}`) => {
     if (tokenAddress === '0x0000000000000000000000000000000000000000') {
         return accountBalance
     } else {
-        const balance = await publicClient.readContract({
-            address: tokenAddress,
-            abi: parseAbi(['function balanceOf(address) view returns (uint256)']),
-            functionName: "balanceOf",
-            args: [account.address]
-        })
+        const balance = getERC20Balance(tokenAddress, account.address)
 
         return balance
     }
@@ -396,7 +429,7 @@ const deployAgencyAndApp = async (
     let appImmutableData: `0x${string}`
 
     if (assetConfig.maxSupply === 0) {
-        appImmutableData = "0x"
+        appImmutableData = toHex(0, { size: 32 })
     } else {
         appImmutableData = toHex(assetConfig.maxSupply, { size: 32 })
     }

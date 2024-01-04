@@ -11,6 +11,11 @@ export const agencyABI = [
                 "name": "alchemistDAOVault_",
                 "type": "address",
                 "internalType": "address payable"
+            },
+            {
+                "name": "erc6551AccountImp_",
+                "type": "address",
+                "internalType": "address"
             }
         ],
         "stateMutability": "nonpayable"
@@ -60,6 +65,32 @@ export const agencyABI = [
                 "name": "",
                 "type": "address",
                 "internalType": "address"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "erc6551AccountImp",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "",
+                "type": "address",
+                "internalType": "address"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "feeCount",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint256",
+                "internalType": "uint256"
             }
         ],
         "stateMutability": "view"
@@ -174,6 +205,13 @@ export const agencyABI = [
             }
         ],
         "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "rebase",
+        "inputs": [],
+        "outputs": [],
+        "stateMutability": "nonpayable"
     },
     {
         "type": "function",
