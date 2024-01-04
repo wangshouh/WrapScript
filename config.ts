@@ -47,7 +47,7 @@ export const agencyAndAppConfig = [
     "name": "Auction",
     "value": "auctionConfig",
     "description": "Minting prices are obtained through auctions",
-    "agencyImplementation": "0x5A499fBCDc760CF88D012e5bA5cEdEd0Fce61738",
+    "agencyImplementation": "0x32fBbCb1772617589d24728509563444c9BCA6B5",
     "appImplementation": "0x10317e0D2652D6095C7D68c313B7E126aA5cC6cD"
   }
 ]
