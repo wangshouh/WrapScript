@@ -32,7 +32,7 @@ export const walletClient: WalletClient = createWalletClient({
 
 export const publicClient: PublicClient = createPublicClient({
   chain: goerli,
-  transport: http()
+  transport: http(rpcUrl)
 }) as PublicClient;
 
 export const agencyAndAppConfig = [

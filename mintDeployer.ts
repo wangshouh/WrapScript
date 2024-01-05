@@ -3,6 +3,7 @@ import { deployer } from "./abi/deployer"
 import { factoryABI, wrapFactory } from "./abi/factory"
 import { agencyABI, appABI } from './abi/agency'
 import { agentABI } from './abi/agent'
+import { erc6551Implementation, erc6551RegistryABI } from './abi/erc6551'
 import { concat, encodeAbiParameters, formatEther, getAddress, getFunctionSelector, keccak256, toHex, parseAbi } from "viem"
 import { confirm } from '@inquirer/prompts';
 import { displayNotFundAndExit, inputAddress, selectWrapAddress, selectTokenId, inputETHNumber, inputMoreThanMinimumValue } from './display'
@@ -106,9 +107,28 @@ export const changeDeployerTokenURI = async () => {
 
 export const rebaseFee = async () => {
     const agencyAddress = await selectWrapAddress(userConfig)
-    // const agencyStrategy = await getAgencyStrategy(agencyAddress)
+    const agencyStrategy = await getAgencyStrategy(agencyAddress)
+    const agencyDeployerTokenId = await publicClient.readContract({
+        address: agencyStrategy[0],
+        abi: agentABI,
+        functionName: "tokenIdOfDeployer",
+    })
 
-    // const agencyBalance = await getERC20Balance(agencyStrategy[1].currency, agencyAddress)
+    const { result: deployerNFTERC6551Address } = await publicClient.simulateContract({
+        address: deployer.address,
+        abi: erc6551RegistryABI,
+        functionName: "createAccount",
+        args: [
+            erc6551Implementation,
+            toHex("DEFAULT_ACCOUNT_SALT", { size: 32 }),
+            BigInt(publicClient.chain!.id),
+            deployer.address,
+            agencyDeployerTokenId
+        ],
+    })
+    
+    console.log(`Deployer NFT ERC6551 Address: ${chalk.blue(deployerNFTERC6551Address)}`)
+
     const agencyFee = await publicClient.readContract({
         address: agencyAddress,
         abi: agencyABI,
@@ -236,6 +256,31 @@ export const updateAgenctConfig = async () => {
     } else {
         exit()
     }
+}
+
+export const createERC6551Account = async () => {
+    const agencyAddress = await selectWrapAddress(userConfig)
+    const agencyStrategy = await getAgencyStrategy(agencyAddress)
+    let userInputSalt = toHex(await input({ message: 'Enter Address Salt: ' }), { size: 32 })
+    const tokenId = BigInt(await input({ message: 'Enter Agent NFT ID: ' }))
+    const { request, result } = await publicClient.simulateContract({
+        account,
+        abi: erc6551RegistryABI,
+        address: agencyStrategy[0],
+        functionName: 'createAccount',
+        args: [
+            erc6551Implementation, 
+            userInputSalt, 
+            BigInt(publicClient.chain!.id),
+            agencyStrategy[0],
+            tokenId
+        ]
+    })
+
+    console.log(`ERC6551 Account: ${chalk.blue(result)}`)
+
+    const createAccountHash = await walletClient.writeContract(request)
+    console.log(`Create ERC6551 Account Hash: ${chalk.blue(createAccountHash)}`)
 }
 
 const existName = async (name: string) => {

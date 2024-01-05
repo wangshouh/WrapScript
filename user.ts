@@ -1,5 +1,5 @@
 import select from '@inquirer/select'
-import { wrap, unwrap, updateAgenctConfig, setUserTokenURIEngine } from './mintDeployer'
+import { wrap, unwrap, updateAgenctConfig, setUserTokenURIEngine, createERC6551Account } from './mintDeployer'
 import chalk from 'chalk'
 
 const userSelect = await select({
@@ -24,6 +24,11 @@ const userSelect = await select({
             name: "Set TokenURI Engine",
             value: "setUserTokenURIEngine",
             description: `Set up your NFT tokenURI Engine`
+        },
+        {
+            name: "Create ERC6551 Account",
+            value: "createERC6551Account",
+            description: `Create an ERC6551 account for the NFT with the specified tokenId`
         }
     ]
 })
@@ -40,9 +45,15 @@ switch (userSelect) {
     case "updateAgenctConfig":
         await updateAgenctConfig()
         break;
+
     case "setUserTokenURIEngine":
         await setUserTokenURIEngine()
         break;
+
+    case "createERC6551Account":
+        await createERC6551Account()
+        break;
+        
     default:
         break;
 }
