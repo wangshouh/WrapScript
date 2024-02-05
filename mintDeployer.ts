@@ -1,4 +1,4 @@
-import { account, walletClient, publicClient, agencyAndAppConfig, userConfig } from "./config"
+import { account, walletClient, publicClient, agencyAndAppConfig, userConfig, defaultDeployerTokenURI, defaultAgentTokenURI } from "./config"
 import { deployer } from "./abi/deployer"
 import { factoryABI, wrapFactory } from "./abi/factory"
 import { agencyABI, appABI } from './abi/agency'
@@ -6,7 +6,7 @@ import { agentABI } from './abi/agent'
 import { erc6551Implementation, erc6551RegistryABI } from './abi/erc6551'
 import { concat, encodeAbiParameters, formatEther, getAddress, getFunctionSelector, keccak256, toHex, parseAbi } from "viem"
 import { confirm } from '@inquirer/prompts';
-import { displayNotFundAndExit, inputAddress, selectWrapAddress, selectTokenId, inputETHNumber, inputMoreThanMinimumValue } from './display'
+import { displayNotFundAndExit, inputAddress, selectWrapAddress, selectTokenId, inputETHNumber, inputMoreThanMinimumValue, chooseAgencyNFTWithTokenId } from './utils/display'
 import { exit } from 'node:process';
 import input from '@inquirer/input';
 import select from '@inquirer/select'
@@ -14,6 +14,7 @@ import fs from 'fs'
 import chalk from 'chalk'
 import boxen from 'boxen'
 import { sleep } from "bun"
+import { getAgencyStrategy, isApproveOrOwner } from "./utils/data"
 
 const accountBalance = await publicClient.getBalance(account)
 
@@ -67,10 +68,7 @@ export const deployAppAndAgency = async () => {
 export const setTokenURIEngine = async () => {
     const agencyAddress = await selectWrapAddress(userConfig)
     const agencyStrategy = await getAgencyStrategy(agencyAddress)
-
-    const tokenURIEngineAddress = await inputAddress("Enter TokenURI Engine Address(Default is Mario-style): ", "0x2D2F757877547ef03Ee7d0D7e49AF391b6931071")
-
-    // console.log(`Set TokenURI Engine Address: ${chalk.blue(tokenURIEngineAddress)}`)
+    const tokenURIEngineAddress = await inputAddress("Enter TokenURI Engine Address(Default is Mario-style): ", defaultAgentTokenURI)
     const { request } = await publicClient.simulateContract({
         account,
         address: agencyStrategy[0],
@@ -92,7 +90,7 @@ export const changeDeployerTokenURI = async () => {
         console.log(chalk.red('Not NFT Approve or Owner'))
         return
     } else {
-        const tokenURI = await inputAddress('Enter TokenURI Engine Address(Default is histogram-style): ', "0x87441f94a353C90D9AC8b65EE1F4D4350A66DEE1")
+        const tokenURI = await inputAddress('Enter TokenURI Engine Address(Default is histogram-style): ', defaultDeployerTokenURI)
         const { request } = await publicClient.simulateContract({
             account,
             ...deployer,
@@ -152,6 +150,7 @@ export const rebaseFee = async () => {
         console.log(`Withdraw Fee Hash: ${chalk.blue(rebaseHash)}`)
     }
 }
+
 export const wrap = async () => {
     const agencyAddress = await selectWrapAddress(userConfig)
     const agencyStrategy = await getAgencyStrategy(agencyAddress)
@@ -207,28 +206,18 @@ export const unwrap = async () => {
 }
 
 export const setUserTokenURIEngine = async () => {
-    const agencyAddress = await selectWrapAddress(userConfig)
-    const agencyStrategy = await getAgencyStrategy(agencyAddress)
+    const agencySelectConfig = await chooseAgencyNFTWithTokenId(userConfig)
+    const tokenURIEngineAddress = await inputAddress("Enter TokenURI Engine Address: ")
+    const { request } = await publicClient.simulateContract({
+        account,
+        address: agencySelectConfig.agencyStrategy[0],
+        abi: agentABI,
+        functionName: 'setTokenURIEngine',
+        args: [agencySelectConfig.agencyTokenId, tokenURIEngineAddress]
+    })
 
-    const agencyTokenId = BigInt(await input({ message: 'Enter Agent NFT ID: ' }))
-    const authorityExist = await isApproveOrOwner(agencyStrategy[0], agencyTokenId)
-
-    if (!authorityExist) {
-        console.log(chalk.red('Not NFT Approve or Owner'))
-        return
-    } else {
-        const tokenURIEngineAddress = await inputAddress("Enter TokenURI Engine Address: ")
-        const { request } = await publicClient.simulateContract({
-            account,
-            address: agencyStrategy[0],
-            abi: agentABI,
-            functionName: 'setTokenURIEngine',
-            args: [agencyTokenId, tokenURIEngineAddress]
-        })
-    
-        const setTokenURIHash = await walletClient.writeContract(request)
-        console.log(`Set TokenURI Engine Hash: ${chalk.blue(setTokenURIHash)}`)
-    }
+    const setTokenURIHash = await walletClient.writeContract(request)
+    console.log(`Set TokenURI Engine Hash: ${chalk.blue(setTokenURIHash)}`)
 }
 
 export const updateAgenctConfig = async () => {
@@ -261,7 +250,7 @@ export const updateAgenctConfig = async () => {
 export const createERC6551Account = async () => {
     const agencyAddress = await selectWrapAddress(userConfig)
     const agencyStrategy = await getAgencyStrategy(agencyAddress)
-    let userInputSalt = toHex(await input({ message: 'Enter Address Salt: ' }), { size: 32 })
+    let userInputSalt = toHex("DEFAULT_ACCOUNT_SALT", { size: 32 })
     const tokenId = BigInt(await input({ message: 'Enter Agent NFT ID: ' }))
     const { request, result } = await publicClient.simulateContract({
         account,
@@ -279,8 +268,14 @@ export const createERC6551Account = async () => {
 
     console.log(`ERC6551 Account: ${chalk.blue(result)}`)
 
-    const createAccountHash = await walletClient.writeContract(request)
-    console.log(`Create ERC6551 Account Hash: ${chalk.blue(createAccountHash)}`)
+    const accountBytecode = await publicClient.getBytecode({
+        address: result
+    })
+
+    if (!accountBytecode) {
+        const createAccountHash = await walletClient.writeContract(request)
+        console.log(`Create ERC6551 Account Hash: ${chalk.blue(createAccountHash)}`)
+    }
 }
 
 const existName = async (name: string) => {
@@ -405,6 +400,7 @@ const getERC20Balance = async (tokenAddress: `0x${string}`, accountAddress: `0x$
 
     return balance
 }
+
 const getUserBalance = async (tokenAddress: `0x${string}`) => {
     if (tokenAddress === '0x0000000000000000000000000000000000000000') {
         return accountBalance
@@ -508,16 +504,6 @@ const deployAgencyAndApp = async (
     console.log(`Deploy Agency Hash: ${chalk.blue(deployHash)}`)
 }
 
-const getAgencyStrategy = async (agencyAddress: `0x${string}`) => {
-    const agencyStrategy = await publicClient.readContract({
-        address: agencyAddress,
-        abi: agencyABI,
-        functionName: "getStrategy",
-    })
-    // TODo: erc20 token
-    return agencyStrategy
-}
-
 const getAgencyTotalSupply = async (appAddress: `0x${string}`) => {
     const totalSupply = await publicClient.readContract({
         address: appAddress,
@@ -562,41 +548,6 @@ const getAgenctBurnPrice = async (agencyAddress: `0x${string}`, appAddress: `0x$
     })
 
     return nowAgencyBurnPrice
-}
-
-const isApproveOrOwner = async (appAddress: `0x${string}`, tokenId: bigint) => {
-
-    let nftOwner: `0x${string}`
-    
-    try {
-        nftOwner = await publicClient.readContract({
-            address: appAddress,
-            abi: appABI,
-            functionName: "ownerOf",
-            args: [tokenId]
-        })     
-    } catch (error) {
-        return false
-    }
-    
-    const results = await publicClient.multicall({
-        contracts: [
-            {
-                address: appAddress,
-                abi: appABI,
-                functionName: "getApproved",
-                args: [tokenId]
-            },
-            {
-                address: appAddress,
-                abi: appABI,
-                functionName: "isApprovedForAll",
-                args: [nftOwner, account.address]
-            }
-        ]
-    })
-
-    return nftOwner == account.address || results[1].result || results[0].result == account.address
 }
 
 const wrapAgency = async (name: string, price: bigint, agencyAddress: `0x${string}`, tokenAddress: `0x${string}`) => {

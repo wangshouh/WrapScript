@@ -127,4 +127,4 @@ export const erc6551RegistryABI = [
     }
 ] as const;
 
-export const erc6551Implementation: `0x${string}` = "0x23fbB2E55745c6924B6F9fe5A22213c639Bc0e75"
+export const erc6551Implementation: `0x${string}` = "0x85a93cCe090E70fE26F84C8F41495B44DD76dbb4"

@@ -1,17 +1,7 @@
-import { decodeFunctionData, encodeAbiParameters  } from 'viem'
-import { agencyABI } from './abi/agency'
+import { keccak256, toHex, concat  } from 'viem'
 
-// const { functionName, args } = decodeFunctionData({
-//     abi: agencyABI,
-//     data: '0x8ba6cd03000000000000000000000000ce41b80c693bd10085db6de0155ba94b734bc7f9000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000600000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000662726f6b65720000000000000000000000000000000000000000000000000000'
-// })
+const name = "btc"
+const nameHash = keccak256(toHex(name))
+const deployerNode = keccak256(concat(['0xb43dbfc1d2fecc659fffd218f4abb6ed0b35bd3896ba6be21f0ca46fb2102ab1', nameHash]))
 
-// console.log(functionName)
-
-
-const args = encodeAbiParameters(
-    [{name: 'name', 'type': 'string'}],
-    ['broker']
-)
-
-console.log(args)
+console.log(deployerNode)

@@ -1,13 +1,21 @@
 import { exit } from 'node:process';
 import chalk from 'chalk'
 import { isAddress, getAddress, parseEther } from "viem"
-import { UserConfig } from './config'
+import { UserConfig } from '../config'
 import { select, input } from '@inquirer/prompts';
 import fs from 'fs'
+import { getAgencyStrategy, isApproveOrOwner } from './data';
 
 export const displayNotFundAndExit = (price: bigint, balance: bigint) => {
     if (balance < price) {
         console.log(chalk.red("Insufficient account balance"))
+        exit(1)
+    }
+}
+
+export const displayConfirmAndExit = (message: string) => {
+    const answer = confirm(message)
+    if (!answer) {
         exit(1)
     }
 }
@@ -68,6 +76,21 @@ export const selectTokenId = async (userConfig: UserConfig) => {
     }
 
     return tokenId
+}
+
+export const chooseAgencyNFTWithTokenId = async (userConfig: UserConfig) => {
+    const agencyAddress = await selectWrapAddress(userConfig)
+    const agencyStrategy = await getAgencyStrategy(agencyAddress)
+
+    const agencyTokenId = BigInt(await input({ message: 'Enter Agent NFT ID: ' }))
+    const authorityExist = await isApproveOrOwner(agencyStrategy[0], agencyTokenId)
+
+    if (!authorityExist) {
+        console.log(chalk.red('Not NFT Approve or Owner'))
+        exit(1)
+    }
+
+    return { agencyTokenId, agencyStrategy }
 }
 
 const updateConfig = async (userConfig: UserConfig, tokenId?: { name: string, value: number }, agency?: { value: string, description: string }) => {

@@ -1,14 +1,15 @@
 import select from '@inquirer/select'
 import { mintDeployer, deployAppAndAgency, setTokenURIEngine, changeDeployerTokenURI, rebaseFee } from './mintDeployer'
+import { approvePush, stakeSelect } from "./stake"
 import chalk from 'chalk'
 
 const userSelect = await select({
     message: "Wrap Protocol Interaction Selection",
     choices: [
         {
-            name: "Mint Deployer",
+            name: "Bid Agency",
             value: "mintDeployer",
-            description: "Spend ETH to mint deployer to participate"
+            description: "Spend ETH to mint agency to participate"
         },
         {
             name: "Deploy App and Agency",
@@ -29,6 +30,16 @@ const userSelect = await select({
             name: "Exact Fee From Agency",
             value: "rebaseFee",
             description: `Exact fee from agency to deployer NFT ERC6551 Account.`
+        },
+        {
+            name: "Config Stake Push",
+            value: "approvePush",
+            description: `Config Push to Stake NFT.`
+        },
+        {
+            name: "Stake And Update",
+            value: "stakeSelect",
+            description: `Stake NFT And Update Pool.`
         }
     ]
 })
@@ -55,6 +66,14 @@ switch (userSelect) {
         await rebaseFee()
         break;
 
+    case "approvePush":
+        await approvePush()
+        break;
+
+    case "stakeSelect":
+        await stakeSelect()
+        break;
+        
     default:
         break;
 }
