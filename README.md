@@ -48,6 +48,3 @@ The script only contains the following three functions:
 - `Unwrap` Unwrap NFT to obtain ERC20 or ETH assets
 - `Update Config` Enter the agent address to obtain relevant information and write it to the configuration file
 - `Set TokenURI Engine` Modify the tokenURI engine of personal NFT
-
-- Resolver
-- tokenURI
