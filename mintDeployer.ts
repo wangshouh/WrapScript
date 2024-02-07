@@ -6,7 +6,7 @@ import { agentABI } from './abi/agent'
 import { erc6551Implementation, erc6551RegistryABI } from './abi/erc6551'
 import { concat, encodeAbiParameters, formatEther, getAddress, getFunctionSelector, keccak256, toHex, parseAbi } from "viem"
 import { confirm } from '@inquirer/prompts';
-import { displayNotFundAndExit, inputAddress, selectWrapAddress, selectTokenId, inputETHNumber, inputMoreThanMinimumValue, chooseAgencyNFTWithTokenId } from './utils/display'
+import { displayNotFundAndExit, inputAddress, selectWrapAddress, selectTokenId, inputETHNumber, inputMoreThanMinimumValue, chooseAgencyNFTWithTokenId, getExtraAgencyConfig } from './utils/display'
 import { exit } from 'node:process';
 import input from '@inquirer/input';
 import select from '@inquirer/select'
@@ -24,20 +24,20 @@ export const mintDeployer = async () => {
         functionName: "getPrice",
     })
 
-    console.log(`Deployer NFT Price is ${chalk.blue(formatEther(nowDeployerPrice))} ETH`)
+    console.log(`Agency NFT Price is ${chalk.blue(formatEther(nowDeployerPrice))} ETH`)
     console.log(`Your ETH Balance is ${chalk.blue(formatEther(accountBalance))} ETH`)
 
     displayNotFundAndExit(nowDeployerPrice, accountBalance)
 
-    const answer = await confirm({ message: 'Continue Mint Deployer?' });
+    const answer = await confirm({ message: 'Continue Mint Agency?' });
 
     if (answer) {
-        let deployerName = await input({ message: 'Enter Deployer Name: ' })
+        let deployerName = await input({ message: 'Enter Agency Name: ' })
 
         while (await existName(deployerName)) {
             console.log(chalk.red("Name has been registered"))
             // TODO: Deployer name
-            deployerName = await input({ message: 'Enter Deployer Name: ' })
+            deployerName = await input({ message: 'Enter Agency Name: ' })
         }
 
         const userPrice = await inputETHNumber("Maximum cost available for mint(ETH): ", formatEther(nowDeployerPrice))
@@ -52,16 +52,16 @@ export const deployAppAndAgency = async () => {
     })
 
     const { agencyImplementation, appImplementation } = agencyAndAppConfig.find(({ value }) => value === deployAppAndAgencySelect)!
-    // TODO: Chech AgentCannotRedeploy error
-    let inputConfig = await getAgenctConfig(appImplementation as `0x${string}`)
+
+    let inputConfig = await getAgencyConfig(agencyImplementation as `0x${string}`, appImplementation as `0x${string}`)
     let configIsTrue = await confirm({ message: 'Continue Deploy App and Agency?' })
 
     while (!configIsTrue) {
-        inputConfig = await getAgenctConfig(appImplementation as `0x${string}`)
+        inputConfig = await getAgencyConfig(agencyImplementation as `0x${string}`, appImplementation as `0x${string}`)
         configIsTrue = await confirm({ message: 'Continue Deploy App and Agency?' })
     }
 
-    await deployAgencyAndApp(inputConfig.tokenId, agencyImplementation as `0x${string}`, appImplementation as `0x${string}`, inputConfig.config)
+    await deployAgencyAndApp(inputConfig.tokenId, agencyImplementation as `0x${string}`, appImplementation as `0x${string}`, inputConfig.config, inputConfig.extraAgencyData)
     // console.log(`Agency Implementation: ${chalk.blue(agencyImplementation)}\nApp Implementation: ${chalk.blue(appImplementation)}`)
 }
 
@@ -99,7 +99,7 @@ export const changeDeployerTokenURI = async () => {
         })
     
         const setTokenURIHash = await walletClient.writeContract(request)
-        console.log(`Set Deployer TokenURI Hash: ${chalk.blue(setTokenURIHash)}`)
+        console.log(`Set Agency TokenURI Hash: ${chalk.blue(setTokenURIHash)}`)
     }
 }   
 
@@ -125,7 +125,7 @@ export const rebaseFee = async () => {
         ],
     })
     
-    console.log(`Deployer NFT ERC6551 Address: ${chalk.blue(deployerNFTERC6551Address)}`)
+    console.log(`Agency NFT ERC6551 Address: ${chalk.blue(deployerNFTERC6551Address)}`)
 
     const agencyFee = await publicClient.readContract({
         address: agencyAddress,
@@ -237,7 +237,7 @@ export const updateAgenctConfig = async () => {
         + `Mint Fee Percent: ${chalk.blue(agencySettings[1].mintFeePercent.toString(10))}\n`
         + `Burn Fee Percent: ${chalk.blue(agencySettings[1].burnFeePercent.toString(10))}\n`
         + `Max Supply: ${chalk.blue(agentMaxSupply.toString(10))}`, { padding: 1 }))
-    
+    console.log(`NFT Address: ${agencySettings[0]}`)
     const answer = await confirm({ message: 'Continue Update Agency Config?' })
 
     if (answer) {
@@ -411,16 +411,16 @@ const getUserBalance = async (tokenAddress: `0x${string}`) => {
     }
 }
 
-const getAgenctConfig = async (appImplementation: `0x${string}`) => {
+const getAgencyConfig = async (agencyImplementation: `0x${string}`, appImplementation: `0x${string}`) => {
     let tokenId: number;
 
     if (userConfig.tokenId.length === 0) {
-        const name = await input({ message: 'Enter Your Deployer Name:' })
-        tokenId = Number.parseInt(await input({ message: 'Enter Your Deployer Token ID:' }))
+        const name = await input({ message: 'Enter Your Agency Name:' })
+        tokenId = Number.parseInt(await input({ message: 'Enter Your Agency Token ID:' }))
         updateConfig({ name: name, value: tokenId })
     } else {
         tokenId = Number.parseInt(await select({
-            message: "Select Your Deployer Token",
+            message: "Select Your Agency Token",
             choices: userConfig.tokenId.map(({ name, value }) => {
                 return {
                     name: name,
@@ -438,7 +438,7 @@ const getAgenctConfig = async (appImplementation: `0x${string}`) => {
     })
 
     if (redeployCheck !== '0x0000000000000000000000000000000000000000') {
-        console.log(chalk.red('Deployer has been registered in factory'))
+        console.log(chalk.red('Agency has been registered in factory'))
         exit()
     }
 
@@ -446,12 +446,15 @@ const getAgenctConfig = async (appImplementation: `0x${string}`) => {
     const currencyName = await getERC20Name(currency)
     const basePremium = BigInt(Number.parseInt(await input({ message: 'Enter Base Premium:' }), 10))
     const feeRecipient = getAddress('0x0000000000000000000000000000000000000000')
-    const mintFeePercent = await inputMoreThanMinimumValue('Enter Mint Fee Percent(>300):')
-    const burnFeePercent = await inputMoreThanMinimumValue('Enter Burn Fee Percent(>300):')
+    const mintFeePercent = await inputMoreThanMinimumValue('Enter Mint Fee Percent(>=300):')
+    const burnFeePercent = await inputMoreThanMinimumValue('Enter Burn Fee Percent(>=300):')
     const maxSupply = Number.parseInt(await input({ message: 'Enter Max Supply(If set to 0, unlimited supply): ', default: "0" }), 10)
-    console.log(boxen(`Currency: ${chalk.blue(currencyName)}\nBase Premium: ${chalk.blue(basePremium.toString(10))}\nMint Fee Percent: ${chalk.blue(mintFeePercent)}\nBurn Fee Percent: ${chalk.blue(burnFeePercent)}\nMax Supply: ${chalk.blue(maxSupply === 0 ? 'Unlimited' : maxSupply)}`, { padding: 1 }))
 
-    return { tokenId, config: { currency, basePremium, feeRecipient, mintFeePercent, burnFeePercent, maxSupply } }
+    const extraAgencyData = await getExtraAgencyConfig(agencyImplementation)
+
+    console.log(boxen(`Currency: ${chalk.blue(currencyName)}\nBase Premium: ${chalk.blue(basePremium.toString(10))}\nMint Fee Percent: ${chalk.blue(mintFeePercent)}\nBurn Fee Percent: ${chalk.blue(burnFeePercent)}\nMax Supply: ${chalk.blue(maxSupply === 0 ? 'Unlimited' : maxSupply)}`, { padding: 1 }))
+    
+    return { tokenId, config: { currency, basePremium, feeRecipient, mintFeePercent, burnFeePercent, maxSupply }, extraAgencyData }
 }
 
 const deployAgencyAndApp = async (
@@ -466,6 +469,7 @@ const deployAgencyAndApp = async (
         burnFeePercent: number;
         maxSupply: number;
     },
+    extraAgencyData: `0x${string}` = "0x"
 ) => {
     let appImmutableData: `0x${string}`
 
@@ -485,7 +489,7 @@ const deployAgencyAndApp = async (
                 asset: {
                     ...assetConfig
                 },
-                immutableData: "0x",
+                immutableData: extraAgencyData,
                 initData: "0x"
             },
             {
@@ -570,7 +574,7 @@ const wrapAgency = async (name: string, price: bigint, agencyAddress: `0x${strin
             ]
         })
 
-        console.log(`Wrap Agency ID: ${chalk.blue(result)}`)
+        console.log(`Wrap Agent ID: ${chalk.blue(result)}`)
         const mintHash = await walletClient.writeContract(request)
         console.log(`Mint Hash: ${chalk.blue(mintHash)}`)
     } else {
@@ -601,7 +605,7 @@ const wrapAgency = async (name: string, price: bigint, agencyAddress: `0x${strin
                 ]
             })
 
-            console.log(`Wrap Agency ID: ${chalk.blue(result)}`)
+            console.log(`Wrap Agent ID: ${chalk.blue(result)}`)
             const mintHash = await walletClient.writeContract(request)
             console.log(`Mint Hash: ${chalk.blue(mintHash)}`)
         } else {
@@ -616,7 +620,7 @@ const wrapAgency = async (name: string, price: bigint, agencyAddress: `0x${strin
                 ]
             })
 
-            console.log(`Wrap Agency ID: ${chalk.blue(result)}`)
+            console.log(`Wrap Agent ID: ${chalk.blue(result)}`)
             const mintHash = await walletClient.writeContract(request)
             console.log(`Mint Hash: ${chalk.blue(mintHash)}`)
         }

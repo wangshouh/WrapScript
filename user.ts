@@ -1,6 +1,6 @@
 import select from '@inquirer/select'
 import { wrap, unwrap, updateAgenctConfig, setUserTokenURIEngine, createERC6551Account } from './mintDeployer'
-import { stakeSelect } from "./stake"
+import { stakeSelect } from "./utils/stake"
 import chalk from 'chalk'
 
 const userSelect = await select({
@@ -30,11 +30,6 @@ const userSelect = await select({
             name: "Create ERC6551 Account",
             value: "createERC6551Account",
             description: `Create an ERC6551 account for the NFT with the specified tokenId`
-        },
-        {
-            name: "Stake And Update",
-            value: "stakeSelect",
-            description: `Stake NFT And Update Pool.`
         }
     ]
 })
@@ -58,10 +53,6 @@ switch (userSelect) {
 
     case "createERC6551Account":
         await createERC6551Account()
-        break;
-
-    case "stakeSelect":
-        await stakeSelect()
         break;
         
     default:

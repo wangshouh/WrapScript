@@ -23,7 +23,7 @@ export interface UserConfig {
 
 export const userConfig: UserConfig = JSON.parse(fs.readFileSync('./config.json', 'utf8'))
 export const rpcUrl = process.env.RPC_URL
-
+// console.log(rpcUrl)
 export const walletClient: WalletClient = createWalletClient({
   account,
   chain: sepolia,
@@ -47,7 +47,14 @@ export const agencyAndAppConfig = [
     "name": "Auction",
     "value": "auctionConfig",
     "description": "Minting prices are obtained through auctions",
-    "agencyImplementation": "0x19c0A2Adeab6557679e1242E5BA8560Ce3844749",
+    "agencyImplementation": "0x05B992b67CD8B2ac3f8f045A99b6e9F16312Ce0d",
+    "appImplementation": "0xDA325D283C83EEC630ef970C5fB46961AA4D31a5"
+  },
+  {
+    "name": "RandomWalker",
+    "value": "randomConfig",
+    "description": "Minting prices are obtained through standard normal random",
+    "agencyImplementation": "0x59642b6F43FED0d391E572EBB547c40343677900",
     "appImplementation": "0xDA325D283C83EEC630ef970C5fB46961AA4D31a5"
   }
 ]
@@ -64,3 +71,5 @@ export const tokenURIEngineConfig = [
 ]
 
 // GDA 0x1f53ad02bdcdef458acd00235cf6b4f20574d903
+// cast send  --value 100gwei --nonce 85 --private-key $PRIVATE_KEY --rpc-url $RPC_URL
+// cast nonce  -r $RPC_URL -B pending

@@ -1,6 +1,6 @@
 import select from '@inquirer/select'
 import { mintDeployer, deployAppAndAgency, setTokenURIEngine, changeDeployerTokenURI, rebaseFee } from './mintDeployer'
-import { approvePush, stakeSelect } from "./stake"
+import { approvePush } from "./utils/stake"
 import chalk from 'chalk'
 
 const userSelect = await select({
@@ -35,11 +35,6 @@ const userSelect = await select({
             name: "Config Stake Push",
             value: "approvePush",
             description: `Config Push to Stake NFT.`
-        },
-        {
-            name: "Stake And Update",
-            value: "stakeSelect",
-            description: `Stake NFT And Update Pool.`
         }
     ]
 })
@@ -68,10 +63,6 @@ switch (userSelect) {
 
     case "approvePush":
         await approvePush()
-        break;
-
-    case "stakeSelect":
-        await stakeSelect()
         break;
         
     default:

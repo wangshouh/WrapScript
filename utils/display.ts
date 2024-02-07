@@ -1,6 +1,6 @@
 import { exit } from 'node:process';
 import chalk from 'chalk'
-import { isAddress, getAddress, parseEther } from "viem"
+import { isAddress, getAddress, parseEther, toHex, concat } from "viem"
 import { UserConfig } from '../config'
 import { select, input } from '@inquirer/prompts';
 import fs from 'fs'
@@ -26,12 +26,12 @@ export const inputAddress = async (message: string, defalutMessage?: string) => 
 }
 
 export const inputETHNumber = async (message: string, defalutMessage?: string) => {
-    const inputNumber = parseEther(await input({ message,  default: defalutMessage }))
+    const inputNumber = parseEther(await input({ message, default: defalutMessage }))
     return inputNumber
 }
 
-export const inputMoreThanMinimumValue =async (message: string) => {
-    const feePercent = Number.parseInt(await input({ message, validate: (value) => Number.parseInt(value) > 300 }), 10)
+export const inputMoreThanMinimumValue = async (message: string) => {
+    const feePercent = Number.parseInt(await input({ message, validate: (value) => Number.parseInt(value) >= 300 }), 10)
     return feePercent
 }
 
@@ -60,12 +60,12 @@ export const selectWrapAddress = async (userConfig: UserConfig) => {
 export const selectTokenId = async (userConfig: UserConfig) => {
     let tokenId: number;
     if (userConfig.tokenId.length === 0) {
-        const name = await input({ message: 'Enter Your Deployer Name:' })
-        tokenId = Number.parseInt(await input({ message: 'Enter Your Deployer Token ID:' }))
+        const name = await input({ message: 'Enter Your Agency Name:' })
+        tokenId = Number.parseInt(await input({ message: 'Enter Your Agency Token ID:' }))
         updateConfig(userConfig, { name: name, value: tokenId })
     } else {
         tokenId = Number.parseInt(await select({
-            message: "Select Your Deployer Token",
+            message: "Select Your Agency Token",
             choices: userConfig.tokenId.map(({ name, value }) => {
                 return {
                     name: name,
@@ -101,4 +101,25 @@ const updateConfig = async (userConfig: UserConfig, tokenId?: { name: string, va
         userConfig.agency.push(agency)
     }
     fs.writeFileSync('config.json', JSON.stringify(userConfig))
+}
+
+export const getExtraAgencyConfig = async (agencyImplementation: `0x${string}`) => {
+    switch (agencyImplementation) {
+        case "0x96D707d5b43db58982c9187Ec516647Af54A4715":
+            const coef = Math.sqrt(3 / 5)
+            const meanCoef = Number(await input({ message: "Please enter the mean of the normal distribution(in ether): " }))
+            const stdCoef = Number(await input({ message: "Please enter the standard deviation of the normal distribution: ", validate: (value) => 10 * coef * Number(value) - meanCoef > 0 }))
+            
+            const fixMeanCoef = coef * meanCoef * 1e18 * (2 ** 35)
+            const fixStdCoef = (10 * coef * stdCoef - meanCoef) * 1e18
+
+            console.log(fixMeanCoef)
+            console.log(fixStdCoef)
+            const finalArgs = concat([toHex(fixMeanCoef, { size: 32}), toHex(fixStdCoef, { size: 32})])
+
+            return finalArgs
+
+        default:
+            return "0x" as `0x${string}`
+    }
 }
