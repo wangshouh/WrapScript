@@ -22,9 +22,9 @@ const userSelect = await select({
             description: `Manage agency's TokenURI.`
         },
         {
-            name: "Change Deployer NFT TokenURI",
+            name: "Change Agency NFT TokenURI",
             value: "changeDeployerTokenURI",
-            description: `Change deployer's TokenURI.`
+            description: `Change Agency's TokenURI.`
         },
         {
             name: "Exact Fee From Agency",
