@@ -3,7 +3,7 @@ export const agentABI = [
         "type": "constructor",
         "inputs": [
             {
-                "name": "dotAgency_",
+                "name": "agency_",
                 "type": "address",
                 "internalType": "address"
             },

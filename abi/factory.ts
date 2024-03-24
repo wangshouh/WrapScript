@@ -3,7 +3,7 @@ export const factoryABI = [
         "type": "constructor",
         "inputs": [
             {
-                "name": "_dotAgency",
+                "name": "_deployer",
                 "type": "address",
                 "internalType": "address"
             }
@@ -15,12 +15,41 @@ export const factoryABI = [
         "name": "agency",
         "inputs": [
             {
+                "name": "instance",
+                "type": "address",
+                "internalType": "address"
+            },
+            {
+                "name": "tokenId",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "implementation",
+                "type": "address",
+                "internalType": "address"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "agencyInst",
+        "inputs": [
+            {
                 "name": "implementation",
                 "type": "address",
                 "internalType": "address"
             },
             {
                 "name": "tokenId",
+                "type": "uint256",
+                "internalType": "uint256"
+            },
+            {
+                "name": "nonce",
                 "type": "uint256",
                 "internalType": "uint256"
             }
@@ -39,12 +68,41 @@ export const factoryABI = [
         "name": "app",
         "inputs": [
             {
+                "name": "instance",
+                "type": "address",
+                "internalType": "address"
+            },
+            {
+                "name": "tokenId",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "implementation",
+                "type": "address",
+                "internalType": "address"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "appInst",
+        "inputs": [
+            {
                 "name": "implementation",
                 "type": "address",
                 "internalType": "address"
             },
             {
                 "name": "tokenId",
+                "type": "uint256",
+                "internalType": "uint256"
+            },
+            {
+                "name": "nonce",
                 "type": "uint256",
                 "internalType": "uint256"
             }
@@ -60,7 +118,7 @@ export const factoryABI = [
     },
     {
         "type": "function",
-        "name": "deployWrap",
+        "name": "deployWrapper",
         "inputs": [
             {
                 "name": "agencySettings",
@@ -155,13 +213,37 @@ export const factoryABI = [
     },
     {
         "type": "function",
-        "name": "dotAgency",
+        "name": "deployer",
         "inputs": [],
         "outputs": [
             {
                 "name": "",
                 "type": "address",
                 "internalType": "address"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "nonce",
+        "inputs": [
+            {
+                "name": "tokenId",
+                "type": "uint256",
+                "internalType": "uint256"
+            },
+            {
+                "name": "implementation",
+                "type": "address",
+                "internalType": "address"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint256",
+                "internalType": "uint256"
             }
         ],
         "stateMutability": "view"
@@ -222,6 +304,6 @@ export const factoryABI = [
 ] as const;
 
 export const wrapFactory = {
-    address: "0xAc0a978CebB41688B7Ddb7A1225C60449b50992a",
+    address: "0x5D52575f27909257aCE939F8d71a4B6de9A125A0",
     abi: factoryABI
 } as const;

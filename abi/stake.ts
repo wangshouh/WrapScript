@@ -259,51 +259,44 @@ export const stakeABI = [
         ],
         "outputs": [
             {
-                "name": "stakingOfNFT",
-                "type": "tuple",
-                "internalType": "struct Staking",
-                "components": [
-                    {
-                        "name": "tvl",
-                        "type": "uint256",
-                        "internalType": "uint256"
-                    },
-                    {
-                        "name": "points",
-                        "type": "uint256",
-                        "internalType": "uint256"
-                    },
-                    {
-                        "name": "lastRewardBlock",
-                        "type": "uint256",
-                        "internalType": "uint256"
-                    },
-                    {
-                        "name": "accTokenPerShare",
-                        "type": "uint256",
-                        "internalType": "uint256"
-                    },
-                    {
-                        "name": "rewardDebt",
-                        "type": "uint256",
-                        "internalType": "uint256"
-                    },
-                    {
-                        "name": "tokenPerBlock",
-                        "type": "uint256",
-                        "internalType": "uint256"
-                    },
-                    {
-                        "name": "unspentRewards",
-                        "type": "uint256",
-                        "internalType": "uint256"
-                    },
-                    {
-                        "name": "endBlockOfEpoch",
-                        "type": "uint256",
-                        "internalType": "uint256"
-                    }
-                ]
+                "name": "tvl",
+                "type": "uint256",
+                "internalType": "uint256"
+            },
+            {
+                "name": "points",
+                "type": "uint256",
+                "internalType": "uint256"
+            },
+            {
+                "name": "lastRewardBlock",
+                "type": "uint256",
+                "internalType": "uint256"
+            },
+            {
+                "name": "accTokenPerShare",
+                "type": "uint256",
+                "internalType": "uint256"
+            },
+            {
+                "name": "rewardDebt",
+                "type": "uint256",
+                "internalType": "uint256"
+            },
+            {
+                "name": "tokenPerBlock",
+                "type": "uint256",
+                "internalType": "uint256"
+            },
+            {
+                "name": "unspentRewards",
+                "type": "uint256",
+                "internalType": "uint256"
+            },
+            {
+                "name": "endBlockOfEpoch",
+                "type": "uint256",
+                "internalType": "uint256"
             }
         ],
         "stateMutability": "view"
@@ -603,6 +596,6 @@ export const stakeABI = [
 ] as const;
 
 export const nftStake = {
-    address: "0xc756d32eDfE92Fc7898A503cb59f43647DEA2233",
+    address: "0x392FF2F0E4efEf1362e359C711f9d38A1a533B99",
     abi: stakeABI
 } as const;
