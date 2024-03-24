@@ -59,7 +59,7 @@ export const agencyAndAppConfig = [
   }
 ]
 
-export const defaultDeployerTokenURI = "0x6F8D959d3104778685B9CAA373C3b035a8B0B4f2" as `0x${string}`
+export const defaultDotAgencyTokenURI = "0x6F8D959d3104778685B9CAA373C3b035a8B0B4f2" as `0x${string}`
 export const defaultAgentTokenURI = "0x3d5a6634D20F7CcBAa0D94d264DBB7251a125BDd" as `0x${string}`
 
 export const tokenURIEngineConfig = [

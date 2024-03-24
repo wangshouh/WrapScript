@@ -3,7 +3,7 @@ export const agentABI = [
         "type": "constructor",
         "inputs": [
             {
-                "name": "deployer_",
+                "name": "dotAgency_",
                 "type": "address",
                 "internalType": "address"
             },
@@ -163,7 +163,7 @@ export const agentABI = [
     },
     {
         "type": "function",
-        "name": "deployer",
+        "name": "dotAgency",
         "inputs": [],
         "outputs": [
             {
@@ -728,7 +728,7 @@ export const agentABI = [
     },
     {
         "type": "function",
-        "name": "tokenIdOfDeployer",
+        "name": "tokenIdOfDotAgency",
         "inputs": [],
         "outputs": [
             {

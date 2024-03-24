@@ -26,15 +26,15 @@ RPC_URL=<ETHEREUM SEPOLIA RPC URL>
 If you want to fully experience the protocol please run the following command:
 
 ```bash
-bun run deployer.ts
+bun run dotAgency.ts
 ```
 
 The script provides the following functionality:
 
-- `Mint Deployer` Pay ETH to get deployer NFT has been used for further interactions
-- `Deploy App and Agency` Issue NFT asset pools for deployers. Note that each deployer can only deploy one NFT asset pool.
+- `Mint DotAgency` Pay ETH to get dotAgency NFT has been used for further interactions
+- `Deploy App and Agency` Issue NFT asset pools for dotAgencys. Note that each dotAgency can only deploy one NFT asset pool.
 - `Manage TokenURI` Set default TokenURI engine for managing NFTs
-- `Change Deployer NFT TokenURI` Modify Deployer’s tokenURI engine
+- `Change DotAgency NFT TokenURI` Modify DotAgency’s tokenURI engine
 
 If you only want to experience NFT wrapping and unwrapping using ERC20 tokens or ETH, run the following command:
 

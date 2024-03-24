@@ -3,7 +3,7 @@ export const factoryABI = [
         "type": "constructor",
         "inputs": [
             {
-                "name": "_deployer",
+                "name": "_dotAgency",
                 "type": "address",
                 "internalType": "address"
             }
@@ -155,7 +155,7 @@ export const factoryABI = [
     },
     {
         "type": "function",
-        "name": "deployer",
+        "name": "dotAgency",
         "inputs": [],
         "outputs": [
             {

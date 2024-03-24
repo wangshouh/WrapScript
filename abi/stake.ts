@@ -18,7 +18,7 @@ export const stakeABI = [
                 "internalType": "address"
             },
             {
-                "name": "deployerContract_",
+                "name": "dotAgencyContract_",
                 "type": "address",
                 "internalType": "address"
             },
@@ -50,7 +50,7 @@ export const stakeABI = [
     },
     {
         "type": "function",
-        "name": "deployerContract",
+        "name": "dotAgencyContract",
         "inputs": [],
         "outputs": [
             {

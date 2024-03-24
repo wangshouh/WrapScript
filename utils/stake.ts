@@ -236,7 +236,7 @@ export const stakeSelect = async () => {
             {
                 name: "Withdraw L1 Reward",
                 value: "withdrawL1Reward",
-                description: "Withdraw deployer rewards and allocate rewards to L2"
+                description: "Withdraw dotAgency rewards and allocate rewards to L2"
             },
             {
                 name: "Update Pool L2",

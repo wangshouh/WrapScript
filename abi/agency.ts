@@ -3,7 +3,7 @@ export const agencyABI = [
         "type": "constructor",
         "inputs": [
             {
-                "name": "deployerContract_",
+                "name": "dotAgencyContract_",
                 "type": "address",
                 "internalType": "address"
             },
@@ -58,7 +58,7 @@ export const agencyABI = [
     },
     {
         "type": "function",
-        "name": "deployerContract",
+        "name": "dotAgencyContract",
         "inputs": [],
         "outputs": [
             {

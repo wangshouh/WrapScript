@@ -1,4 +1,4 @@
-export const deployerABI = [
+export const dotAgencyABI = [
     {
         "inputs": [
             {
@@ -85,7 +85,7 @@ export const deployerABI = [
                 "type": "uint256"
             }
         ],
-        "name": "DeployerExceededSlippagePrice",
+        "name": "DotAgencyExceededSlippagePrice",
         "type": "error"
     },
     {
@@ -133,7 +133,7 @@ export const deployerABI = [
                 "type": "uint256"
             }
         ],
-        "name": "DeployerInsufficientFunds",
+        "name": "DotAgencyInsufficientFunds",
         "type": "error"
     },
     {
@@ -1777,7 +1777,7 @@ export const deployerABI = [
     }
 ] as const;
 
-export const deployer = {
+export const dotAgency = {
     address: "0x5983caDa51680ae480e421626a114802B3138514",
-    abi: deployerABI
+    abi: dotAgencyABI
 } as const;

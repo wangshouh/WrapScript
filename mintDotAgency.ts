@@ -1,5 +1,5 @@
-import { account, walletClient, publicClient, agencyAndAppConfig, userConfig, defaultDeployerTokenURI, defaultAgentTokenURI } from "./config"
-import { deployer } from "./abi/deployer"
+import { account, walletClient, publicClient, agencyAndAppConfig, userConfig, defaultDotAgencyTokenURI, defaultAgentTokenURI } from "./config"
+import { dotAgency } from "./abi/dotAgency"
 import { factoryABI, wrapFactory } from "./abi/factory"
 import { agencyABI, appABI } from './abi/agency'
 import { agentABI } from './abi/agent'
@@ -18,30 +18,30 @@ import { getAgencyStrategy, isApproveOrOwner } from "./utils/data"
 
 const accountBalance = await publicClient.getBalance(account)
 
-export const mintDeployer = async () => {
-    const nowDeployerPrice = await publicClient.readContract({
-        ...deployer,
+export const mintDotAgency = async () => {
+    const nowDotAgencyPrice = await publicClient.readContract({
+        ...dotAgency,
         functionName: "getPrice",
     })
 
-    console.log(`Agency NFT Price is ${chalk.blue(formatEther(nowDeployerPrice))} ETH`)
+    console.log(`Agency NFT Price is ${chalk.blue(formatEther(nowDotAgencyPrice))} ETH`)
     console.log(`Your ETH Balance is ${chalk.blue(formatEther(accountBalance))} ETH`)
 
-    displayNotFundAndExit(nowDeployerPrice, accountBalance)
+    displayNotFundAndExit(nowDotAgencyPrice, accountBalance)
 
     const answer = await confirm({ message: 'Continue Mint Agency?' });
 
     if (answer) {
-        let deployerName = await input({ message: 'Enter Agency Name: ' })
+        let dotAgencyName = await input({ message: 'Enter Agency Name: ' })
 
-        while (await existName(deployerName)) {
+        while (await existName(dotAgencyName)) {
             console.log(chalk.red("Name has been registered"))
-            // TODO: Deployer name
-            deployerName = await input({ message: 'Enter Agency Name: ' })
+            // TODO: DotAgency name
+            dotAgencyName = await input({ message: 'Enter Agency Name: ' })
         }
 
-        const userPrice = await inputETHNumber("Maximum cost available for mint(ETH): ", formatEther(nowDeployerPrice))
-        await mintDeployerName(deployerName, userPrice)
+        const userPrice = await inputETHNumber("Maximum cost available for mint(ETH): ", formatEther(nowDotAgencyPrice))
+        await mintDotAgencyName(dotAgencyName, userPrice)
     }
 }
 
@@ -81,21 +81,21 @@ export const setTokenURIEngine = async () => {
     console.log(`Set TokenURI Engine Hash: ${chalk.blue(setTokenURIHash)}`)
 }
 
-export const changeDeployerTokenURI = async () => {
-    const deployerTokenId = await selectTokenId(userConfig)
+export const changeDotAgencyTokenURI = async () => {
+    const dotAgencyTokenId = await selectTokenId(userConfig)
 
-    const authorityExist = await isApproveOrOwner(deployer.address, BigInt(deployerTokenId))
+    const authorityExist = await isApproveOrOwner(dotAgency.address, BigInt(dotAgencyTokenId))
 
     if (!authorityExist) {
         console.log(chalk.red('Not NFT Approve or Owner'))
         return
     } else {
-        const tokenURI = await inputAddress('Enter TokenURI Engine Address(Default is histogram-style): ', defaultDeployerTokenURI)
+        const tokenURI = await inputAddress('Enter TokenURI Engine Address(Default is histogram-style): ', defaultDotAgencyTokenURI)
         const { request } = await publicClient.simulateContract({
             account,
-            ...deployer,
+            ...dotAgency,
             functionName: 'setTokenURIEngine',
-            args: [BigInt(deployerTokenId), tokenURI]
+            args: [BigInt(dotAgencyTokenId), tokenURI]
         })
     
         const setTokenURIHash = await walletClient.writeContract(request)
@@ -106,26 +106,26 @@ export const changeDeployerTokenURI = async () => {
 export const rebaseFee = async () => {
     const agencyAddress = await selectWrapAddress(userConfig)
     const agencyStrategy = await getAgencyStrategy(agencyAddress)
-    const agencyDeployerTokenId = await publicClient.readContract({
+    const agencyDotAgencyTokenId = await publicClient.readContract({
         address: agencyStrategy[0],
         abi: agentABI,
-        functionName: "tokenIdOfDeployer",
+        functionName: "tokenIdOfDotAgency",
     })
 
-    const { result: deployerNFTERC6551Address } = await publicClient.simulateContract({
-        address: deployer.address,
+    const { result: dotAgencyNFTERC6551Address } = await publicClient.simulateContract({
+        address: dotAgency.address,
         abi: erc6551RegistryABI,
         functionName: "createAccount",
         args: [
             erc6551Implementation,
             toHex("DEFAULT_ACCOUNT_SALT", { size: 32 }),
             BigInt(publicClient.chain!.id),
-            deployer.address,
-            agencyDeployerTokenId
+            dotAgency.address,
+            agencyDotAgencyTokenId
         ],
     })
     
-    console.log(`Agency NFT ERC6551 Address: ${chalk.blue(deployerNFTERC6551Address)}`)
+    console.log(`Agency NFT ERC6551 Address: ${chalk.blue(dotAgencyNFTERC6551Address)}`)
 
     const agencyFee = await publicClient.readContract({
         address: agencyAddress,
@@ -133,8 +133,8 @@ export const rebaseFee = async () => {
         functionName: "feeCount",
     })
 
-    const deployerFee = agencyFee / BigInt(6)
-    console.log(`Withdraw Fee: ${chalk.blue(formatEther(deployerFee))}`)
+    const dotAgencyFee = agencyFee / BigInt(6)
+    console.log(`Withdraw Fee: ${chalk.blue(formatEther(dotAgencyFee))}`)
 
     const answer = await confirm({ message: 'Continue Withdraw Fee?' });
 
@@ -283,7 +283,7 @@ const existName = async (name: string) => {
     const subNode = keccak256(concat(['0xb43dbfc1d2fecc659fffd218f4abb6ed0b35bd3896ba6be21f0ca46fb2102ab1', nameHash]))
 
     const request = await publicClient.readContract({
-        ...deployer,
+        ...dotAgency,
         functionName: "isRecordExists",
         args: [subNode]
     })
@@ -317,10 +317,10 @@ const updateConfig = async (tokenId?: { name: string, value: number }, agency?: 
     fs.writeFileSync('config.json', JSON.stringify(userConfig))
 }
 
-const mintDeployerName = async (name: string, price: bigint) => {
+const mintDotAgencyName = async (name: string, price: bigint) => {
     const { request, result } = await publicClient.simulateContract({
         account,
-        ...deployer,
+        ...dotAgency,
         value: price,
         functionName: 'mint',
         args: [name]

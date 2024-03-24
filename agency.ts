@@ -1,5 +1,5 @@
 import select from '@inquirer/select'
-import { mintDeployer, deployAppAndAgency, setTokenURIEngine, changeDeployerTokenURI, rebaseFee } from './mintDeployer'
+import { mintDotAgency, deployAppAndAgency, setTokenURIEngine, changeDotAgencyTokenURI, rebaseFee } from './mintDotAgency'
 import { approvePush } from "./utils/stake"
 import chalk from 'chalk'
 
@@ -8,13 +8,13 @@ const userSelect = await select({
     choices: [
         {
             name: "Bid Agency",
-            value: "mintDeployer",
+            value: "mintDotAgency",
             description: "Spend ETH to mint agency to participate"
         },
         {
             name: "Deploy App and Agency",
             value: "deployAppAndAgency",
-            description: `Deploy app and agency. This process can be done after ${chalk.blueBright("Mint Deployer")}`
+            description: `Deploy app and agency. This process can be done after ${chalk.blueBright("Mint DotAgency")}`
         },
         {
             name: "Manage TokenURI",
@@ -23,13 +23,13 @@ const userSelect = await select({
         },
         {
             name: "Change Agency NFT TokenURI",
-            value: "changeDeployerTokenURI",
+            value: "changeDotAgencyTokenURI",
             description: `Change Agency's TokenURI.`
         },
         {
             name: "Exact Fee From Agency",
             value: "rebaseFee",
-            description: `Exact fee from agency to deployer NFT ERC6551 Account.`
+            description: `Exact fee from agency to dotAgency NFT ERC6551 Account.`
         },
         {
             name: "Config Stake Push",
@@ -41,8 +41,8 @@ const userSelect = await select({
 
 
 switch (userSelect) {
-    case "mintDeployer":
-        await mintDeployer()
+    case "mintDotAgency":
+        await mintDotAgency()
         break;
 
     case "deployAppAndAgency":
@@ -53,8 +53,8 @@ switch (userSelect) {
         await setTokenURIEngine()
         break;
 
-    case "changeDeployerTokenURI":
-        await changeDeployerTokenURI()
+    case "changeDotAgencyTokenURI":
+        await changeDotAgencyTokenURI()
         break;
 
     case "rebaseFee":

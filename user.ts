@@ -1,5 +1,5 @@
 import select from '@inquirer/select'
-import { wrap, unwrap, updateAgenctConfig, setUserTokenURIEngine, createERC6551Account } from './mintDeployer'
+import { wrap, unwrap, updateAgenctConfig, setUserTokenURIEngine, createERC6551Account } from './mintDotAgency'
 import { stakeSelect } from "./utils/stake"
 import chalk from 'chalk'
 
