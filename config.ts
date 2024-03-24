@@ -43,20 +43,20 @@ export const agencyAndAppConfig = [
     "agencyImplementation": "0x3cF2eB41E80dFd8213A96e8faA4eF6A872Ab9e8d",
     "appImplementation": "0x80C8Aa5771B666B37A582662Db20cD2655b37988"
   },
-  // {
-  //   "name": "Auction",
-  //   "value": "auctionConfig",
-  //   "description": "Minting prices are obtained through auctions",
-  //   "agencyImplementation": "0x05B992b67CD8B2ac3f8f045A99b6e9F16312Ce0d",
-  //   "appImplementation": "0x80C8Aa5771B666B37A582662Db20cD2655b37988"
-  // },
-  // {
-  //   "name": "RandomWalker",
-  //   "value": "randomConfig",
-  //   "description": "Minting prices are obtained through standard normal random",
-  //   "agencyImplementation": "0x59642b6F43FED0d391E572EBB547c40343677900",
-  //   "appImplementation": "0x80C8Aa5771B666B37A582662Db20cD2655b37988"
-  // }
+  {
+    "name": "Auction",
+    "value": "auctionConfig",
+    "description": "Minting prices are obtained through auctions",
+    "agencyImplementation": "0xA9B33c6F4A6356C59A394F8E50Fd3a248B538bec",
+    "appImplementation": "0x80C8Aa5771B666B37A582662Db20cD2655b37988"
+  },
+  {
+    "name": "RandomWalker",
+    "value": "randomConfig",
+    "description": "Minting prices are obtained through standard normal random",
+    "agencyImplementation": "0x1adc9a9049f1e71E9145d1c8882f280815d7943F",
+    "appImplementation": "0x80C8Aa5771B666B37A582662Db20cD2655b37988"
+  }
 ]
 
 export const defaultDotAgencyTokenURI = "0xb612289E5Da6488dc242fE5e6d49a7ff7D136629" as `0x${string}`
