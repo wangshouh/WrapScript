@@ -482,7 +482,7 @@ const deployAgencyAndApp = async (
     const { request, result } = await publicClient.simulateContract({
         account,
         ...wrapFactory,
-        functionName: 'deployWrap',
+        functionName: 'deployWrapper',
         args: [
             {
                 implementation: agencyImplementation,

@@ -105,17 +105,10 @@ const updateConfig = async (userConfig: UserConfig, tokenId?: { name: string, va
 
 export const getExtraAgencyConfig = async (agencyImplementation: `0x${string}`) => {
     switch (agencyImplementation) {
-        case "0x96D707d5b43db58982c9187Ec516647Af54A4715":
-            const coef = Math.sqrt(3 / 5)
-            const meanCoef = Number(await input({ message: "Please enter the mean of the normal distribution(in ether): " }))
-            const stdCoef = Number(await input({ message: "Please enter the standard deviation of the normal distribution: ", validate: (value) => 10 * coef * Number(value) - meanCoef > 0 }))
+        case "0x3cF2eB41E80dFd8213A96e8faA4eF6A872Ab9e8d":
+            const coef = Number(await input({ message: "Please enter the k(integer): " }))
             
-            const fixMeanCoef = coef * meanCoef * 1e18 * (2 ** 35)
-            const fixStdCoef = (10 * coef * stdCoef - meanCoef) * 1e18
-
-            console.log(fixMeanCoef)
-            console.log(fixStdCoef)
-            const finalArgs = concat([toHex(fixMeanCoef, { size: 32}), toHex(fixStdCoef, { size: 32})])
+            const finalArgs = toHex(coef, { size: 32})
 
             return finalArgs
 
