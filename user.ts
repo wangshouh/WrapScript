@@ -1,8 +1,7 @@
 import select from '@inquirer/select'
 import { wrap, unwrap, updateAgenctConfig, setUserTokenURIEngine, createERC6551Account } from './mintDotAgency'
-import { stakeSelect } from "./utils/stake"
 import chalk from 'chalk'
-import { setResolverInCLI } from './utils/resolver'
+import { getResolverBondInCLI, setResolverBondInCLI, setResolverInCLI } from './utils/resolver'
 
 const userSelect = await select({
     message: "Wrap Protocol Interaction Selection",
@@ -36,6 +35,16 @@ const userSelect = await select({
             name: "Set Resolver",
             value: "setResolver",
             description: `Set Agent Resolver`
+        },
+        {
+            name: "Bond AI APP",
+            value: "bondAPP",
+            description: "Use resolver to bond other applications"
+        },
+        {
+            name: "Read Bond Records",
+            value: "readBond",
+            description: "Use resolver to read bind records"
         }
     ]
 })
@@ -64,7 +73,13 @@ switch (userSelect) {
     case "setResolver":
         await setResolverInCLI()
         break;
-        
+    
+    case "bondAPP":
+        await setResolverBondInCLI()
+    
+    case "readBond":
+        await getResolverBondInCLI()
+
     default:
         break;
 }

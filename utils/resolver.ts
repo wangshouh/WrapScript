@@ -2,7 +2,7 @@ import { input, confirm } from "@inquirer/prompts"
 import { account, defaultAgentResolver, defaultDotAgencyResolver, publicClient, userConfig, walletClient } from "../config"
 import { getAgencyStrategy, isApproveOrOwner } from "./data"
 import { inputAddress, selectTokenId, selectWrapAddress } from "./display"
-import { namehash } from "viem"
+import { bytesToString, keccak256, namehash, toBytes, toHex } from "viem"
 import { agentABI } from "../abi/agent"
 import chalk from 'chalk'
 import { appABI } from "../abi/agency"
@@ -151,18 +151,30 @@ export const setDotResolverInCLI = async () => {
     }
 }
 
-export const setResolverAddrInCLI = async () => {
+export const setResolverBondInCLI = async () => {
     const { agentAddress, nodeHash, authorityExist, fullDomain } = await resolverInputAndAuth()
     if (!authorityExist) {
         console.log(chalk.red('Not NFT Approve or Owner'))
         return
     } else {
-        const answer = await confirm({ message: `Are you sure to modify the addr of ${fullDomain}?` });
+        const answer = await confirm({ message: `Are you sure to modify the bond of ${fullDomain}?` });
 
         if (answer) {
-            const resolverAddress = await inputAddress('Enter addr Address: ')
+            const resolverAddress = await getResolver(agentAddress, nodeHash)
+            const bondKey = toHex(await input({ message: "Enter bond key: "}))
+            const bondKeyHash = keccak256(bondKey)
+            const bondValue = toHex(await input({ message: "Enter bond value: "}))
+            // await setResolverAddr(agentAddress, nodeHash, resolverAddress)
+            const { request } = await publicClient.simulateContract({
+                address: resolverAddress,
+                abi: AgentResolverABI,
+                functionName: "setUniBond",
+                args: [agentAddress, nodeHash, bondKeyHash, bondValue]
+            })
 
-            await setResolverAddr(agentAddress, nodeHash, resolverAddress)
+            const setBondHash = await walletClient.writeContract(request)
+
+            console.log(`Set Bond Hash: ${chalk.blue(setBondHash)}`)
         } else {
             return
         }
@@ -199,20 +211,22 @@ export const setDotAgencyResolverAddrInCLI = async () => {
     }
 }
 
-export const getResolverAddrInCLI = async () => {
+export const getResolverBondInCLI = async () => {
     const { agentAddress, nodeHash, fullDomain } = await resolverInputAndAuth()
     const resolverAddress = await getResolver(agentAddress, nodeHash)
-    const answer = await confirm({ message: `Are you sure to read the addr of ${fullDomain}?` });
+    const answer = await confirm({ message: `Are you sure to read the bond of ${fullDomain}?` });
 
     if (answer) {
-        const readAddr = await publicClient.readContract({
+        const bondKey = toHex(await input({ message: "Enter bond key: "}))
+        const bondKeyHash = keccak256(bondKey)
+        const readBond = await publicClient.readContract({
             address: resolverAddress,
             abi: AgentResolverABI,
-            functionName: "addr",
-            args: [nodeHash]
+            functionName: "bond",
+            args: [nodeHash, bondKeyHash]
         })
 
-        console.log(`Addr: ${chalk.blue(readAddr)}`)
+        console.log(`Bond Value: ${chalk.blue(bytesToString(toBytes(readBond)))}`)
     } else {
         return
     }
@@ -237,4 +251,4 @@ export const getDotAgencyResolverAddrInCLI = async () => {
     console.log(`Addr: ${chalk.blue(readAddr)}`)
 }
 
-// await getDotAgencyResolverAddrInCLI()
+// await getResolverBondInCLI()
