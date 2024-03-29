@@ -76,9 +76,11 @@ switch (userSelect) {
     
     case "bondAPP":
         await setResolverBondInCLI()
-    
+        break;
+        
     case "readBond":
         await getResolverBondInCLI()
+        break;
 
     default:
         break;
