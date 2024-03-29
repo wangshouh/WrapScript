@@ -2,6 +2,7 @@ import select from '@inquirer/select'
 import { wrap, unwrap, updateAgenctConfig, setUserTokenURIEngine, createERC6551Account } from './mintDotAgency'
 import { stakeSelect } from "./utils/stake"
 import chalk from 'chalk'
+import { setResolverInCLI } from './utils/resolver'
 
 const userSelect = await select({
     message: "Wrap Protocol Interaction Selection",
@@ -30,6 +31,11 @@ const userSelect = await select({
             name: "Create ERC6551 Account",
             value: "createERC6551Account",
             description: `Create an ERC6551 account for the NFT with the specified tokenId`
+        },
+        {
+            name: "Set Resolver",
+            value: "setResolver",
+            description: `Set Agent Resolver`
         }
     ]
 })
@@ -53,6 +59,10 @@ switch (userSelect) {
 
     case "createERC6551Account":
         await createERC6551Account()
+        break;
+
+    case "setResolver":
+        await setResolverInCLI()
         break;
         
     default:

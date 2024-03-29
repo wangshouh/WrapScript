@@ -7,14 +7,14 @@ const userSelect = await select({
     message: "Wrap Protocol Interaction Selection",
     choices: [
         {
-            name: "Bid Agency",
+            name: "Bid DotAgency",
             value: "mintDotAgency",
             description: "Spend ETH to mint agency to participate"
         },
         {
             name: "Deploy App and Agency",
             value: "deployAppAndAgency",
-            description: `Deploy app and agency. This process can be done after ${chalk.blueBright("Mint DotAgency")}`
+            description: `Deploy app and agency. This process can be done after ${chalk.blueBright("Bid DotAgency")}`
         },
         {
             name: "Manage TokenURI",

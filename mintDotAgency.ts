@@ -4,7 +4,7 @@ import { factoryABI, wrapFactory } from "./abi/factory"
 import { agencyABI, appABI } from './abi/agency'
 import { agentABI } from './abi/agent'
 import { erc6551Implementation, erc6551RegistryABI } from './abi/erc6551'
-import { concat, encodeAbiParameters, formatEther, getAddress, getFunctionSelector, keccak256, toHex, parseAbi } from "viem"
+import { concat, encodeAbiParameters, formatEther, getAddress, getFunctionSelector, keccak256, toHex, parseAbi, parseEther } from "viem"
 import { confirm } from '@inquirer/prompts';
 import { displayNotFundAndExit, inputAddress, selectWrapAddress, selectTokenId, inputETHNumber, inputMoreThanMinimumValue, chooseAgencyNFTWithTokenId, getExtraAgencyConfig } from './utils/display'
 import { exit } from 'node:process';
@@ -15,6 +15,7 @@ import chalk from 'chalk'
 import boxen from 'boxen'
 import { sleep } from "bun"
 import { getAgencyStrategy, isApproveOrOwner } from "./utils/data"
+import { existAgentName } from "./utils/resolver"
 
 const accountBalance = await publicClient.getBalance(account)
 
@@ -291,22 +292,6 @@ const existName = async (name: string) => {
     return request
 }
 
-const existAgentName = async (name: string, appAddress: `0x${string}`) => {
-    const agentName = await getAgentSymbol(appAddress)
-    const nameHash = keccak256(toHex(agentName))
-    const rootNode = keccak256(concat([toHex(0, { size: 32 }), nameHash]))
-    const subNode = keccak256(concat([rootNode, keccak256(toHex(name))]))
-
-    const request = await publicClient.readContract({
-        address: appAddress,
-        abi: agentABI,
-        functionName: "isRecordExists",
-        args: [subNode]
-    })
-
-    return request
-}
-
 const updateConfig = async (tokenId?: { name: string, value: number }, agency?: { value: string, description: string }) => {
     if (tokenId) {
         userConfig.tokenId.push(tokenId)
@@ -444,7 +429,7 @@ const getAgencyConfig = async (agencyImplementation: `0x${string}`, appImplement
 
     const currency = await inputAddress('Enter ERC20 address (zero address is ETH):', '0x0000000000000000000000000000000000000000')
     const currencyName = await getERC20Name(currency)
-    const basePremium = BigInt(Number.parseInt(await input({ message: 'Enter Base Premium:' }), 10))
+    const basePremium = parseEther(await input({ message: 'Enter Base Premium:' }))
     const feeRecipient = getAddress('0x0000000000000000000000000000000000000000')
     const mintFeePercent = await inputMoreThanMinimumValue('Enter Mint Fee Percent(>=300):')
     const burnFeePercent = await inputMoreThanMinimumValue('Enter Burn Fee Percent(>=300):')
@@ -482,7 +467,7 @@ const deployAgencyAndApp = async (
     const { request, result } = await publicClient.simulateContract({
         account,
         ...wrapFactory,
-        functionName: 'deployWrapper',
+        functionName: 'deployERC7527',
         args: [
             {
                 implementation: agencyImplementation,
@@ -529,16 +514,6 @@ const getAgentMintPrice = async (agencyAddress: `0x${string}`, appAddress: `0x${
     })
 
     return nowAgencyPrice
-}
-
-const getAgentSymbol = async (agencyAddress: `0x${string}`) => {
-    const symbol = await publicClient.readContract({
-        address: agencyAddress,
-        abi: agentABI,
-        functionName: "symbol",
-    })
-
-    return symbol
 }
 
 const getAgenctBurnPrice = async (agencyAddress: `0x${string}`, appAddress: `0x${string}`) => {

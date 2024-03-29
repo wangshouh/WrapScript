@@ -37,30 +37,33 @@ export const publicClient: PublicClient = createPublicClient({
 
 export const agencyAndAppConfig = [
   {
-    "name": "One Percent",
+    "name": "WrapV1Linear",
     "value": "onePercentConfig",
     "description": "User minting price increases by basePremium percentage",
-    "agencyImplementation": "0x3cF2eB41E80dFd8213A96e8faA4eF6A872Ab9e8d",
-    "appImplementation": "0x80C8Aa5771B666B37A582662Db20cD2655b37988"
+    "agencyImplementation": "0x7eed5B5a0B0adaA02229b4f51c596bCbA7D0956A",
+    "appImplementation": "0x85886f8aAa2d9cd73940558DAaA761C8541F5F4f"
   },
   {
-    "name": "Auction",
+    "name": "WrapV1Auction",
     "value": "auctionConfig",
     "description": "Minting prices are obtained through auctions",
-    "agencyImplementation": "0xA9B33c6F4A6356C59A394F8E50Fd3a248B538bec",
-    "appImplementation": "0x80C8Aa5771B666B37A582662Db20cD2655b37988"
+    "agencyImplementation": "0xfC652647cF2d3BfdB47abD9dfA912403c6CeB1C5",
+    "appImplementation": "0x85886f8aAa2d9cd73940558DAaA761C8541F5F4f"
   },
   {
-    "name": "RandomWalker",
+    "name": "WrapV1RandomWalker",
     "value": "randomConfig",
     "description": "Minting prices are obtained through standard normal random",
-    "agencyImplementation": "0x1adc9a9049f1e71E9145d1c8882f280815d7943F",
-    "appImplementation": "0x80C8Aa5771B666B37A582662Db20cD2655b37988"
+    "agencyImplementation": "0x2BcA5F05B2e0e7098C0f35773b43Ec5ACa6F248e",
+    "appImplementation": "0x85886f8aAa2d9cd73940558DAaA761C8541F5F4f"
   }
 ]
 
 export const defaultDotAgencyTokenURI = "0xb612289E5Da6488dc242fE5e6d49a7ff7D136629" as `0x${string}`
 export const defaultAgentTokenURI = "0xA70dC0784048E3467603AeEb1bD86FC940b266eF" as `0x${string}`
+
+export const defaultAgentResolver = "0x686D96c24953426093c4c1f8F7f4F3FB9151bE0C" as `0x${string}`
+export const defaultDotAgencyResolver = "0x9DfaEB6dFe5bfebC5DE0f34035c80D9db83C5eaF" as `0x${string}`
 
 export const tokenURIEngineConfig = [
   {

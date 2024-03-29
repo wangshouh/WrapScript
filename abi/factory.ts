@@ -118,7 +118,7 @@ export const factoryABI = [
     },
     {
         "type": "function",
-        "name": "deployWrapper",
+        "name": "deployERC7527",
         "inputs": [
             {
                 "name": "agencySettings",
@@ -304,6 +304,6 @@ export const factoryABI = [
 ] as const;
 
 export const wrapFactory = {
-    address: "0x5D52575f27909257aCE939F8d71a4B6de9A125A0",
+    address: "0x5a2aAFE713Eb19DCAC9Fb7e8285D749A0a87bb84",
     abi: factoryABI
 } as const;
