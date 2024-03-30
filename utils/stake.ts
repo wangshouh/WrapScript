@@ -1,6 +1,6 @@
 import { nftStake } from "../abi/stake"
 import { agencyABI } from "../abi/agency"
-import { account, walletClient, publicClient, userConfig } from "../config"
+import { account, walletClient, publicClient, userConfig, WrapCoinAddress } from "../config"
 import { chooseAgencyNFTWithTokenId, displayConfirmAndExit, selectWrapAddress } from './display'
 import select from '@inquirer/select'
 import chalk from 'chalk'
@@ -81,27 +81,34 @@ const withdrawL1Reward = async () => {
     const agencyAddress = await selectWrapAddress(userConfig)
     const agencyStrategy = await getAgencyStrategy(agencyAddress)
     const { endBlock } = await getL1EndBlock()
+    let baseInfo;
+    let withdrawReward;
+    let accTokenPerShare: bigint;
 
-    const baseInfo = await publicClient.multicall({
+    const lastRewardBlockWithtokenPerBlock = await publicClient.multicall({
         contracts: [
             {
                 ...nftStake,
-                functionName: "lastRewardBlock",
+                functionName: "lastRewardBlock"
             },
             {
                 ...nftStake,
                 functionName: "tokenPerBlock"
-            },
-            {
-                ...nftStake,
-                functionName: "accTokenPerShare",
-            },
-            {
-                ...nftStake,
-                functionName: "tvlOfTotal"
-            },
+            }
         ]
     })
+
+    if (agencyStrategy[1].currency == WrapCoinAddress) {
+        baseInfo = await publicClient.readContract({
+            ...nftStake,
+            functionName: "l1StakingOfERC20"
+        })
+    } else {
+        baseInfo = await publicClient.readContract({
+            ...nftStake,
+            functionName: "l1StakingOfETH"
+        })
+    }
 
     const l2StakingData = await publicClient.readContract({
         ...nftStake,
@@ -109,15 +116,21 @@ const withdrawL1Reward = async () => {
         args: [agencyStrategy[0]]
     })
 
-    const tokenReward = (endBlock - baseInfo[0].result!) * baseInfo[1].result!;
-    const accTokenPerShare = baseInfo[2].result! + tokenReward * BigInt(1e12) / BigInt(baseInfo[3].result!);
+    const tokenReward = (endBlock - lastRewardBlockWithtokenPerBlock[0].result!) * lastRewardBlockWithtokenPerBlock[1].result!;
+    // console.log(baseInfo)
+    // baseInfo [tvlOfTotal accTokenPerShare tokenReward]
+    if (agencyStrategy[1].currency == WrapCoinAddress) {
+        accTokenPerShare = baseInfo[1] + tokenReward * BigInt(1e12 * 37 / 40) / BigInt(baseInfo[0]);
+    } else {
+        accTokenPerShare = baseInfo[1] + tokenReward * BigInt(1e12 * 3 / 40) / BigInt(baseInfo[0]);
+    }
+    
+    const reward = (accTokenPerShare - l2StakingData[4]) * l2StakingData[0];
 
-    const reward = l2StakingData.unspentRewards + (accTokenPerShare - l2StakingData.rewardDebt) * l2StakingData.tvl;
-
-    console.log(`Withdraw L1 Reward: ${chalk.blue(formatEther(reward * BigInt(4) / BigInt(25 * 1e12)))}`)
+    console.log(`Withdraw L1 Reward: ${chalk.blue(formatEther(reward * BigInt(5243) / BigInt(1e12 * 65536)))}`)
 
     displayConfirmAndExit("Continue to withdraw L1 reward?")
-    
+
     const { request } = await publicClient.simulateContract({
         account,
         abi: nftStake.abi,
@@ -143,7 +156,7 @@ const updatePoolL2 = async () => {
         args: [agencyStrategy[0]]
     })
 
-    if (l2StakingData.endBlockOfEpoch > nowBlockNumber) {
+    if (l2StakingData[7] > nowBlockNumber) {
         console.log("In Epoch...")
     } else {
         const { request } = await publicClient.simulateContract({
@@ -163,7 +176,7 @@ const updatePoolL2 = async () => {
 }
 
 const withdrawReward = async () => {
-    const { agencyTokenId, agencyStrategy} = await chooseAgencyNFTWithTokenId(userConfig)
+    const { agencyTokenId, agencyStrategy } = await chooseAgencyNFTWithTokenId(userConfig)
 
     const reward = await publicClient.readContract({
         ...nftStake,
@@ -195,7 +208,7 @@ const withdrawReward = async () => {
 }
 
 const unstakeAgencyNFT = async () => {
-    const { agencyTokenId, agencyStrategy} = await chooseAgencyNFTWithTokenId(userConfig)
+    const { agencyTokenId, agencyStrategy } = await chooseAgencyNFTWithTokenId(userConfig)
 
     displayConfirmAndExit("Continue to unstake?")
 
@@ -255,7 +268,7 @@ export const stakeSelect = async () => {
         case "stakeAgencyNFT":
             await stakeAgencyNFT()
             break
-        
+
         case "unstakeAgencyNFT":
             await unstakeAgencyNFT()
             break
@@ -267,7 +280,7 @@ export const stakeSelect = async () => {
         case "withdrawL1Reward":
             await withdrawL1Reward()
             break
-        
+
         case "updatePoolL2":
             await updatePoolL2()
             break

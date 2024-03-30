@@ -31,19 +31,28 @@ export const stakeABI = [
                 "name": "stakingVault_",
                 "type": "address",
                 "internalType": "address"
+            },
+            {
+                "name": "accessManager",
+                "type": "address",
+                "internalType": "address"
             }
         ],
         "stateMutability": "nonpayable"
     },
     {
+        "type": "receive",
+        "stateMutability": "payable"
+    },
+    {
         "type": "function",
-        "name": "accTokenPerShare",
+        "name": "authority",
         "inputs": [],
         "outputs": [
             {
                 "name": "",
-                "type": "uint256",
-                "internalType": "uint256"
+                "type": "address",
+                "internalType": "address"
             }
         ],
         "stateMutability": "view"
@@ -67,7 +76,7 @@ export const stakeABI = [
         "inputs": [],
         "outputs": [
             {
-                "name": "",
+                "name": "endBlockOfEpoch",
                 "type": "uint256",
                 "internalType": "uint256"
             }
@@ -126,6 +135,19 @@ export const stakeABI = [
     },
     {
         "type": "function",
+        "name": "isConsumingScheduledOp",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "",
+                "type": "bytes4",
+                "internalType": "bytes4"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
         "name": "isLocked",
         "inputs": [
             {
@@ -144,6 +166,52 @@ export const stakeABI = [
                 "name": "",
                 "type": "bool",
                 "internalType": "bool"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "l1StakingOfERC20",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "tvlOfTotal",
+                "type": "uint256",
+                "internalType": "uint256"
+            },
+            {
+                "name": "accTokenPerShare",
+                "type": "uint256",
+                "internalType": "uint256"
+            },
+            {
+                "name": "tokenReward",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "l1StakingOfETH",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "tvlOfTotal",
+                "type": "uint256",
+                "internalType": "uint256"
+            },
+            {
+                "name": "accTokenPerShare",
+                "type": "uint256",
+                "internalType": "uint256"
+            },
+            {
+                "name": "tokenReward",
+                "type": "uint256",
+                "internalType": "uint256"
             }
         ],
         "stateMutability": "view"
@@ -231,6 +299,37 @@ export const stakeABI = [
     },
     {
         "type": "function",
+        "name": "setAuthority",
+        "inputs": [
+            {
+                "name": "newAuthority",
+                "type": "address",
+                "internalType": "address"
+            }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "setWhiteListOfERC7527Agency",
+        "inputs": [
+            {
+                "name": "ERC7527Agency",
+                "type": "address",
+                "internalType": "address"
+            },
+            {
+                "name": "isWhiteListed",
+                "type": "bool",
+                "internalType": "bool"
+            }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
         "name": "stake",
         "inputs": [
             {
@@ -295,8 +394,13 @@ export const stakeABI = [
             },
             {
                 "name": "endBlockOfEpoch",
-                "type": "uint256",
-                "internalType": "uint256"
+                "type": "uint248",
+                "internalType": "uint248"
+            },
+            {
+                "name": "currencyType",
+                "type": "uint8",
+                "internalType": "enum NFTStaking.Type"
             }
         ],
         "stateMutability": "view"
@@ -310,6 +414,25 @@ export const stakeABI = [
                 "name": "",
                 "type": "address",
                 "internalType": "address"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "supportsInterface",
+        "inputs": [
+            {
+                "name": "interfaceId",
+                "type": "bytes4",
+                "internalType": "bytes4"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "",
+                "type": "bool",
+                "internalType": "bool"
             }
         ],
         "stateMutability": "view"
@@ -341,19 +464,6 @@ export const stakeABI = [
     {
         "type": "function",
         "name": "tokenPerBlock",
-        "inputs": [],
-        "outputs": [
-            {
-                "name": "",
-                "type": "uint256",
-                "internalType": "uint256"
-            }
-        ],
-        "stateMutability": "view"
-    },
-    {
-        "type": "function",
-        "name": "tvlOfTotal",
         "inputs": [],
         "outputs": [
             {
@@ -436,6 +546,25 @@ export const stakeABI = [
     },
     {
         "type": "function",
+        "name": "whilteListOfERC7527Agency",
+        "inputs": [
+            {
+                "name": "ERC7527Agency",
+                "type": "address",
+                "internalType": "address"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "",
+                "type": "bool",
+                "internalType": "bool"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
         "name": "withdrawReward",
         "inputs": [
             {
@@ -457,6 +586,19 @@ export const stakeABI = [
             }
         ],
         "stateMutability": "nonpayable"
+    },
+    {
+        "type": "event",
+        "name": "AuthorityUpdated",
+        "inputs": [
+            {
+                "name": "authority",
+                "type": "address",
+                "indexed": false,
+                "internalType": "address"
+            }
+        ],
+        "anonymous": false
     },
     {
         "type": "event",
@@ -535,6 +677,66 @@ export const stakeABI = [
     },
     {
         "type": "error",
+        "name": "AccessManagedInvalidAuthority",
+        "inputs": [
+            {
+                "name": "authority",
+                "type": "address",
+                "internalType": "address"
+            }
+        ]
+    },
+    {
+        "type": "error",
+        "name": "AccessManagedRequiredDelay",
+        "inputs": [
+            {
+                "name": "caller",
+                "type": "address",
+                "internalType": "address"
+            },
+            {
+                "name": "delay",
+                "type": "uint32",
+                "internalType": "uint32"
+            }
+        ]
+    },
+    {
+        "type": "error",
+        "name": "AccessManagedUnauthorized",
+        "inputs": [
+            {
+                "name": "caller",
+                "type": "address",
+                "internalType": "address"
+            }
+        ]
+    },
+    {
+        "type": "error",
+        "name": "NFTStakingCurrencyInvalid",
+        "inputs": [
+            {
+                "name": "currency",
+                "type": "address",
+                "internalType": "address"
+            }
+        ]
+    },
+    {
+        "type": "error",
+        "name": "NFTStakingERC7527AgencyInvalid",
+        "inputs": [
+            {
+                "name": "ERC7527Agency",
+                "type": "address",
+                "internalType": "address"
+            }
+        ]
+    },
+    {
+        "type": "error",
         "name": "NFTStakingNFTInvalid",
         "inputs": [
             {
@@ -546,23 +748,23 @@ export const stakeABI = [
     },
     {
         "type": "error",
-        "name": "NFTStakingNotAuthorized",
-        "inputs": [
-            {
-                "name": "tokenId",
-                "type": "uint256",
-                "internalType": "uint256"
-            }
-        ]
-    },
-    {
-        "type": "error",
         "name": "NFTStakingNotForcePushed",
         "inputs": [
             {
                 "name": "nft",
                 "type": "address",
                 "internalType": "address"
+            }
+        ]
+    },
+    {
+        "type": "error",
+        "name": "NFTStakingNotOwnerOrApproved",
+        "inputs": [
+            {
+                "name": "tokenId",
+                "type": "uint256",
+                "internalType": "uint256"
             }
         ]
     },
