@@ -222,7 +222,7 @@ export const setUserTokenURIEngine = async () => {
 }
 
 export const updateAgenctConfig = async () => {
-    const agencyAddress = await inputAddress('Enter Your Agent Address: ')
+    const agencyAddress = await inputAddress('Enter Your Agency Address: ')
 
     const agencySettings = await getAgencyStrategy(agencyAddress)
 

@@ -60,9 +60,9 @@ export const agencyAndAppConfig = [
 ]
 
 export const defaultDotAgencyTokenURI = "0xb4972cc5D57cDE9fE905Fa2CEA9e8DbC1749d8E8" as `0x${string}`
-export const defaultAgentTokenURI = "0xa714257C55397bd547B38e2F3Dd055925826249D" as `0x${string}`
+export const defaultAgentTokenURI = "0x6230B4bdda9C8e8bf4e2EB0162427217CA99cb7B" as `0x${string}`
 
-export const defaultAgentResolver = "0x686D96c24953426093c4c1f8F7f4F3FB9151bE0C" as `0x${string}`
+export const defaultAgentResolver = "0xf3CD8bEcE3F3fc7600a181C3f442C82E430989cD" as `0x${string}`
 export const defaultDotAgencyResolver = "0x9DfaEB6dFe5bfebC5DE0f34035c80D9db83C5eaF" as `0x${string}`
 
 export const WrapCoinAddress = "0xC789130E00EDabb55beC6D5F728ea1ab303f226C" as `0x${string}`
@@ -70,7 +70,7 @@ export const WrapCoinAddress = "0xC789130E00EDabb55beC6D5F728ea1ab303f226C" as `
 export const tokenURIEngineConfig = [
   {
     "name": "Mairo",
-    "value": "0xa714257C55397bd547B38e2F3Dd055925826249D" as `0x${string}`,
+    "value": "0x6230B4bdda9C8e8bf4e2EB0162427217CA99cb7B" as `0x${string}`,
     "description": "Generate Mario-style on-chain images",
   },
   {
