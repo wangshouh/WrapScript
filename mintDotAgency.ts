@@ -166,11 +166,11 @@ export const wrap = async () => {
     displayNotFundAndExit(nowAgencyPrice[0] + nowAgencyPrice[1], userBalance)
     
     const userSlippagePrice = await inputETHNumber("Maximum cost available for mint: ", formatEther(nowAgencyPrice[0] + nowAgencyPrice[1]))
-    let agencyTokenName = await input({ message: 'Enter Agent Name: ' })
+    let agencyTokenName = (await input({ message: 'Enter Agent Name: ' })).toLowerCase()
 
     while (await existAgentName(agencyTokenName, agencyStrategy[0])) {
         console.log(chalk.red("Name has been registered"))
-        agencyTokenName = await input({ message: 'Enter Agent Name: ' })
+        agencyTokenName = (await input({ message: 'Enter Agent Name: ' })).toLowerCase()
     }
 
     const answer = await confirm({ message: 'Continue Mint Agent NFT?' });
