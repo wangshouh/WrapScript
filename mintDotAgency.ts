@@ -33,8 +33,7 @@ export const mintDotAgency = async () => {
     const answer = await confirm({ message: 'Continue Mint Agency?' });
 
     if (answer) {
-        let dotAgencyName = await input({ message: 'Enter Agency Name: ' })
-
+        let dotAgencyName = (await input({ message: 'Enter Agency Name: ' })).toLowerCase()
         while (await existName(dotAgencyName)) {
             console.log(chalk.red("Name has been registered"))
             // TODO: DotAgency name
