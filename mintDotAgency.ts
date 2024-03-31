@@ -37,7 +37,7 @@ export const mintDotAgency = async () => {
         while (await existName(dotAgencyName)) {
             console.log(chalk.red("Name has been registered"))
             // TODO: DotAgency name
-            dotAgencyName = await input({ message: 'Enter Agency Name: ' })
+            dotAgencyName = (await input({ message: 'Enter Agency Name: ' })).toLowerCase()
         }
 
         const userPrice = await inputETHNumber("Maximum cost available for mint(ETH): ", formatEther(nowDotAgencyPrice))
