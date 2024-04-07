@@ -31,7 +31,7 @@ export const inputETHNumber = async (message: string, defalutMessage?: string) =
 }
 
 export const inputMoreThanMinimumValue = async (message: string) => {
-    const feePercent = Number.parseInt(await input({ message, validate: (value) => Number.parseInt(value) >= 300 }), 10)
+    const feePercent = Number.parseInt(await input({ message, validate: (value) => Number.parseInt(value) >= 500 }), 10)
     return feePercent
 }
 

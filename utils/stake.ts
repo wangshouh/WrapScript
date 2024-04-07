@@ -82,7 +82,6 @@ const withdrawL1Reward = async () => {
     const agencyStrategy = await getAgencyStrategy(agencyAddress)
     const { endBlock } = await getL1EndBlock()
     let baseInfo;
-    let withdrawReward;
     let accTokenPerShare: bigint;
 
     const lastRewardBlockWithtokenPerBlock = await publicClient.multicall({
@@ -155,7 +154,7 @@ const updatePoolL2 = async () => {
         functionName: "stakingOfNFT",
         args: [agencyStrategy[0]]
     })
-
+    // L2Staking Data
     if (l2StakingData[7] > nowBlockNumber) {
         console.log("In Epoch...")
     } else {

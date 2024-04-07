@@ -304,6 +304,6 @@ export const factoryABI = [
 ] as const;
 
 export const wrapFactory = {
-    address: "0x5a2aAFE713Eb19DCAC9Fb7e8285D749A0a87bb84",
+    address: "0x67CD8DdDD645CF970401517876F630167d95b009",
     abi: factoryABI
 } as const;

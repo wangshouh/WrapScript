@@ -1,5 +1,5 @@
 import select from '@inquirer/select'
-import { mintDotAgency, deployAppAndAgency, setTokenURIEngine, changeDotAgencyTokenURI, rebaseFee } from './mintDotAgency'
+import { mintDotAgency, deployAppAndAgency, setTokenURIEngine, changeDotAgencyTokenURI, rebaseFee, claimLockWrapCoin } from './mintDotAgency'
 import { approvePush } from "./utils/stake"
 import chalk from 'chalk'
 
@@ -19,7 +19,7 @@ const userSelect = await select({
         {
             name: "Manage TokenURI",
             value: "setTokenURIEngine",
-            description: `Manage agency's TokenURI.`
+            description: `Manage agents' TokenURI.`
         },
         {
             name: "Change DotAgency NFT TokenURI",
@@ -35,6 +35,10 @@ const userSelect = await select({
             name: "Config Stake Push",
             value: "approvePush",
             description: `Config Push to Stake NFT.`
+        },
+        {
+            name: "Claim Lock Wrap Coin",
+            value: "claimLockWrapCoin",
         }
     ]
 })
@@ -64,7 +68,10 @@ switch (userSelect) {
     case "approvePush":
         await approvePush()
         break;
-        
+    
+    case "claimLockWrapCoin":
+        claimLockWrapCoin()
+        break;
     default:
         break;
 }
