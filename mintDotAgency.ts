@@ -573,10 +573,10 @@ const wrapAgency = async (name: string, price: bigint, agencyAddress: `0x${strin
             const userNewApprove = await inputETHNumber("Enter New Approve Value: ", formatEther(price))
             await setERC20Approve(tokenAddress, agencyAddress, userNewApprove)
             let nowblockNumber = await publicClient.getBlockNumber()
-            const nextBlockNumber = nowblockNumber + BigInt(3)
+            const nextBlockNumber = nowblockNumber + BigInt(10)
 
             while (nowblockNumber < nextBlockNumber) {
-                await sleep(30000)
+                await sleep(50000)
 
                 nowblockNumber = await publicClient.getBlockNumber()
             }
