@@ -12,7 +12,7 @@ const userSelect = await select({
             description: "Spend ETH to mint agency to participate"
         },
         {
-            name: "Deploy App and Agency",
+            name: "Deploy ERC7527",
             value: "deployAppAndAgency",
             description: `Deploy app and agency. This process can be done after ${chalk.blueBright("Bid DotAgency")}`
         },

@@ -4,7 +4,7 @@ import chalk from 'chalk'
 import { getResolverBondInCLI, setResolverBondInCLI, setResolverInCLI } from './utils/resolver'
 
 const userSelect = await select({
-    message: "Wrap Protocol Interaction Selection",
+    message: "Wrap Coin Interaction Selection",
     choices: [
         {
             name: "Wrap",
