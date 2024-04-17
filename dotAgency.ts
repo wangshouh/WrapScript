@@ -4,7 +4,7 @@ import { approvePush } from "./utils/stake"
 import chalk from 'chalk'
 
 const userSelect = await select({
-    message: "Wrap Protocol Interaction Selection",
+    message: "Wrap Coin Interaction Selection",
     choices: [
         {
             name: "Bid DotAgency",
