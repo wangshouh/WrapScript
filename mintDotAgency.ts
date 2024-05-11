@@ -32,14 +32,14 @@ export const mintDotAgency = async () => {
 
     displayNotFundAndExit(nowDotAgencyPrice, accountBalance)
 
-    const answer = await confirm({ message: 'Continue Mint Agency?' });
+    const answer = await confirm({ message: 'Continue Mint DotAgency?' });
 
     if (answer) {
-        let dotAgencyName = (await input({ message: 'Enter Agency Name: ' })).toLowerCase()
+        let dotAgencyName = (await input({ message: 'Enter DotAgency Name: ' })).toLowerCase()
         while (await existName(dotAgencyName)) {
             console.log(chalk.red("Name has been registered"))
             // TODO: DotAgency name
-            dotAgencyName = (await input({ message: 'Enter Agency Name: ' })).toLowerCase()
+            dotAgencyName = (await input({ message: 'Enter DotAgency Name: ' })).toLowerCase()
         }
 
         const userPrice = await inputETHNumber("Maximum cost available for mint(ETH): ", formatEther(nowDotAgencyPrice))

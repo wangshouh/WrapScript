@@ -8,6 +8,17 @@ curl -fsSL https://bun.sh/install | bash
 
 > For more detailed installation tutorials, please refer to [this document](https://bun.sh/docs/installation).
 
+Use the following command to confirm that `bun` is installed successfully and the version number is required to be greater than `1.0.0`.
+
+```bash
+bun --version
+```
+If the version number is less than 1.0.0, please use the following command to upgrade bun:
+
+```bash
+bun upgrade
+```
+
 To install dependencies:
 
 ```bash
