@@ -14,7 +14,7 @@ const userSelect = await select({
         {
             name: "Deploy ERC7527",
             value: "deployAppAndAgency",
-            description: `Deploy app and agency. This process can be done after ${chalk.blueBright("Bid DotAgency")}`
+            description: `Deploy ERC7527. This process can be done after ${chalk.blueBright("Bid DotAgency")}`
         },
         {
             name: "Manage TokenURI",
