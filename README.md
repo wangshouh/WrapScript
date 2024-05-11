@@ -47,6 +47,7 @@ The script provides the following functionality:
 - `Manage TokenURI` Set default TokenURI engine for managing NFTs
 - `Change DotAgency NFT TokenURI` Modify DotAgency’s tokenURI engine
 - `Config Stake Push` If you use ETH or Wrap Coin as Agency's currency, you can run this command to enable staking configuration.
+- `Claim Lock Wrap Coin` Withdraw locked Wrap Coin
 
 If you only want to experience NFT wrapping and unwrapping using ERC20 tokens or ETH, run the following command:
 
@@ -58,8 +59,9 @@ The script only contains the following three functions:
 
 - `Wrap` Wrap ERC20 tokens or ETH into NFTs
 - `Unwrap` Unwrap NFT to obtain ERC20 or ETH assets
-- `Update Config` Enter the agent address to obtain relevant information and write it to the configuration file
+- `Add Agency` Enter the agency address to obtain relevant information and write it to the configuration file
 - `Set TokenURI Engine` Modify the tokenURI engine of personal NFT
+- `Create ERC6551 Account` Create an ERC6551 account for NFT
 
 The following command is used for staking of ERC7527. Before running the following command, please make sure you have executed the `Config Stake Push` command in `bun dotAgency.ts`.
 

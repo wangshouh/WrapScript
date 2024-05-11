@@ -36,9 +36,13 @@ export const mintDotAgency = async () => {
 
     if (answer) {
         let dotAgencyName = (await input({ message: 'Enter DotAgency Name: ' })).toLowerCase()
+        while (!normalName(dotAgencyName)) {
+            console.log(chalk.red("Name has been registeredThe name can only contain lowercase letters and Arabic numerals."))
+            dotAgencyName = (await input({ message: 'Enter DotAgency Name: ' })).toLowerCase()       
+        }
+
         while (await existName(dotAgencyName)) {
             console.log(chalk.red("Name has been registered"))
-            // TODO: DotAgency name
             dotAgencyName = (await input({ message: 'Enter DotAgency Name: ' })).toLowerCase()
         }
 
@@ -303,6 +307,13 @@ const existName = async (name: string) => {
     })
 
     return request
+}
+
+const normalName = (name: string) => {
+  const regex = /^[a-z0-9]+$/;
+
+  // test 方法检查字符串是否匹配正则表达式模式
+  return regex.test(name);
 }
 
 const updateConfig = async (tokenId?: { name: string, value: number }, agency?: { value: string, description: string }) => {

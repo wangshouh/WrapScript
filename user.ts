@@ -31,21 +31,21 @@ const userSelect = await select({
             value: "createERC6551Account",
             description: `Create an ERC6551 account for the NFT with the specified tokenId`
         },
-        {
-            name: "Set Resolver",
-            value: "setResolver",
-            description: `Set Agent Resolver`
-        },
-        {
-            name: "Bond AI APP",
-            value: "bondAPP",
-            description: "Use resolver to bond other applications"
-        },
-        {
-            name: "Read Bond Records",
-            value: "readBond",
-            description: "Use resolver to read bind records"
-        }
+        // {
+        //     name: "Set Resolver",
+        //     value: "setResolver",
+        //     description: `Set Agent Resolver`
+        // },
+        // {
+        //     name: "Bond AI APP",
+        //     value: "bondAPP",
+        //     description: "Use resolver to bond other applications"
+        // },
+        // {
+        //     name: "Read Bond Records",
+        //     value: "readBond",
+        //     description: "Use resolver to read bind records"
+        // }
     ]
 })
 
