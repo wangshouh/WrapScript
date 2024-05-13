@@ -100,8 +100,8 @@ export const calculateDotAgencyEPI = async (agencyAddress: `0x${string}`, dotAge
     // wrapFee + 
 }
 await calculateAgentAPY(
-    "0xd1A6AFee355E749a24a79BF06330A5E87dAebd8b", 
-    BigInt(1),
-    parseEther("0.001"),
-    AgentCoin.ETH
+    "0x5ce1074cbfc094e378b1a6f4a3a6b359b67b3f23", 
+    BigInt(2),
+    parseEther("1.081727998525441509"),
+    AgentCoin.WrapCoin
 )

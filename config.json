@@ -1,14 +1,4 @@
 {
-    "tokenId": [
-        {
-            "name": "new",
-            "value": 2
-        }
-    ],
-    "agency": [
-        {
-            "value": "0xfd68C37b60510CBC205bc25170Bcba568244281C",
-            "description": "new"
-        }
-    ]
+    "tokenId": [],
+    "agency": []
 }

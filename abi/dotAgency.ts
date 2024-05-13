@@ -18,17 +18,17 @@ export const dotAgencyABI = [
                 "internalType": "address payable"
             },
             {
-                "name": "swapVault_",
+                "name": "wrapFoundationVault_",
                 "type": "address",
                 "internalType": "address payable"
             },
             {
-                "name": "lendingVault_",
+                "name": "swapLPRewardVault_",
                 "type": "address",
                 "internalType": "address"
             },
             {
-                "name": "stakingVault_",
+                "name": "NFTStakingRewardVault_",
                 "type": "address",
                 "internalType": "address"
             },
@@ -36,9 +36,36 @@ export const dotAgencyABI = [
                 "name": "erc6551AccountImp_",
                 "type": "address",
                 "internalType": "address"
+            },
+            {
+                "name": "uniswapV2Router_",
+                "type": "address",
+                "internalType": "contract IUniswapV2Router01"
+            },
+            {
+                "name": "wether_",
+                "type": "address",
+                "internalType": "address"
             }
         ],
-        "stateMutability": "nonpayable"
+        "stateMutability": "payable"
+    },
+    {
+        "type": "receive",
+        "stateMutability": "payable"
+    },
+    {
+        "type": "function",
+        "name": "NFTStakingRewardVault",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "",
+                "type": "address",
+                "internalType": "address"
+            }
+        ],
+        "stateMutability": "view"
     },
     {
         "type": "function",
@@ -118,6 +145,19 @@ export const dotAgencyABI = [
     },
     {
         "type": "function",
+        "name": "commit",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "id",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
         "name": "createAccount",
         "inputs": [
             {
@@ -183,6 +223,44 @@ export const dotAgencyABI = [
                 "name": "",
                 "type": "address",
                 "internalType": "address"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "getBidWrapPrice",
+        "inputs": [
+            {
+                "name": "priceNonce",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "bidWrapPrice",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "getCommitBlock",
+        "inputs": [
+            {
+                "name": "priceNonce",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "commitBlockNumber",
+                "type": "uint256",
+                "internalType": "uint256"
             }
         ],
         "stateMutability": "view"
@@ -334,7 +412,7 @@ export const dotAgencyABI = [
     },
     {
         "type": "function",
-        "name": "isApprovedOrOwner",
+        "name": "isAuthorized",
         "inputs": [
             {
                 "name": "spender",
@@ -377,25 +455,17 @@ export const dotAgencyABI = [
     },
     {
         "type": "function",
-        "name": "lendingVault",
-        "inputs": [],
-        "outputs": [
-            {
-                "name": "",
-                "type": "address",
-                "internalType": "address"
-            }
-        ],
-        "stateMutability": "view"
-    },
-    {
-        "type": "function",
         "name": "mint",
         "inputs": [
             {
                 "name": "name_",
                 "type": "string",
                 "internalType": "string"
+            },
+            {
+                "name": "priceNonce",
+                "type": "uint256",
+                "internalType": "uint256"
             }
         ],
         "outputs": [
@@ -416,6 +486,19 @@ export const dotAgencyABI = [
                 "name": "",
                 "type": "string",
                 "internalType": "string"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "nextPriceNonce",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint256",
+                "internalType": "uint256"
             }
         ],
         "stateMutability": "view"
@@ -590,6 +673,35 @@ export const dotAgencyABI = [
                 "name": "",
                 "type": "address",
                 "internalType": "address payable"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "royaltyInfo",
+        "inputs": [
+            {
+                "name": "tokenId",
+                "type": "uint256",
+                "internalType": "uint256"
+            },
+            {
+                "name": "salePrice",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "",
+                "type": "address",
+                "internalType": "address"
+            },
+            {
+                "name": "",
+                "type": "uint256",
+                "internalType": "uint256"
             }
         ],
         "stateMutability": "view"
@@ -779,19 +891,6 @@ export const dotAgencyABI = [
     },
     {
         "type": "function",
-        "name": "stakingVault",
-        "inputs": [],
-        "outputs": [
-            {
-                "name": "",
-                "type": "address",
-                "internalType": "address"
-            }
-        ],
-        "stateMutability": "view"
-    },
-    {
-        "type": "function",
         "name": "supportsInterface",
         "inputs": [
             {
@@ -811,13 +910,13 @@ export const dotAgencyABI = [
     },
     {
         "type": "function",
-        "name": "swapVault",
+        "name": "swapLPRewardVault",
         "inputs": [],
         "outputs": [
             {
                 "name": "",
                 "type": "address",
-                "internalType": "address payable"
+                "internalType": "address"
             }
         ],
         "stateMutability": "view"
@@ -899,6 +998,30 @@ export const dotAgencyABI = [
     },
     {
         "type": "function",
+        "name": "tokenURIWithSig",
+        "inputs": [
+            {
+                "name": "result",
+                "type": "bytes",
+                "internalType": "bytes"
+            },
+            {
+                "name": "extraData",
+                "type": "bytes",
+                "internalType": "bytes"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "",
+                "type": "string",
+                "internalType": "string"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
         "name": "totalSupply",
         "inputs": [],
         "outputs": [
@@ -935,6 +1058,32 @@ export const dotAgencyABI = [
     },
     {
         "type": "function",
+        "name": "uniswapV2Router",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "",
+                "type": "address",
+                "internalType": "contract IUniswapV2Router01"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "wether",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "",
+                "type": "address",
+                "internalType": "address"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
         "name": "wrapCoin",
         "inputs": [],
         "outputs": [
@@ -968,6 +1117,19 @@ export const dotAgencyABI = [
                 "name": "hubGrowth",
                 "type": "uint256",
                 "internalType": "uint256"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "wrapFoundationVault",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "",
+                "type": "address",
+                "internalType": "address payable"
             }
         ],
         "stateMutability": "view"
@@ -1243,6 +1405,17 @@ export const dotAgencyABI = [
     },
     {
         "type": "error",
+        "name": "DotAgencyCommittLocked",
+        "inputs": [
+            {
+                "name": "priceNonce",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ]
+    },
+    {
+        "type": "error",
         "name": "DotAgencyExceededSlippagePrice",
         "inputs": [
             {
@@ -1254,6 +1427,97 @@ export const dotAgencyABI = [
                 "name": "available",
                 "type": "uint256",
                 "internalType": "uint256"
+            }
+        ]
+    },
+    {
+        "type": "error",
+        "name": "ECDSAInvalidSignature",
+        "inputs": []
+    },
+    {
+        "type": "error",
+        "name": "ECDSAInvalidSignatureLength",
+        "inputs": [
+            {
+                "name": "length",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ]
+    },
+    {
+        "type": "error",
+        "name": "ECDSAInvalidSignatureS",
+        "inputs": [
+            {
+                "name": "s",
+                "type": "bytes32",
+                "internalType": "bytes32"
+            }
+        ]
+    },
+    {
+        "type": "error",
+        "name": "ERC2981InvalidDefaultRoyalty",
+        "inputs": [
+            {
+                "name": "numerator",
+                "type": "uint256",
+                "internalType": "uint256"
+            },
+            {
+                "name": "denominator",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ]
+    },
+    {
+        "type": "error",
+        "name": "ERC2981InvalidDefaultRoyaltyReceiver",
+        "inputs": [
+            {
+                "name": "receiver",
+                "type": "address",
+                "internalType": "address"
+            }
+        ]
+    },
+    {
+        "type": "error",
+        "name": "ERC2981InvalidTokenRoyalty",
+        "inputs": [
+            {
+                "name": "tokenId",
+                "type": "uint256",
+                "internalType": "uint256"
+            },
+            {
+                "name": "numerator",
+                "type": "uint256",
+                "internalType": "uint256"
+            },
+            {
+                "name": "denominator",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ]
+    },
+    {
+        "type": "error",
+        "name": "ERC2981InvalidTokenRoyaltyReceiver",
+        "inputs": [
+            {
+                "name": "tokenId",
+                "type": "uint256",
+                "internalType": "uint256"
+            },
+            {
+                "name": "receiver",
+                "type": "address",
+                "internalType": "address"
             }
         ]
     },
@@ -1446,6 +1710,6 @@ export const dotAgencyABI = [
 ] as const;
 
 export const dotAgency = {
-    address: "0xCccd18a0D886D8709a34f0Fe774a564a5B14D313",
+    address: "0x8e4523Fcb2A2eeE16e73eEe7a1Fe5Aa08B5C48E1",
     abi: dotAgencyABI
 } as const;

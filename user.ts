@@ -17,7 +17,7 @@ const userSelect = await select({
             description: `Unwrap ${chalk.blueBright("Agency")} NFT To Receive ETH or ERC20 Token`
         },
         {
-            name: "Update Config",
+            name: "Add Agency",
             value: "updateAgenctConfig",
             description: `Update Agent Config`
         },

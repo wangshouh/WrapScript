@@ -184,11 +184,6 @@ export const stakeABI = [
                 "name": "accTokenPerShare",
                 "type": "uint256",
                 "internalType": "uint256"
-            },
-            {
-                "name": "tokenReward",
-                "type": "uint256",
-                "internalType": "uint256"
             }
         ],
         "stateMutability": "view"
@@ -205,11 +200,6 @@ export const stakeABI = [
             },
             {
                 "name": "accTokenPerShare",
-                "type": "uint256",
-                "internalType": "uint256"
-            },
-            {
-                "name": "tokenReward",
                 "type": "uint256",
                 "internalType": "uint256"
             }
@@ -798,6 +788,6 @@ export const stakeABI = [
 ] as const;
 
 export const nftStake = {
-    address: "0xFfD6E887068802e4D36351330a470D1733A4a4E8",
+    address: "0x03c1bF78ed7512A8A6e0399568e8eA4089075eb6",
     abi: stakeABI
 } as const;

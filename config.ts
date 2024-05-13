@@ -42,37 +42,37 @@ export const agencyAndAppConfig = [
     "name": "WrapV1Linear",
     "value": "onePercentConfig",
     "description": "User minting price increases by basePremium percentage",
-    "agencyImplementation": "0xE9332e59BA5980BcC010d8eA7308712929e8edED",
-    "appImplementation": "0x586021dd9176bAdecbA4b9711c09Eb113a3AE5b5"
+    "agencyImplementation": "0x54294C89BBc2616e82d029cfEC02086337DcAaB4",
+    "appImplementation": "0xD7f9AEdc733338cAF1318D3654bFaac9894BbdE0"
   },
   {
     "name": "WrapV1Auction",
     "value": "auctionConfig",
     "description": "Minting prices are obtained through auctions",
-    "agencyImplementation": "0x3E5E7961e4A6DE8CFA1f99Dc8F88ca715a103e6A",
-    "appImplementation": "0x586021dd9176bAdecbA4b9711c09Eb113a3AE5b5"
+    "agencyImplementation": "0x3D31c0243f347e648Ed452378171BF5f3349bDBF",
+    "appImplementation": "0xD7f9AEdc733338cAF1318D3654bFaac9894BbdE0"
   },
   {
     "name": "WrapV1RandomWalker",
     "value": "randomConfig",
     "description": "Minting prices are obtained through standard normal random",
-    "agencyImplementation": "0xB43eE6a5021DD7FFed593A193ff60c67967fd32c",
-    "appImplementation": "0x586021dd9176bAdecbA4b9711c09Eb113a3AE5b5"
+    "agencyImplementation": "0x3D31c0243f347e648Ed452378171BF5f3349bDBF",
+    "appImplementation": "0xD7f9AEdc733338cAF1318D3654bFaac9894BbdE0"
   }
 ]
 
-export const defaultDotAgencyTokenURI = "0xf6Da45AE980F4023432a39C5C941068B0b93606c" as `0x${string}`
-export const defaultAgentTokenURI = "0xd1cF94634cc8e7103E56772749Ea476fb815627A" as `0x${string}`
+export const defaultDotAgencyTokenURI = "0xa5e3eFBe9aFAe2CBa2aea3cb53D0Bc49156d3b91" as `0x${string}`
+export const defaultAgentTokenURI = "0x867796AAb89Fa9fbBbacE87a05866597a18Ad050" as `0x${string}`
 
 export const defaultAgentResolver = "0xf3CD8bEcE3F3fc7600a181C3f442C82E430989cD" as `0x${string}`
 export const defaultDotAgencyResolver = "0x9DfaEB6dFe5bfebC5DE0f34035c80D9db83C5eaF" as `0x${string}`
 
-export const WrapCoinAddress = "0xa505379C74b933Ee0458d9Dd5AA9E25A60b6D7f1" as `0x${string}`
+export const WrapCoinAddress = "0x5C15082e027fA9AEbFc1dA703787Fe206f85cd7F" as `0x${string}`
 
 export const tokenURIEngineConfig = [
   {
     "name": "Mairo",
-    "value": "0xd1cF94634cc8e7103E56772749Ea476fb815627A" as `0x${string}`,
+    "value": "0x867796AAb89Fa9fbBbacE87a05866597a18Ad050" as `0x${string}`,
     "description": "Generate Mario-style on-chain images",
   },
   {

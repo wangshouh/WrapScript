@@ -17,7 +17,6 @@ import { sleep } from "bun"
 import { getAgencyStrategy, isApproveOrOwner } from "./utils/data"
 import { existAgentName } from "./utils/resolver"
 import { WrapClaim } from "./abi/wrapClaim"
-import { OuterExpressionKinds } from "typescript"
 
 const accountBalance = await publicClient.getBalance(account)
 
@@ -47,7 +46,8 @@ export const mintDotAgency = async () => {
         }
 
         const userPrice = await inputETHNumber("Maximum cost available for mint(ETH): ", formatEther(nowDotAgencyPrice))
-        await mintDotAgencyName(dotAgencyName, userPrice)
+        const priceNonce = await getPriceNonce()
+        await mintDotAgencyName(dotAgencyName, userPrice, priceNonce)
     }
 }
 
@@ -326,13 +326,39 @@ const updateConfig = async (tokenId?: { name: string, value: number }, agency?: 
     fs.writeFileSync('config.json', JSON.stringify(userConfig))
 }
 
-const mintDotAgencyName = async (name: string, price: bigint) => {
+const getPriceNonce = async () => {
+    const { request, result } = await publicClient.simulateContract({
+        account,
+        ...dotAgency,
+        functionName: 'commit',
+    })
+
+    const commitHash = await walletClient.writeContract(request)
+    console.log(`Commit Hash: ${chalk.blue(commitHash)}`)
+
+    let oneEthToWrap = BigInt(0)
+
+    while (oneEthToWrap == BigInt(0)) {
+        oneEthToWrap = await publicClient.readContract({
+            ...dotAgency,
+            functionName: "getBidWrapPrice",
+            args: [result]
+        })
+        
+        await sleep(12000)
+    }
+    
+    console.log(`Bid Wrap Price: ${chalk.blue(formatEther(oneEthToWrap))}`)
+
+    return result
+}
+const mintDotAgencyName = async (name: string, price: bigint, priceNonce: bigint) => {
     const { request, result } = await publicClient.simulateContract({
         account,
         ...dotAgency,
         value: price,
         functionName: 'mint',
-        args: [name]
+        args: [name, priceNonce]
     })
 
     const mintHash = await walletClient.writeContract(request)
