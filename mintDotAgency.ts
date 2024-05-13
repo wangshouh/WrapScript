@@ -6,7 +6,7 @@ import { agentABI } from './abi/agent'
 import { erc6551AccountABI, erc6551Implementation, erc6551RegistryABI } from './abi/erc6551'
 import { concat, encodeAbiParameters, formatEther, getAddress, getFunctionSelector, keccak256, toHex, parseAbi, parseEther, encodeFunctionData } from "viem"
 import { confirm } from '@inquirer/prompts';
-import { displayNotFundAndExit, inputAddress, selectWrapAddress, selectTokenId, inputETHNumber, inputMoreThanMinimumValue, chooseAgencyNFTWithTokenId, getExtraAgencyConfig } from './utils/display'
+import { displayNotFundAndExit, inputAddress, selectWrapAddress, selectTokenId, inputETHNumber, inputMoreThanMinimumValue, chooseAgencyNFTWithTokenId, getExtraAgencyConfig, selectDotAgency } from './utils/display'
 import { exit } from 'node:process';
 import input from '@inquirer/input';
 import select from '@inquirer/select'
@@ -138,6 +138,24 @@ const getDotAgencyERC6551Address = async (agencyAddress: `0x${string}`) => {
     
     return dotAgencyNFTERC6551Address
 }
+
+const getDotAgencyERC6551AddressByTokenID = async (tokenId: bigint) => {
+    const { result: dotAgencyNFTERC6551Address } = await publicClient.simulateContract({
+        address: dotAgency.address,
+        abi: erc6551RegistryABI,
+        functionName: "createAccount",
+        args: [
+            erc6551Implementation,
+            toHex("DEFAULT_ACCOUNT_SALT", { size: 32 }),
+            BigInt(publicClient.chain!.id),
+            dotAgency.address,
+            tokenId
+        ],
+    })
+    
+    return dotAgencyNFTERC6551Address
+}
+
 
 export const rebaseFee = async () => {
     const agencyAddress = await selectWrapAddress(userConfig)
@@ -675,8 +693,8 @@ const unwrapAgency = async (tokenId: bigint, price: bigint, agencyAddress: `0x${
 }
 
 export const claimLockWrapCoin = async () => {
-    const agencyAddress = await selectWrapAddress(userConfig)
-    const dotAgencyTokenId = await getDotAgencyTokenId(agencyAddress)
+    // const agencyAddress = await selectWrapAddress(userConfig)
+    const dotAgencyTokenId = BigInt(await selectDotAgency(userConfig))
 
     const unlockWrapCoin = await publicClient.readContract({
         ...WrapClaim,
@@ -689,7 +707,8 @@ export const claimLockWrapCoin = async () => {
     const answer = await confirm({ message: 'Continue Claim?' })
 
     if (answer) {
-        const dotAgencyNFTERC6551Address = await getDotAgencyERC6551Address(agencyAddress)
+        const dotAgencyNFTERC6551Address = await getDotAgencyERC6551AddressByTokenID(dotAgencyTokenId)
+        console.log(`Wrap Recipient ERC6551 Address: ${chalk.blue(dotAgencyNFTERC6551Address)}`)
         const data = encodeFunctionData({
             abi: WrapClaim.abi,
             functionName: "claim",

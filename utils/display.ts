@@ -1,6 +1,6 @@
 import { exit } from 'node:process';
 import chalk from 'chalk'
-import { isAddress, getAddress, parseEther, toHex, concat } from "viem"
+import { isAddress, getAddress, parseEther, toHex, concat, parseUnits } from "viem"
 import { UserConfig } from '../config'
 import { select, input } from '@inquirer/prompts';
 import fs from 'fs'
@@ -30,6 +30,11 @@ export const inputETHNumber = async (message: string, defalutMessage?: string) =
     return inputNumber
 }
 
+export const inputTokenNumber = async (message: string, decimals: number, defalutMessage?: string) => {
+    const inputNumber = parseUnits(await input({ message, default: defalutMessage }), decimals)
+    return inputNumber
+}
+
 export const inputMoreThanMinimumValue = async (message: string) => {
     const feePercent = Number.parseInt(await input({ message, validate: (value) => Number.parseInt(value) >= 500 }), 10)
     return feePercent
@@ -55,6 +60,29 @@ export const selectWrapAddress = async (userConfig: UserConfig) => {
     }
 
     return address as `0x${string}`
+}
+
+export const selectDotAgency = async (userConfig: UserConfig) => {
+    let tokenId: number;
+
+    if (userConfig.tokenId.length === 0) {
+        const name = await input({ message: 'Enter Your DotAgency Name:' })
+        tokenId = Number.parseInt(await input({ message: 'Enter Your DotAgency Token ID:' }))
+
+        updateConfig(userConfig, { name: name, value: tokenId })
+    } else {
+        tokenId = await select({
+            message: "Select Your DotAgency TokenId",
+            choices: userConfig.tokenId.map(({ name, value }) => {
+                return {
+                    name: name,
+                    value: value
+                }
+            })
+        })
+    }
+
+    return tokenId
 }
 
 export const selectTokenId = async (userConfig: UserConfig) => {
