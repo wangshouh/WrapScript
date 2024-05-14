@@ -42,10 +42,10 @@ bun run dotAgency.ts
 
 The script provides the following functionality:
 
-- `Bid DotAgency` Pay ETH to get dotAgency NFT has been used for further interactions
+- `Bid .Agency` Pay ETH to get dotAgency NFT has been used for further interactions
 - `Deploy ERC7527` Issue NFT asset pools for dotAgencys. Note that each dotAgency can only deploy one NFT asset pool.
 - `Manage TokenURI` Set default TokenURI engine for managing NFTs
-- `Change DotAgency NFT TokenURI` Modify DotAgency’s tokenURI engine
+- `Change .Agency NFT TokenURI` Modify DotAgency’s tokenURI engine
 - `Config Stake Push` If you use ETH or Wrap Coin as Agency's currency, you can run this command to enable staking configuration.
 - `Claim Lock Wrap Coin` Withdraw locked Wrap Coin
 

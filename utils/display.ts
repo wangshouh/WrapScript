@@ -66,13 +66,13 @@ export const selectDotAgency = async (userConfig: UserConfig) => {
     let tokenId: number;
 
     if (userConfig.tokenId.length === 0) {
-        const name = await input({ message: 'Enter Your DotAgency Name:' })
-        tokenId = Number.parseInt(await input({ message: 'Enter Your DotAgency Token ID:' }))
+        const name = await input({ message: 'Enter Your .Agency Name:' })
+        tokenId = Number.parseInt(await input({ message: 'Enter Your .Agency Token ID:' }))
 
         updateConfig(userConfig, { name: name, value: tokenId })
     } else {
         tokenId = await select({
-            message: "Select Your DotAgency TokenId",
+            message: "Select Your .Agency TokenId",
             choices: userConfig.tokenId.map(({ name, value }) => {
                 return {
                     name: name,

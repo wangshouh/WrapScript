@@ -14,7 +14,7 @@ import fs from 'fs'
 import chalk from 'chalk'
 import boxen from 'boxen'
 import { sleep } from "bun"
-import { getAgencyStrategy, getTokenBaseInfo, isApproveOrOwner } from "./utils/data"
+import { getAgencyStrategy, getDotAgencyERC6551AddressByTokenID, getTokenBaseInfo, isApproveOrOwner } from "./utils/data"
 import { existAgentName } from "./utils/resolver"
 import { WrapClaim } from "./abi/wrapClaim"
 
@@ -31,18 +31,18 @@ export const mintDotAgency = async () => {
 
     displayNotFundAndExit(nowDotAgencyPrice, accountBalance)
 
-    const answer = await confirm({ message: 'Continue Mint DotAgency?' });
+    const answer = await confirm({ message: 'Continue Mint .Agency?' });
 
     if (answer) {
-        let dotAgencyName = (await input({ message: 'Enter DotAgency Name: ' })).toLowerCase()
+        let dotAgencyName = (await input({ message: 'Enter .Agency Name: ' })).toLowerCase()
         while (!normalName(dotAgencyName)) {
             console.log(chalk.red("Name has been registeredThe name can only contain lowercase letters and Arabic numerals."))
-            dotAgencyName = (await input({ message: 'Enter DotAgency Name: ' })).toLowerCase()       
+            dotAgencyName = (await input({ message: 'Enter .Agency Name: ' })).toLowerCase()       
         }
 
         while (await existName(dotAgencyName)) {
             console.log(chalk.red("Name has been registered"))
-            dotAgencyName = (await input({ message: 'Enter DotAgency Name: ' })).toLowerCase()
+            dotAgencyName = (await input({ message: 'Enter .Agency Name: ' })).toLowerCase()
         }
 
         const userPrice = await inputETHNumber("Maximum cost available for mint(ETH): ", formatEther(nowDotAgencyPrice))
@@ -138,24 +138,6 @@ const getDotAgencyERC6551Address = async (agencyAddress: `0x${string}`) => {
     
     return dotAgencyNFTERC6551Address
 }
-
-const getDotAgencyERC6551AddressByTokenID = async (tokenId: bigint) => {
-    const { result: dotAgencyNFTERC6551Address } = await publicClient.simulateContract({
-        address: dotAgency.address,
-        abi: erc6551RegistryABI,
-        functionName: "createAccount",
-        args: [
-            erc6551Implementation,
-            toHex("DEFAULT_ACCOUNT_SALT", { size: 32 }),
-            BigInt(publicClient.chain!.id),
-            dotAgency.address,
-            tokenId
-        ],
-    })
-    
-    return dotAgencyNFTERC6551Address
-}
-
 
 export const rebaseFee = async () => {
     const agencyAddress = await selectWrapAddress(userConfig)

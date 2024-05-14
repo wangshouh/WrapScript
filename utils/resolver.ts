@@ -147,7 +147,7 @@ export const setDotResolverInCLI = async () => {
         })
 
         const setResolverHash = await walletClient.writeContract(request)
-        console.log(`Set DotAgency Resolver Hash: ${chalk.blue(setResolverHash)}`)
+        console.log(`Set .Agency Resolver Hash: ${chalk.blue(setResolverHash)}`)
     }
 }
 
@@ -207,7 +207,7 @@ export const setDotAgencyResolverAddrInCLI = async () => {
         })
 
         const setAddrHash = await walletClient.writeContract(request)
-        console.log(`Set DotAgency Addr Hash: ${chalk.blue(setAddrHash)}`)
+        console.log(`Set .Agency Addr Hash: ${chalk.blue(setAddrHash)}`)
     }
 }
 

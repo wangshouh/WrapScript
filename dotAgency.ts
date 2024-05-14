@@ -7,24 +7,24 @@ const userSelect = await select({
     message: "Wrap Coin Interaction Selection",
     choices: [
         {
-            name: "Bid DotAgency",
+            name: "Bid .Agency",
             value: "mintDotAgency",
             description: "Spend ETH to mint agency to participate"
         },
         {
             name: "Deploy ERC7527",
             value: "deployAppAndAgency",
-            description: `Deploy ERC7527. This process can be done after ${chalk.blueBright("Bid DotAgency")}`
+            description: `Deploy ERC7527. This process can be done after ${chalk.blueBright("Bid .Agency")}`
         },
         {
-            name: "Manage TokenURI",
+            name: "Manage Agents TokenURI",
             value: "setTokenURIEngine",
             description: `Manage agents' TokenURI.`
         },
         {
-            name: "Change DotAgency NFT TokenURI",
+            name: "Change .Agency NFT TokenURI",
             value: "changeDotAgencyTokenURI",
-            description: `Change Agency's TokenURI.`
+            description: `Change .Agency's TokenURI.`
         },
         {
             name: "Exact Fee From Agency",

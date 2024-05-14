@@ -1,6 +1,6 @@
 import { select } from "@inquirer/prompts"
 import { WrapCoinAddress, account, publicClient, walletClient } from "./config"
-import { inputAddress, inputETHNumber, inputTokenNumber } from "./utils/display"
+import { inputAddress, inputTokenNumber } from "./utils/display"
 import { erc6551AccountABI } from "./abi/erc6551"
 import chalk from 'chalk'
 import { exit } from 'node:process';
