@@ -4,9 +4,9 @@ import { factoryABI, wrapFactory } from "./abi/factory"
 import { agencyABI, appABI } from './abi/agency'
 import { agentABI } from './abi/agent'
 import { erc6551AccountABI, erc6551Implementation, erc6551RegistryABI } from './abi/erc6551'
-import { concat, encodeAbiParameters, formatEther, getAddress, getFunctionSelector, keccak256, toHex, parseAbi, parseEther, encodeFunctionData } from "viem"
+import { concat, encodeAbiParameters, formatEther, getAddress, getFunctionSelector, keccak256, toHex, parseAbi, encodeFunctionData, formatUnits, parseUnits } from "viem"
 import { confirm } from '@inquirer/prompts';
-import { displayNotFundAndExit, inputAddress, selectWrapAddress, selectTokenId, inputETHNumber, inputMoreThanMinimumValue, chooseAgencyNFTWithTokenId, getExtraAgencyConfig, selectDotAgency } from './utils/display'
+import { displayNotFundAndExit, inputAddress, selectWrapAddress, selectTokenId, inputETHNumber, inputMoreThanMinimumValue, chooseAgencyNFTWithTokenId, getExtraAgencyConfig, selectDotAgency, inputTokenNumber } from './utils/display'
 import { exit } from 'node:process';
 import input from '@inquirer/input';
 import select from '@inquirer/select'
@@ -14,7 +14,7 @@ import fs from 'fs'
 import chalk from 'chalk'
 import boxen from 'boxen'
 import { sleep } from "bun"
-import { getAgencyStrategy, isApproveOrOwner } from "./utils/data"
+import { getAgencyStrategy, getTokenBaseInfo, isApproveOrOwner } from "./utils/data"
 import { existAgentName } from "./utils/resolver"
 import { WrapClaim } from "./abi/wrapClaim"
 
@@ -159,6 +159,9 @@ const getDotAgencyERC6551AddressByTokenID = async (tokenId: bigint) => {
 
 export const rebaseFee = async () => {
     const agencyAddress = await selectWrapAddress(userConfig)
+    const agencyStrategy = await getAgencyStrategy(agencyAddress)
+    const { decimals} = await getTokenBaseInfo(agencyStrategy[1].currency)
+
     const dotAgencyNFTERC6551Address = await getDotAgencyERC6551Address(agencyAddress)
 
     console.log(`Agency NFT ERC6551 Address: ${chalk.blue(dotAgencyNFTERC6551Address)}`)
@@ -170,7 +173,7 @@ export const rebaseFee = async () => {
     })
 
     const dotAgencyFee = agencyFee / BigInt(6)
-    console.log(`Withdraw Fee: ${chalk.blue(formatEther(dotAgencyFee))}`)
+    console.log(`Withdraw Fee: ${chalk.blue(formatUnits(dotAgencyFee, decimals))}`)
 
     const answer = await confirm({ message: 'Continue Withdraw Fee?' });
 
@@ -191,17 +194,19 @@ export const wrap = async () => {
     const agencyAddress = await selectWrapAddress(userConfig)
     const agencyStrategy = await getAgencyStrategy(agencyAddress)
 
-    const tokenName = await getERC20Name(agencyStrategy[1].currency)
+    // const tokenName = await getERC20Name(agencyStrategy[1].currency)
+    const { name: tokenName, decimals: tokeDecimals } = await getTokenBaseInfo(agencyStrategy[1].currency)
+    
     const userBalance = await getUserBalance(agencyStrategy[1].currency)
 
     const nowAgencyPrice = await getAgentMintPrice(agencyAddress, agencyStrategy[0])
     
-    console.log(`Agent NFT Price is ${chalk.blue(formatEther(nowAgencyPrice[0]))} ${tokenName}, Fee is ${chalk.blue(formatEther(nowAgencyPrice[1]))} ${tokenName}`)
-    console.log(`Your Balance is ${chalk.blue(formatEther(userBalance))} ${tokenName}`)
+    console.log(`Agent NFT Price is ${chalk.blue(formatUnits(nowAgencyPrice[0]), tokeDecimals)} ${tokenName}, Fee is ${chalk.blue(formatUnits(nowAgencyPrice[1]), tokeDecimals)} ${tokenName}`)
+    console.log(`Your Balance is ${chalk.blue(formatUnits(userBalance), tokeDecimals)} ${tokenName}`)
 
     displayNotFundAndExit(nowAgencyPrice[0] + nowAgencyPrice[1], userBalance)
     
-    const userSlippagePrice = await inputETHNumber("Maximum cost available for mint: ", formatEther(nowAgencyPrice[0] + nowAgencyPrice[1]))
+    const userSlippagePrice = await inputTokenNumber("Maximum cost available for mint: ", tokeDecimals, formatUnits(nowAgencyPrice[0] + nowAgencyPrice[1], tokeDecimals))
     let agencyTokenName = (await input({ message: 'Enter Agent Name: ' })).toLowerCase()
 
     while (await existAgentName(agencyTokenName, agencyStrategy[0])) {
@@ -219,11 +224,12 @@ export const wrap = async () => {
 export const unwrap = async () => {
     const agencyAddress = await selectWrapAddress(userConfig)
     const agencyStrategy = await getAgencyStrategy(agencyAddress)
-    const tokenName = await getERC20Name(agencyStrategy[1].currency)
+    // const tokenName = await getERC20Name(agencyStrategy[1].currency)
+    const { name: tokenName, decimals } = await getTokenBaseInfo(agencyStrategy[1].currency)
 
     const burnGet = await getAgenctBurnPrice(agencyAddress, agencyStrategy[0])
 
-    console.log(`Burn NFT will get ${chalk.blue(formatEther(burnGet[0] - burnGet[1]))} ${tokenName}`)
+    console.log(`Burn NFT will get ${chalk.blue(formatUnits(burnGet[0] - burnGet[1], decimals))} ${tokenName}`)
 
     const answer = await confirm({ message: 'Continue Burn Agent NFT?' })
 
@@ -496,8 +502,9 @@ const getAgencyConfig = async (agencyImplementation: `0x${string}`, appImplement
     }
 
     const currency = await inputAddress('Enter ERC20 address (zero address is ETH):', '0x0000000000000000000000000000000000000000')
-    const currencyName = await getERC20Name(currency)
-    const basePremium = parseEther(await input({ message: 'Enter Base Premium:' }))
+    // const currencyName = await getERC20Name(currency)
+    const { name: currencyName, decimals: tokeDecimals } = await getTokenBaseInfo(currency)
+    const basePremium = parseUnits(await input({ message: 'Enter Base Premium:' }), tokeDecimals)
     const feeRecipient = getAddress('0x0000000000000000000000000000000000000000')
     const mintFeePercent = await inputMoreThanMinimumValue('Enter Mint Fee Percent(>=500):')
     const burnFeePercent = await inputMoreThanMinimumValue('Enter Burn Fee Percent(>=500):')
@@ -622,25 +629,22 @@ const wrapAgency = async (name: string, price: bigint, agencyAddress: `0x${strin
         console.log(`Mint Hash: ${chalk.blue(mintHash)}`)
     } else {
         const userApproveValue = await getERC20Approve(tokenAddress, agencyAddress)
-        // console.log(`Approve Value: ${chalk.blue(formatEther(userApproveValue))}`)
-        // console.log(`Price: ${chalk.blue(formatEther(price))}`)
-        if (userApproveValue < price) {
-            const userNewApprove = await inputETHNumber("Enter New Approve Value: ", formatEther(price))
+        const { decimals } = await getTokenBaseInfo(tokenAddress)
+        console.log(`Approve Value: ${chalk.blue(formatUnits(userApproveValue), decimals)}`)
+        if (userApproveValue < price) { 
+            const userNewApprove = await inputTokenNumber("Enter New Approve Value: ", decimals, formatUnits(price, decimals))
             await setERC20Approve(tokenAddress, agencyAddress, userNewApprove)
-            let nowblockNumber = await publicClient.getBlockNumber()
-            const nextBlockNumber = nowblockNumber + BigInt(10)
+            let approveValue = await getERC20Approve(tokenAddress, agencyAddress)
 
-            while (nowblockNumber < nextBlockNumber) {
-                await sleep(50000)
-
-                nowblockNumber = await publicClient.getBlockNumber()
+            while (approveValue < price) {
+                approveValue = await getERC20Approve(tokenAddress, agencyAddress)
+                await sleep(12)
             }
 
             const { request, result } = await publicClient.simulateContract({
                 account,
                 address: agencyAddress,
                 abi: agencyABI,
-                blockNumber: nowblockNumber,
                 functionName: 'wrap',
                 args: [
                     toAddress,
