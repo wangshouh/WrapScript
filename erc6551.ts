@@ -72,7 +72,7 @@ const erc6551TransferERC20 = async (erc6551Address: `0x${string}`) => {
         args: [erc6551Address]
     })
 
-    console.log(`ERC661 ${tokenName.result} Balance: ${chalk.blue(formatUnits(erc20Balance, tokeDecimals.result!))}`)
+    console.log(`ERC6551 ${tokenName.result} Balance: ${chalk.blue(formatUnits(erc20Balance, tokeDecimals.result!))}`)
 
     const toAddress = await inputAddress(`Enter ${tokenName.result} Receiver Address: `, walletClient.account?.address)
     const amount = await inputTokenNumber("Enter Amount: ", tokeDecimals.result!, formatUnits(erc20Balance, tokeDecimals.result!))
