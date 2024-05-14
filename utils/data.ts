@@ -1,5 +1,8 @@
+import { toHex } from "viem"
 import { agencyABI, appABI } from "../abi/agency"
+import { dotAgency } from "../abi/dotAgency"
 import { erc20Abi } from "../abi/erc20Abi"
+import { erc6551Implementation, erc6551RegistryABI } from "../abi/erc6551"
 import { account, publicClient } from "../config"
 
 
@@ -74,4 +77,38 @@ export const getTokenBaseInfo = async (erc20Address: `0x${string}`) => {
             decimals: tokeDecimals.result!
         }
     }
+}
+
+export const getDotAgencyERC6551AddressByTokenID = async (tokenId: bigint) => {
+    const { result: dotAgencyNFTERC6551Address } = await publicClient.simulateContract({
+        address: dotAgency.address,
+        abi: erc6551RegistryABI,
+        functionName: "createAccount",
+        args: [
+            erc6551Implementation,
+            toHex("DEFAULT_ACCOUNT_SALT", { size: 32 }),
+            BigInt(publicClient.chain!.id),
+            dotAgency.address,
+            tokenId
+        ],
+    })
+    
+    return dotAgencyNFTERC6551Address
+}
+
+export const getAgentERC6551AddressByTokenID = async (agentAddress: `0x${string}`, tokenId: bigint) => {
+    const { result: agentERC6551Address } = await publicClient.simulateContract({
+        address: agentAddress,
+        abi: erc6551RegistryABI,
+        functionName: "createAccount",
+        args: [
+            erc6551Implementation,
+            toHex("DEFAULT_ACCOUNT_SALT", { size: 32 }),
+            BigInt(publicClient.chain!.id),
+            agentAddress,
+            tokenId
+        ],
+    })
+
+    return agentERC6551Address
 }

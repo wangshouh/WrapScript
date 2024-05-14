@@ -4,7 +4,7 @@ import { account, walletClient, publicClient, userConfig, WrapCoinAddress } from
 import { chooseAgencyNFTWithTokenId, displayConfirmAndExit, selectWrapAddress } from './display'
 import select from '@inquirer/select'
 import chalk from 'chalk'
-import { getAgencyStrategy } from "./data"
+import { getAgencyStrategy, getAgentERC6551AddressByTokenID } from "./data"
 import { formatEther, parseEther } from "viem"
 
 export const approvePush = async () => {
@@ -176,7 +176,9 @@ const updatePoolL2 = async () => {
 
 const withdrawReward = async () => {
     const { agencyTokenId, agencyStrategy } = await chooseAgencyNFTWithTokenId(userConfig)
-
+    const agentERC6551Address = await getAgentERC6551AddressByTokenID(agencyStrategy[0], agencyTokenId)
+    console.log(`Agent ERC6551 Address: ${chalk.blue(agentERC6551Address)}`)
+    
     const reward = await publicClient.readContract({
         ...nftStake,
         functionName: "pendingRewards",
