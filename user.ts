@@ -31,23 +31,49 @@ const userSelect = await select({
             value: "createERC6551Account",
             description: `Create an ERC6551 account for the NFT with the specified tokenId`
         },
-        // {
-        //     name: "Set Resolver",
-        //     value: "setResolver",
-        //     description: `Set Agent Resolver`
-        // },
-        // {
-        //     name: "Bond AI APP",
-        //     value: "bondAPP",
-        //     description: "Use resolver to bond other applications"
-        // },
-        // {
-        //     name: "Read Bond Records",
-        //     value: "readBond",
-        //     description: "Use resolver to read bind records"
-        // }
+        {
+            name: "Manage Resolver",
+            value: "manageResolver",
+            description: `Manage Resolver`
+        }
     ]
 })
+
+
+const resolverManage = async () => {
+    const resolverSelect = await select({
+        message: "Wrap Coin Resolver Operation",
+        choices: [
+            {
+                name: "Set Resolver",
+                value: "setResolver",
+                description: `Set Agent Resolver`
+            },
+            {
+                name: "Bond AI APP",
+                value: "bondAPP",
+                description: "Use resolver to bond other applications"
+            },
+            {
+                name: "Read Bond Records",
+                value: "readBond",
+                description: "Use resolver to read bind records"
+            }
+        ]
+    })
+
+    switch (resolverSelect) {
+        case "setResolver":
+            setResolverInCLI()
+            break
+        case "bondAPP":
+            setResolverBondInCLI()
+            break
+        case "readBond":
+            getResolverBondInCLI()
+            break
+    }
+}
 
 switch (userSelect) {
     case "wrap":
@@ -57,7 +83,7 @@ switch (userSelect) {
     case "unwrap":
         await unwrap()
         break;
-    
+
     case "updateAgenctConfig":
         await updateAgenctConfig()
         break;
@@ -70,16 +96,8 @@ switch (userSelect) {
         await createERC6551Account()
         break;
 
-    case "setResolver":
-        await setResolverInCLI()
-        break;
-    
-    case "bondAPP":
-        await setResolverBondInCLI()
-        break;
-        
-    case "readBond":
-        await getResolverBondInCLI()
+    case "manageResolver":
+        await resolverManage()
         break;
 
     default:
