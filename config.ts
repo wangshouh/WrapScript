@@ -61,7 +61,7 @@ export const agencyAndAppConfig = [
   }
 ]
 
-export const defaultDotAgencyTokenURI = "0xa5e3eFBe9aFAe2CBa2aea3cb53D0Bc49156d3b91" as `0x${string}`
+export const defaultDotAgencyTokenURI = "0x082C2C381ca9d4adC0aEb2551ec5f6bd4777cB97" as `0x${string}`
 export const defaultAgentTokenURI = "0x867796AAb89Fa9fbBbacE87a05866597a18Ad050" as `0x${string}`
 
 export const defaultAgentResolver = "0xf3CD8bEcE3F3fc7600a181C3f442C82E430989cD" as `0x${string}`
