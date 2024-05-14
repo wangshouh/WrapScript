@@ -133,7 +133,7 @@ const updateConfig = async (userConfig: UserConfig, tokenId?: { name: string, va
 
 export const getExtraAgencyConfig = async (agencyImplementation: `0x${string}`) => {
     switch (agencyImplementation) {
-        case "0xE9332e59BA5980BcC010d8eA7308712929e8edED":
+        case "0xA1bFB2dfe4D74B7729ED986A3DfDB60Db95Ae9eE":
             const coef = Number(await input({ message: "Please enter the k(integer): " }))
             
             const finalArgs = toHex(coef, { size: 32})
