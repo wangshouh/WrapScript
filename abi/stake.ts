@@ -788,6 +788,6 @@ export const stakeABI = [
 ] as const;
 
 export const nftStake = {
-    address: "0x03c1bF78ed7512A8A6e0399568e8eA4089075eb6",
+    address: "0xdc62d5D7D3d780353E083524d658655504Dd3f6D",
     abi: stakeABI
 } as const;

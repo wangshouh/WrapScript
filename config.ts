@@ -42,37 +42,37 @@ export const agencyAndAppConfig = [
     "name": "WrapV1Linear",
     "value": "onePercentConfig",
     "description": "User minting price increases by basePremium percentage",
-    "agencyImplementation": "0x54294C89BBc2616e82d029cfEC02086337DcAaB4",
-    "appImplementation": "0xD7f9AEdc733338cAF1318D3654bFaac9894BbdE0"
+    "agencyImplementation": "0xA1bFB2dfe4D74B7729ED986A3DfDB60Db95Ae9eE",
+    "appImplementation": "0x31E7D791A773d57e2f1DFeF6A60eF3ecBe91e9ae"
   },
   {
     "name": "WrapV1Auction",
     "value": "auctionConfig",
     "description": "Minting prices are obtained through auctions",
-    "agencyImplementation": "0x3D31c0243f347e648Ed452378171BF5f3349bDBF",
-    "appImplementation": "0xD7f9AEdc733338cAF1318D3654bFaac9894BbdE0"
+    "agencyImplementation": "0x8676fBF60F366F5A7E235F9B92a24cA73a645b16",
+    "appImplementation": "0x31E7D791A773d57e2f1DFeF6A60eF3ecBe91e9ae"
   },
   {
     "name": "WrapV1RandomWalker",
     "value": "randomConfig",
     "description": "Minting prices are obtained through standard normal random",
-    "agencyImplementation": "0x3D31c0243f347e648Ed452378171BF5f3349bDBF",
-    "appImplementation": "0xD7f9AEdc733338cAF1318D3654bFaac9894BbdE0"
+    "agencyImplementation": "0x0BDa43F095ec10d5B9451b03045Cd9ff1eB3Bef8",
+    "appImplementation": "0x31E7D791A773d57e2f1DFeF6A60eF3ecBe91e9ae"
   }
 ]
 
-export const defaultDotAgencyTokenURI = "0x082C2C381ca9d4adC0aEb2551ec5f6bd4777cB97" as `0x${string}`
-export const defaultAgentTokenURI = "0x867796AAb89Fa9fbBbacE87a05866597a18Ad050" as `0x${string}`
+export const defaultDotAgencyTokenURI = "0x1B8fe4E5FbfdBD96f282C7c73D168C815a6a1129" as `0x${string}`
+export const defaultAgentTokenURI = "0x73f7e324F4B3d029240e4d36D70CAdFcA7F2E100" as `0x${string}`
 
-export const defaultAgentResolver = "0xf3CD8bEcE3F3fc7600a181C3f442C82E430989cD" as `0x${string}`
-export const defaultDotAgencyResolver = "0x9DfaEB6dFe5bfebC5DE0f34035c80D9db83C5eaF" as `0x${string}`
+export const defaultAgentResolver = "0xfBa79bbb6c8dbf425A68AE24042e3d3DfbD43b50" as `0x${string}`
+export const defaultDotAgencyResolver = "0x9E62C2Ca053C0a7F299985816A016c2Bd546D41D" as `0x${string}`
 
-export const WrapCoinAddress = "0x5C15082e027fA9AEbFc1dA703787Fe206f85cd7F" as `0x${string}`
+export const WrapCoinAddress = "0x4E3204D041299a55989F22752c528089A9c51BfD" as `0x${string}`
 
 export const tokenURIEngineConfig = [
   {
     "name": "Mairo",
-    "value": "0x867796AAb89Fa9fbBbacE87a05866597a18Ad050" as `0x${string}`,
+    "value": "0x73f7e324F4B3d029240e4d36D70CAdFcA7F2E100" as `0x${string}`,
     "description": "Generate Mario-style on-chain images",
   },
   {
