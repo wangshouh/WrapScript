@@ -4,7 +4,7 @@ import { inputAddress, inputTokenNumber } from "./utils/display"
 import { erc6551AccountABI } from "./abi/erc6551"
 import chalk from 'chalk'
 import { exit } from 'node:process';
-import { encodeFunctionData } from "viem"
+import { encodeFunctionData, formatUnits, parseUnits } from "viem"
 import { erc20Abi } from "./abi/erc20Abi"
 
 export const erc6551Select = async () => {
@@ -65,8 +65,17 @@ const erc6551TransferERC20 = async (erc6551Address: `0x${string}`) => {
         ]
     })
 
+    const erc20Balance = await publicClient.readContract({
+        address: erc20Address,
+        abi: erc20Abi,
+        functionName: "balanceOf",
+        args: [erc6551Address]
+    })
+
+    console.log(`ERC661 ${tokenName.result} Balance: ${chalk.blue(formatUnits(erc20Balance, tokeDecimals.result!))}`)
+
     const toAddress = await inputAddress(`Enter ${tokenName.result} Receiver Address: `, walletClient.account?.address)
-    const amount = await inputTokenNumber("Enter Amount: ", tokeDecimals.result!)
+    const amount = await inputTokenNumber("Enter Amount: ", tokeDecimals.result!, formatUnits(erc20Balance, tokeDecimals.result!))
 
     const transferCalldata = encodeFunctionData({
         abi: erc20Abi,

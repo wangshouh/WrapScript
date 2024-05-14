@@ -183,8 +183,8 @@ export const wrap = async () => {
 
     const nowAgencyPrice = await getAgentMintPrice(agencyAddress, agencyStrategy[0])
     
-    console.log(`Agent NFT Price is ${chalk.blue(formatUnits(nowAgencyPrice[0]), tokeDecimals)} ${tokenName}, Fee is ${chalk.blue(formatUnits(nowAgencyPrice[1]), tokeDecimals)} ${tokenName}`)
-    console.log(`Your Balance is ${chalk.blue(formatUnits(userBalance), tokeDecimals)} ${tokenName}`)
+    console.log(`Agent NFT Price is ${chalk.blue(formatUnits(nowAgencyPrice[0], tokeDecimals))} ${tokenName}, Fee is ${chalk.blue(formatUnits(nowAgencyPrice[1], tokeDecimals))} ${tokenName}`)
+    console.log(`Your Balance is ${chalk.blue(formatUnits(userBalance, tokeDecimals))} ${tokenName}`)
 
     displayNotFundAndExit(nowAgencyPrice[0] + nowAgencyPrice[1], userBalance)
     
@@ -612,7 +612,7 @@ const wrapAgency = async (name: string, price: bigint, agencyAddress: `0x${strin
     } else {
         const userApproveValue = await getERC20Approve(tokenAddress, agencyAddress)
         const { decimals } = await getTokenBaseInfo(tokenAddress)
-        console.log(`Approve Value: ${chalk.blue(formatUnits(userApproveValue), decimals)}`)
+        console.log(`Approve Value: ${chalk.blue(formatUnits(userApproveValue, decimals))}`)
         if (userApproveValue < price) { 
             const userNewApprove = await inputTokenNumber("Enter New Approve Value: ", decimals, formatUnits(price, decimals))
             await setERC20Approve(tokenAddress, agencyAddress, userNewApprove)
