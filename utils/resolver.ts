@@ -168,7 +168,7 @@ export const setResolverBondInCLI = async () => {
             const { request } = await publicClient.simulateContract({
                 address: resolverAddress,
                 abi: AgentResolverABI,
-                functionName: "setUniBond",
+                functionName: "setText",
                 args: [agentAddress, nodeHash, bondKeyHash, bondValue]
             })
 
@@ -222,7 +222,7 @@ export const getResolverBondInCLI = async () => {
         const readBond = await publicClient.readContract({
             address: resolverAddress,
             abi: AgentResolverABI,
-            functionName: "bond",
+            functionName: "text",
             args: [nodeHash, bondKeyHash]
         })
 
