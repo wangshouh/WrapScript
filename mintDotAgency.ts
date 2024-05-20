@@ -155,7 +155,7 @@ export const rebaseFee = async () => {
     })
 
     const dotAgencyFee = agencyFee / BigInt(6)
-    console.log(`Withdraw Fee: ${chalk.blue(formatUnits(dotAgencyFee * 5, decimals))}`)
+    console.log(`Withdraw Fee: ${chalk.blue(formatUnits(dotAgencyFee * BigInt(5), decimals))}`)
 
     const answer = await confirm({ message: 'Continue Withdraw Fee?' });
 
@@ -613,7 +613,7 @@ const wrapAgency = async (name: string, price: bigint, agencyAddress: `0x${strin
         const userApproveValue = await getERC20Approve(tokenAddress, agencyAddress)
         const { decimals } = await getTokenBaseInfo(tokenAddress)
         console.log(`Approve Value: ${chalk.blue(formatUnits(userApproveValue, decimals))}`)
-        if (userApproveValue < price) { 
+        if (userApproveValue < price) {
             const userNewApprove = await inputTokenNumber("Enter New Approve Value: ", decimals, formatUnits(price, decimals))
             await setERC20Approve(tokenAddress, agencyAddress, userNewApprove)
             let approveValue = await getERC20Approve(tokenAddress, agencyAddress)
