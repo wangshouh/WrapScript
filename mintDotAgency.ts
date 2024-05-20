@@ -1,4 +1,4 @@
-import { account, walletClient, publicClient, agencyAndAppConfig, userConfig, defaultDotAgencyTokenURI, defaultAgentTokenURI } from "./config"
+import { account, walletClient, publicClient, agencyAndAppConfig, userConfig, defaultDotAgencyTokenURI, defaultAgentTokenURI, WrapCoinAddress } from "./config"
 import { dotAgency } from "./abi/dotAgency"
 import { factoryABI, wrapFactory } from "./abi/factory"
 import { agencyABI, appABI } from './abi/agency'
@@ -461,7 +461,7 @@ const getAgencyConfig = async (agencyImplementation: `0x${string}`, appImplement
         updateConfig({ name: name, value: tokenId })
     } else {
         tokenId = Number.parseInt(await select({
-            message: "Select Your Agency Token",
+            message: "Select Your .Agency Token",
             choices: userConfig.tokenId.map(({ name, value }) => {
                 return {
                     name: name,
@@ -482,8 +482,8 @@ const getAgencyConfig = async (agencyImplementation: `0x${string}`, appImplement
         console.log(chalk.red('Agency has been registered in factory'))
         exit()
     }
-
-    const currency = await inputAddress('Enter ERC20 address (zero address is ETH):', '0x0000000000000000000000000000000000000000')
+    // '0x0000000000000000000000000000000000000000'
+    const currency = await inputAddress('Enter ERC20 address (zero address is ETH):', WrapCoinAddress)
     // const currencyName = await getERC20Name(currency)
     const { name: currencyName, decimals: tokeDecimals } = await getTokenBaseInfo(currency)
     const basePremium = parseUnits(await input({ message: 'Enter Base Premium:' }), tokeDecimals)
