@@ -26,7 +26,7 @@ export const mintDotAgency = async () => {
         functionName: "getPrice",
     })
 
-    console.log(`Agency NFT Price is ${chalk.blue(formatEther(nowDotAgencyPrice))} ETH`)
+    console.log(`.Agency NFT Price is ${chalk.blue(formatEther(nowDotAgencyPrice))} ETH`)
     console.log(`Your ETH Balance is ${chalk.blue(formatEther(accountBalance))} ETH`)
 
     displayNotFundAndExit(nowDotAgencyPrice, accountBalance)
