@@ -461,7 +461,7 @@ const getAgencyConfig = async (agencyImplementation: `0x${string}`, appImplement
         updateConfig({ name: name, value: tokenId })
     } else {
         tokenId = Number.parseInt(await select({
-            message: "Select Your .Agency Token",
+            message: "Select Your .Agency",
             choices: userConfig.tokenId.map(({ name, value }) => {
                 return {
                     name: name,
