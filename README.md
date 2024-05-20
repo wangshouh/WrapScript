@@ -62,7 +62,10 @@ The script only contains the following three functions:
 - `Add Agency` Enter the agency address to obtain relevant information and write it to the configuration file
 - `Set TokenURI Engine` Modify the tokenURI engine of personal NFT
 - `Create ERC6551 Account` Create an ERC6551 account for NFT
-
+- `Manage Resolver` Manage the resolver of NFT, contains the following functions:
+    - `Set Resolver` Set the resolver of NFT
+    - `Bond AI APP` Use `TXT` record form to bind keys and corresponding values
+    - `Read Bond Records` Enter key to find its corresponding value
 The following command is used for staking of ERC7527. Before running the following command, please make sure you have executed the `Config Stake Push` command in `bun dotAgency.ts`.
 
 ```bash
