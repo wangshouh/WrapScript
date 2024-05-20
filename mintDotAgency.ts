@@ -155,7 +155,7 @@ export const rebaseFee = async () => {
     })
 
     const dotAgencyFee = agencyFee / BigInt(6)
-    console.log(`Withdraw Fee: ${chalk.blue(formatUnits(dotAgencyFee, decimals))}`)
+    console.log(`Withdraw Fee: ${chalk.blue(formatUnits(dotAgencyFee * 5, decimals))}`)
 
     const answer = await confirm({ message: 'Continue Withdraw Fee?' });
 
