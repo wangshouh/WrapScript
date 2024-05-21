@@ -75,9 +75,14 @@ bun run stake.ts
 
 The script only contains the following five functions:
 
-- `Stake NFT` Staking NFT obtained through wrap
-- `Unstake NFT` Unstaking NFT
-- `Update Pool L1` Start the L1 staking epoch.
-- `Withdraw L1 Reward` Withdraw dotAgency rewards and divide funds for L2
-- `Update Pool L2` Use the funds allocated by L1 to L2 to start the epoch of L2
-- `Withdraw NFT Stake Reward` Withdraw rewards from staked NFT
+- `NFT Stake` Staking NFT using Wrap Coin and ETH as currency 
+    - `Stake NFT` Staking NFT obtained through wrap
+    - `Unstake NFT` Unstaking NFT
+    - `Update Pool L1` Start the L1 staking epoch.
+    - `Withdraw L1 Reward` Withdraw dotAgency rewards and divide funds for L2
+    - `Update Pool L2` Use the funds allocated by L1 to L2 to start the epoch of L2
+    - `Withdraw NFT Stake Reward` Withdraw rewards from staked NFT
+- `LP Token Stake` Staking WRAP-ETH LP Token in Uniswap V2
+    - `Stake LP Token` Staking LP Token
+    - `Claim LP Token Reward` Claim LP Token rewards
+    - `Unstake LP Token` Withdraw LP Token
