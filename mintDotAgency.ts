@@ -14,7 +14,7 @@ import fs from 'fs'
 import chalk from 'chalk'
 import boxen from 'boxen'
 import { sleep } from "bun"
-import { getAgencyStrategy, getDotAgencyERC6551AddressByTokenID, getTokenBaseInfo, isApproveOrOwner } from "./utils/data"
+import { getAgencyStrategy, getDotAgencyERC6551AddressByTokenID, getERC20Approve, getTokenBaseInfo, isApproveOrOwner } from "./utils/data"
 import { existAgentName } from "./utils/resolver"
 import { WrapClaim } from "./abi/wrapClaim"
 
@@ -387,16 +387,7 @@ const getERC20Name = async (tokenAddress: `0x${string}`) => {
     }
 }
 
-const getERC20Approve = async (tokenAddress: `0x${string}`, agencyAddress: `0x${string}`) => {
-    const result = await publicClient.readContract({
-        address: tokenAddress,
-        abi: parseAbi(['function allowance(address, address) view returns (uint256)']),
-        functionName: "allowance",
-        args: [account.address, agencyAddress]
-    })
 
-    return result
-}
 
 const setERC20Approve = async (tokenAddress: `0x${string}`, agencyAddress: `0x${string}`, tokenAmount: bigint) => {
     const { request } = await publicClient.simulateContract({

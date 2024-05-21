@@ -1,4 +1,4 @@
-import { toHex } from "viem"
+import { parseAbi, toHex } from "viem"
 import { agencyABI, appABI } from "../abi/agency"
 import { dotAgency } from "../abi/dotAgency"
 import { erc20Abi } from "../abi/erc20Abi"
@@ -111,4 +111,15 @@ export const getAgentERC6551AddressByTokenID = async (agentAddress: `0x${string}
     })
 
     return agentERC6551Address
+}
+
+export const getERC20Approve = async (tokenAddress: `0x${string}`, agencyAddress: `0x${string}`) => {
+    const result = await publicClient.readContract({
+        address: tokenAddress,
+        abi: parseAbi(['function allowance(address, address) view returns (uint256)']),
+        functionName: "allowance",
+        args: [account.address, agencyAddress]
+    })
+
+    return result
 }

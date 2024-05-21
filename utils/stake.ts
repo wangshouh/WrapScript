@@ -1,11 +1,13 @@
-import { nftStake } from "../abi/stake"
+import { lpStake, nftStake } from "../abi/stake"
 import { agencyABI } from "../abi/agency"
-import { account, walletClient, publicClient, userConfig, WrapCoinAddress } from "../config"
-import { chooseAgencyNFTWithTokenId, displayConfirmAndExit, selectWrapAddress } from './display'
+import { account, walletClient, publicClient, userConfig, WrapCoinAddress, uniswapV2Pair } from "../config"
+import { chooseAgencyNFTWithTokenId, displayConfirmAndExit, inputETHNumber, selectWrapAddress } from './display'
 import select from '@inquirer/select'
 import chalk from 'chalk'
-import { getAgencyStrategy, getAgentERC6551AddressByTokenID } from "./data"
+import { getAgencyStrategy, getAgentERC6551AddressByTokenID, getERC20Approve } from "./data"
 import { formatEther } from "viem"
+import { erc20Abi } from "../abi/erc20Abi"
+import { sleep } from "bun"
 
 export const approvePush = async () => {
     const agencyAddress = await selectWrapAddress(userConfig)
@@ -229,9 +231,9 @@ const unstakeAgencyNFT = async () => {
     console.log(`Unstake Hash: ${chalk.blue(unstakeHash)}`)
 }
 
-export const stakeSelect = async () => {
+const nftStakeStep = async () => {
     const selectStake = await select({
-        message: "Select the stake steps",
+        message: "Select the NFT stake steps",
         choices: [
             {
                 name: "Stake NFT",
@@ -288,6 +290,194 @@ export const stakeSelect = async () => {
 
         case "withdrawReward":
             await withdrawReward()
+            break
+
+        default:
+            break
+    }  
+}
+
+const stakeLP = async () => {
+    const [userBalance, userAllowance] = await publicClient.multicall({
+        contracts: [
+            {
+                address: uniswapV2Pair,
+                abi: erc20Abi,
+                functionName: "balanceOf",
+                args: [walletClient.account!.address]
+            },
+            {
+                address: uniswapV2Pair,
+                abi: erc20Abi,
+                functionName: "allowance",
+                args: [walletClient.account!.address, lpStake.address]
+            }
+        ]
+    })
+
+
+    console.log(`LP Token Approve: ${chalk.blue(formatEther(userAllowance.result))}`)
+    console.log(`LP Token Balance: ${chalk.blue(formatEther(userBalance.result))}`)
+
+    displayConfirmAndExit("Continue to stake LP Token?")
+
+    const depositAmount = await inputETHNumber("Input Deposit LP Token Amount: ", formatEther(userBalance.result))
+
+    if (depositAmount > userAllowance.result!) {
+        const approveAmount = await inputETHNumber("Input Approve LP Token Amount for Stake: ", formatEther(depositAmount))
+
+        const { request } = await publicClient.simulateContract({
+            account,
+            abi: erc20Abi,
+            address: uniswapV2Pair,
+            functionName: "approve",
+            args: [
+                lpStake.address,
+                approveAmount
+            ]
+        })
+
+        const approveHash = await walletClient.writeContract(request)
+
+        console.log(`Approve Hash: ${chalk.blue(approveHash)}`)
+
+        let approveValue = await getERC20Approve(uniswapV2Pair, lpStake.address)
+
+        while (approveValue < approveAmount) {
+            approveValue = await getERC20Approve(uniswapV2Pair, lpStake.address)
+            await sleep(12)
+        }   
+    }
+
+
+    const { request } = await publicClient.simulateContract({
+        account,
+        abi: lpStake.abi,
+        address: lpStake.address,
+        functionName: "deposit",
+        args: [
+            depositAmount
+        ]
+    })
+
+    const stakeHash = await walletClient.writeContract(request)
+
+    console.log(`Stake Hash: ${chalk.blue(stakeHash)}`)
+}
+
+const claimLP = async () => {
+    const pendingReward = await publicClient.readContract({
+        ...lpStake,
+        functionName: "pending",
+        args: [walletClient.account!.address]
+    })
+
+    console.log(`Pending Reward: ${chalk.blue(formatEther(pendingReward))}`)
+
+    displayConfirmAndExit("Continue to claim reward?")
+
+    const { request } = await publicClient.simulateContract({
+        account,
+        ...lpStake,
+        functionName: "claim",
+    })
+
+    const claimHash = await walletClient.writeContract(request)
+
+    console.log(`Claim Hash: ${chalk.blue(claimHash)}`)
+}
+
+const unstakeLP = async () => {
+    const [depositAmount] = await publicClient.readContract({
+        ...lpStake,
+        functionName: "userInfo",
+        args: [walletClient.account!.address]
+    })
+
+    console.log(`User Deposit Amount: ${formatEther(depositAmount)}`)
+
+    const inputUnstakeAmount = await inputETHNumber("Input Unstake LP Token Amount: ", formatEther(depositAmount))
+
+    if (inputUnstakeAmount > depositAmount) {
+        console.log(`Input unstake amount is greater than user deposit amount`)
+        return
+    } else {
+        displayConfirmAndExit("Continue to unstake LP Token?")
+
+        const { request } = await publicClient.simulateContract({
+            account,
+            ...lpStake,
+            functionName: "withdraw",
+            args: [
+                inputUnstakeAmount
+            ]
+        })
+
+        const unstakeHash = await walletClient.writeContract(request)
+
+        console.log(`Unstake Hash: ${chalk.blue(unstakeHash)}`)
+    }
+}
+
+const lpTokenStep = async () => {
+    const selectLpToken = await select({
+        message: "Select LP Token Stake Steps",
+        choices: [
+            {
+                name: "Stake LP Token",
+                value: "stakeLP",
+            },
+            {
+                name: "Claim LP Token Reward",
+                value: "claimLP",
+            },
+            {
+                name: "Unstake LP Token",
+                value: "unstakeLP",
+            }
+        ]
+    })
+
+    switch (selectLpToken) {
+        case "stakeLP":
+            await stakeLP()
+            break  
+
+        case "claimLP":
+            await claimLP()
+            break
+
+        case "unstakeLP":
+            await unstakeLP()
+            break
+
+        default:
+            break
+    }
+}
+
+export const stakeSelect = async () => {
+    const selectStake = await select({
+        message: "Select the stake",
+        choices: [
+            {
+                name: "NFT Stake",
+                value: "stakeNFT",
+            },
+            {
+                name: "LP Token Stake",
+                value: "lpToken",
+            }
+        ]
+    })
+
+    switch (selectStake) {
+        case "stakeNFT":
+            await nftStakeStep()
+            break
+
+        case "lpToken":
+            await lpTokenStep()
             break
 
         default:

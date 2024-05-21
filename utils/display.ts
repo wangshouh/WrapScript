@@ -1,6 +1,6 @@
 import { exit } from 'node:process';
 import chalk from 'chalk'
-import { isAddress, getAddress, parseEther, toHex, concat, parseUnits } from "viem"
+import { isAddress, getAddress, parseEther, toHex, parseUnits } from "viem"
 import { UserConfig } from '../config'
 import { select, input } from '@inquirer/prompts';
 import fs from 'fs'
@@ -26,7 +26,7 @@ export const inputAddress = async (message: string, defalutMessage?: string) => 
 }
 
 export const inputETHNumber = async (message: string, defalutMessage?: string) => {
-    const inputNumber = parseEther(await input({ message, default: defalutMessage }))
+    const inputNumber = parseEther(await input({ message, default: defalutMessage })) as bigint
     return inputNumber
 }
 
