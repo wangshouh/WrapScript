@@ -1,6 +1,6 @@
 import { createWalletClient, createPublicClient, http, PublicClient, WalletClient } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
-import { localhost, sepolia } from 'viem/chains'
+import { localhost, mainnet } from 'viem/chains'
 import fs from 'fs'
 // https://1rpc.io/sepolia
 // 0xEd78bF31CD8E36c628e048D0e47e9a38913d34eF
@@ -26,50 +26,50 @@ export const rpcUrl = process.env.RPC_URL
 // console.log(rpcUrl)
 export const walletClient: WalletClient = createWalletClient({
   account,
-  chain: sepolia,
+  chain: mainnet,
   transport: http(rpcUrl)
   // transport: http("http://127.0.0.1:8545")
 })
 
 export const publicClient: PublicClient = createPublicClient({
-  chain: sepolia,
+  chain: mainnet,
   transport: http(rpcUrl)
   // transport: http("http://127.0.0.1:8545")
 }) as PublicClient;
 
 export const agencyAndAppConfig = [
-  {
-    "name": "WrapV1Linear",
-    "value": "onePercentConfig",
-    "description": "User minting price increases by basePremium percentage",
-    "agencyImplementation": "0xaB0E85c463C27F8A5501B5933F6Da1D18Ab62283",
-    "appImplementation": "0x1C91bEB7d3249846E226A029DE93BEb5eA1e4CFe"
-  },
+  // {
+  //   "name": "WrapV1Linear",
+  //   "value": "onePercentConfig",
+  //   "description": "User minting price increases by basePremium percentage",
+  //   "agencyImplementation": "0xaB0E85c463C27F8A5501B5933F6Da1D18Ab62283",
+  //   "appImplementation": "0x1C91bEB7d3249846E226A029DE93BEb5eA1e4CFe"
+  // },
   {
     "name": "WrapV1Auction",
     "value": "auctionConfig",
     "description": "Minting prices are obtained through auctions",
-    "agencyImplementation": "0x565783b278635e60E996FE855a863cCE17314322",
-    "appImplementation": "0x1C91bEB7d3249846E226A029DE93BEb5eA1e4CFe"
+    "agencyImplementation": "0x9d79146577C292fd6869fad1255Dd8866bEEFc80",
+    "appImplementation": "0x5853c2c35ceE0d233f2E0D3767c2FFA83600861f"
   },
-  {
-    "name": "WrapV1RandomWalker",
-    "value": "randomConfig",
-    "description": "Minting prices are obtained through standard normal random",
-    "agencyImplementation": "0x47303297b8ED07FA8763b487e7f12CA1e11033A2",
-    "appImplementation": "0x1C91bEB7d3249846E226A029DE93BEb5eA1e4CFe"
-  }
+  // {
+  //   "name": "WrapV1RandomWalker",
+  //   "value": "randomConfig",
+  //   "description": "Minting prices are obtained through standard normal random",
+  //   "agencyImplementation": "0x47303297b8ED07FA8763b487e7f12CA1e11033A2",
+  //   "appImplementation": "0x1C91bEB7d3249846E226A029DE93BEb5eA1e4CFe"
+  // }
 ]
 
-export const uniswapV2Pair = "0x946487a15489225D28c5FeAA431c49B2871b91F2" as `0x${string}`
+export const uniswapV2Pair = "0xd307a14e1be868c7908f49B79eDCE1834bF4C691" as `0x${string}`
 
-export const defaultDotAgencyTokenURI = "0x3EE03EFF0b2829a8A5B64a078f655faf2988d258" as `0x${string}`
-export const defaultAgentTokenURI = "0x5e59e574D97bFAC0046aA6b2751D4fc9Bcd2cee6" as `0x${string}`
+export const defaultDotAgencyTokenURI = "0x10F526235E5727cbC2B721bf6fd57B88950aB66D" as `0x${string}`
+export const defaultAgentTokenURI = "0x2092d0a2284B4E585697Cd81d302e59DE82D3081" as `0x${string}`
 
-export const defaultAgentResolver = "0x20Cdf90F79262d2139F3C179B99e74BA2979e5CE" as `0x${string}`
+export const defaultAgentResolver = "0x59d711c45a622890Ad2368D6Fa7e7290fec3fd66" as `0x${string}`
 export const defaultDotAgencyResolver = "0x6aCca1410C16FfDD60866be84b541492C2398C4e" as `0x${string}`
 
-export const WrapCoinAddress = "0x26166F3395EC64D9211FC01BD6277cD6462d5E89" as `0x${string}`
+export const WrapCoinAddress = "0x148184F96C73152166AAfD1C22CF82f5ae7349EE" as `0x${string}`
 
 export const tokenURIEngineConfig = [
   {
