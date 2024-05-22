@@ -27,14 +27,14 @@ export const rpcUrl = process.env.RPC_URL
 export const walletClient: WalletClient = createWalletClient({
   account,
   chain: mainnet,
-  transport: http(rpcUrl)
-  // transport: http("http://127.0.0.1:8545")
+  // transport: http(rpcUrl)
+  transport: http("http://127.0.0.1:8545")
 })
 
 export const publicClient: PublicClient = createPublicClient({
   chain: mainnet,
-  transport: http(rpcUrl)
-  // transport: http("http://127.0.0.1:8545")
+  // transport: http(rpcUrl)
+  transport: http("http://127.0.0.1:8545")
 }) as PublicClient;
 
 export const agencyAndAppConfig = [
@@ -63,8 +63,8 @@ export const agencyAndAppConfig = [
 
 export const uniswapV2Pair = "0xd307a14e1be868c7908f49B79eDCE1834bF4C691" as `0x${string}`
 
-export const defaultDotAgencyTokenURI = "0x10F526235E5727cbC2B721bf6fd57B88950aB66D" as `0x${string}`
-export const defaultAgentTokenURI = "0x2092d0a2284B4E585697Cd81d302e59DE82D3081" as `0x${string}`
+export const defaultDotAgencyTokenURI = "0x6438493b25269f096E0ad5e52594B5370dc5d403" as `0x${string}`
+export const defaultAgentTokenURI = "0x689B0d2F72906CB2F37e061363Ef087CC27CE52D" as `0x${string}`
 
 export const defaultAgentResolver = "0x59d711c45a622890Ad2368D6Fa7e7290fec3fd66" as `0x${string}`
 export const defaultDotAgencyResolver = "0x6aCca1410C16FfDD60866be84b541492C2398C4e" as `0x${string}`
@@ -74,14 +74,14 @@ export const WrapCoinAddress = "0x148184F96C73152166AAfD1C22CF82f5ae7349EE" as `
 export const tokenURIEngineConfig = [
   {
     "name": "Mairo",
-    "value": "0x5e59e574D97bFAC0046aA6b2751D4fc9Bcd2cee6" as `0x${string}`,
+    "value": "0x689B0d2F72906CB2F37e061363Ef087CC27CE52D" as `0x${string}`,
     "description": "Generate Mario-style on-chain images",
   },
-  {
-    "name": "CCIP Azimuth",
-    "value": "0xCCf1FD8F8629c1b5Aa1a8E1F92629637d5ab1a5e" as `0x${string}`,
-    "description": "Generate Azimuth through CCIP"
-  }
+  // {
+  //   "name": "CCIP Azimuth",
+  //   "value": "0xCCf1FD8F8629c1b5Aa1a8E1F92629637d5ab1a5e" as `0x${string}`,
+  //   "description": "Generate Azimuth through CCIP"
+  // }
 ]
 
 // GDA 0x1f53ad02bdcdef458acd00235cf6b4f20574d903
