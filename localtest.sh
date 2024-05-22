@@ -1,0 +1,1 @@
+cast send 0xAFD48f565e1aC63f3e547227c9AD5243990f3D40 --value 10ether --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 -r 127.0.0.1:8545
