@@ -82,55 +82,55 @@ const updatePoolL1 = async () => {
 const withdrawL1Reward = async () => {
     const agencyAddress = await selectWrapAddress(userConfig)
     const agencyStrategy = await getAgencyStrategy(agencyAddress)
-    const { endBlock } = await getL1EndBlock()
-    let baseInfo;
-    let accTokenPerShare: bigint;
+    // const { endBlock } = await getL1EndBlock()
+    // let baseInfo;
+    // let accTokenPerShare: bigint;
 
-    const lastRewardBlockWithtokenPerBlock = await publicClient.multicall({
-        contracts: [
-            {
-                ...nftStake,
-                functionName: "lastRewardBlock"
-            },
-            {
-                ...nftStake,
-                functionName: "tokenPerBlock"
-            }
-        ]
-    })
+    // const lastRewardBlockWithtokenPerBlock = await publicClient.multicall({
+    //     contracts: [
+    //         {
+    //             ...nftStake,
+    //             functionName: "lastRewardBlock"
+    //         },
+    //         {
+    //             ...nftStake,
+    //             functionName: "tokenPerBlock"
+    //         }
+    //     ]
+    // })
 
-    if (agencyStrategy[1].currency == WrapCoinAddress) {
-        baseInfo = await publicClient.readContract({
-            ...nftStake,
-            functionName: "l1StakingOfERC20"
-        })
-    } else {
-        baseInfo = await publicClient.readContract({
-            ...nftStake,
-            functionName: "l1StakingOfETH"
-        })
-    }
+    // if (agencyStrategy[1].currency == WrapCoinAddress) {
+    //     baseInfo = await publicClient.readContract({
+    //         ...nftStake,
+    //         functionName: "l1StakingOfERC20"
+    //     })
+    // } else {
+    //     baseInfo = await publicClient.readContract({
+    //         ...nftStake,
+    //         functionName: "l1StakingOfETH"
+    //     })
+    // }
 
-    const l2StakingData = await publicClient.readContract({
-        ...nftStake,
-        functionName: "stakingOfNFT",
-        args: [agencyStrategy[0]]
-    })
+    // const l2StakingData = await publicClient.readContract({
+    //     ...nftStake,
+    //     functionName: "stakingOfNFT",
+    //     args: [agencyStrategy[0]]
+    // })
 
-    const tokenReward = (endBlock - lastRewardBlockWithtokenPerBlock[0].result!) * lastRewardBlockWithtokenPerBlock[1].result!;
-    // console.log(baseInfo)
-    // baseInfo [tvlOfTotal accTokenPerShare tokenReward]
-    if (agencyStrategy[1].currency == WrapCoinAddress) {
-        accTokenPerShare = baseInfo[1] + tokenReward * BigInt(1e12 * 37 / 40) / BigInt(baseInfo[0]);
-    } else {
-        accTokenPerShare = baseInfo[1] + tokenReward * BigInt(1e12 * 3 / 40) / BigInt(baseInfo[0]);
-    }
+    // const tokenReward = (endBlock - lastRewardBlockWithtokenPerBlock[0].result!) * lastRewardBlockWithtokenPerBlock[1].result!;
+    // // console.log(baseInfo)
+    // // baseInfo [tvlOfTotal accTokenPerShare tokenReward]
+    // if (agencyStrategy[1].currency == WrapCoinAddress) {
+    //     accTokenPerShare = baseInfo[1] + tokenReward * BigInt(1e12 * 37 / 40) / BigInt(baseInfo[0]);
+    // } else {
+    //     accTokenPerShare = baseInfo[1] + tokenReward * BigInt(1e12 * 3 / 40) / BigInt(baseInfo[0]);
+    // }
     
-    const reward = (accTokenPerShare - l2StakingData[4]) * l2StakingData[0];
+    // const reward = (accTokenPerShare - l2StakingData[4]) * l2StakingData[0];
 
-    console.log(`Withdraw L1 Reward: ${chalk.blue(formatEther(reward * BigInt(5243) / BigInt(1e12 * 65536)))}`)
+    // console.log(`Withdraw L1 Reward: ${chalk.blue(formatEther(reward * BigInt(5243) / BigInt(1e12 * 65536)))}`)
 
-    displayConfirmAndExit("Continue to withdraw L1 reward?")
+    displayConfirmAndExit("Continue to update L1 reward?")
 
     const { request } = await publicClient.simulateContract({
         account,
@@ -143,7 +143,7 @@ const withdrawL1Reward = async () => {
     })
 
     const updateRewardL1Hash = await walletClient.writeContract(request)
-    console.log(`Withdraw Reward L1 Hash: ${chalk.blue(updateRewardL1Hash)}`)
+    console.log(`Update Reward L1 Hash: ${chalk.blue(updateRewardL1Hash)}`)
 }
 
 const updatePoolL2 = async () => {
@@ -231,6 +231,39 @@ const unstakeAgencyNFT = async () => {
     console.log(`Unstake Hash: ${chalk.blue(unstakeHash)}`)
 }
 
+const claimDotAgencyReward = async () => {
+    const agencyAddress = await selectWrapAddress(userConfig)
+    const tokenIdOfDotAgency = await publicClient.readContract({
+        address: agencyAddress,
+        abi: agencyABI,
+        functionName: "tokenIdOfDotAgency"
+    })
+
+    const reward = await publicClient.readContract({
+        ...nftStake,
+        functionName: "claimForDotAgencyAccount",
+        args: [tokenIdOfDotAgency]
+    })
+
+    console.log(`Claim Reward: ${chalk.blue(formatEther(reward))} Wrap Coin`)
+
+    displayConfirmAndExit("Continue to Claim .Agency reward?")
+
+    const { request } = await publicClient.simulateContract({
+        account,
+        abi: nftStake.abi,
+        address: nftStake.address,
+        functionName: "claim",
+        args: [
+            tokenIdOfDotAgency
+        ]
+    })
+
+    const withdrawRewardHash = await walletClient.writeContract(request)
+
+    console.log(`Claim .Agency Reward Hash: ${chalk.blue(withdrawRewardHash)}`)
+}
+
 const nftStakeStep = async () => {
     const selectStake = await select({
         message: "Select the NFT stake steps",
@@ -250,14 +283,19 @@ const nftStakeStep = async () => {
                 description: "Start a new L1 Epoch."
             },
             {
-                name: "Withdraw L1 Reward",
+                name: "Update L1 Reward",
                 value: "withdrawL1Reward",
-                description: "Withdraw dotAgency rewards and allocate rewards to L2"
+                description: "Update dotAgency rewards and allocate rewards to L2"
             },
             {
                 name: "Update Pool L2",
                 value: "updatePoolL2",
                 description: "Start a new L2 Epoch."
+            },
+            {
+                name: "Claim .Agency Reward",
+                value: "claimDotAgencyReward",
+                description: "Claim rewards allocated to .Agency"
             },
             {
                 name: "Withdraw NFT Stake Reward",
@@ -286,6 +324,10 @@ const nftStakeStep = async () => {
 
         case "updatePoolL2":
             await updatePoolL2()
+            break
+
+        case "claimDotAgencyReward":
+            await claimDotAgencyReward()
             break
 
         case "withdrawReward":

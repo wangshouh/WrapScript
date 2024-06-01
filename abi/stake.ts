@@ -33,7 +33,7 @@ export const nftStakeABI = [
                 "internalType": "address"
             },
             {
-                "name": "accessManager",
+                "name": "owner_",
                 "type": "address",
                 "internalType": "address"
             }
@@ -46,13 +46,83 @@ export const nftStakeABI = [
     },
     {
         "type": "function",
-        "name": "authority",
+        "name": "acceptOwnership",
         "inputs": [],
-        "outputs": [
+        "outputs": [],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "claim",
+        "inputs": [
             {
-                "name": "",
+                "name": "account",
                 "type": "address",
                 "internalType": "address"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "reward",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "claim",
+        "inputs": [
+            {
+                "name": "tokenId",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "reward",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "claimForCreatorAccount",
+        "inputs": [
+            {
+                "name": "account",
+                "type": "address",
+                "internalType": "address"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "toClaim",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "claimForDotAgencyAccount",
+        "inputs": [
+            {
+                "name": "tokenId",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "toClaim",
+                "type": "uint256",
+                "internalType": "uint256"
             }
         ],
         "stateMutability": "view"
@@ -76,7 +146,7 @@ export const nftStakeABI = [
         "inputs": [],
         "outputs": [
             {
-                "name": "endBlockOfEpoch",
+                "name": "",
                 "type": "uint256",
                 "internalType": "uint256"
             }
@@ -95,6 +165,24 @@ export const nftStakeABI = [
             }
         ],
         "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "exec",
+        "inputs": [
+            {
+                "name": "selector",
+                "type": "bytes4",
+                "internalType": "bytes4"
+            },
+            {
+                "name": "data",
+                "type": "bytes",
+                "internalType": "bytes"
+            }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
     },
     {
         "type": "function",
@@ -128,20 +216,7 @@ export const nftStakeABI = [
             {
                 "name": "state",
                 "type": "uint8",
-                "internalType": "enum NFTStaking.State"
-            }
-        ],
-        "stateMutability": "view"
-    },
-    {
-        "type": "function",
-        "name": "isConsumingScheduledOp",
-        "inputs": [],
-        "outputs": [
-            {
-                "name": "",
-                "type": "bytes4",
-                "internalType": "bytes4"
+                "internalType": "enum DoubleLayerStaking.State"
             }
         ],
         "stateMutability": "view"
@@ -221,6 +296,32 @@ export const nftStakeABI = [
     },
     {
         "type": "function",
+        "name": "owner",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "",
+                "type": "address",
+                "internalType": "address"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "pendingOwner",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "",
+                "type": "address",
+                "internalType": "address"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
         "name": "pendingRewards",
         "inputs": [
             {
@@ -245,19 +346,8 @@ export const nftStakeABI = [
     },
     {
         "type": "function",
-        "name": "pull",
-        "inputs": [
-            {
-                "name": "selector",
-                "type": "bytes4",
-                "internalType": "bytes4"
-            },
-            {
-                "name": "data",
-                "type": "bytes",
-                "internalType": "bytes"
-            }
-        ],
+        "name": "renounceOwnership",
+        "inputs": [],
         "outputs": [],
         "stateMutability": "nonpayable"
     },
@@ -289,30 +379,12 @@ export const nftStakeABI = [
     },
     {
         "type": "function",
-        "name": "setAuthority",
-        "inputs": [
-            {
-                "name": "newAuthority",
-                "type": "address",
-                "internalType": "address"
-            }
-        ],
-        "outputs": [],
-        "stateMutability": "nonpayable"
-    },
-    {
-        "type": "function",
         "name": "setWhiteListOfERC7527Agency",
         "inputs": [
             {
                 "name": "ERC7527Agency",
                 "type": "address",
                 "internalType": "address"
-            },
-            {
-                "name": "isWhiteListed",
-                "type": "bool",
-                "internalType": "bool"
             }
         ],
         "outputs": [],
@@ -390,7 +462,12 @@ export const nftStakeABI = [
             {
                 "name": "currencyType",
                 "type": "uint8",
-                "internalType": "enum NFTStaking.Type"
+                "internalType": "enum DoubleLayerStaking.Type"
+            },
+            {
+                "name": "cooldownBlockOfEpoch",
+                "type": "uint256",
+                "internalType": "uint256"
             }
         ],
         "stateMutability": "view"
@@ -463,6 +540,19 @@ export const nftStakeABI = [
             }
         ],
         "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "transferOwnership",
+        "inputs": [
+            {
+                "name": "newOwner",
+                "type": "address",
+                "internalType": "address"
+            }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
     },
     {
         "type": "function",
@@ -579,12 +669,37 @@ export const nftStakeABI = [
     },
     {
         "type": "event",
-        "name": "AuthorityUpdated",
+        "name": "OwnershipTransferStarted",
         "inputs": [
             {
-                "name": "authority",
+                "name": "previousOwner",
                 "type": "address",
-                "indexed": false,
+                "indexed": true,
+                "internalType": "address"
+            },
+            {
+                "name": "newOwner",
+                "type": "address",
+                "indexed": true,
+                "internalType": "address"
+            }
+        ],
+        "anonymous": false
+    },
+    {
+        "type": "event",
+        "name": "OwnershipTransferred",
+        "inputs": [
+            {
+                "name": "previousOwner",
+                "type": "address",
+                "indexed": true,
+                "internalType": "address"
+            },
+            {
+                "name": "newOwner",
+                "type": "address",
+                "indexed": true,
                 "internalType": "address"
             }
         ],
@@ -642,6 +757,76 @@ export const nftStakeABI = [
     },
     {
         "type": "event",
+        "name": "UpdatePoolL1",
+        "inputs": [
+            {
+                "name": "endBlockOfEpoch",
+                "type": "uint256",
+                "indexed": false,
+                "internalType": "uint256"
+            },
+            {
+                "name": "tokenPerBlock",
+                "type": "uint256",
+                "indexed": false,
+                "internalType": "uint256"
+            }
+        ],
+        "anonymous": false
+    },
+    {
+        "type": "event",
+        "name": "UpdatePoolL2",
+        "inputs": [
+            {
+                "name": "l2",
+                "type": "address",
+                "indexed": true,
+                "internalType": "address"
+            },
+            {
+                "name": "endBlockOfEpoch",
+                "type": "uint256",
+                "indexed": false,
+                "internalType": "uint256"
+            },
+            {
+                "name": "tokenPerBlock",
+                "type": "uint256",
+                "indexed": false,
+                "internalType": "uint256"
+            }
+        ],
+        "anonymous": false
+    },
+    {
+        "type": "event",
+        "name": "UpdateRewardL1",
+        "inputs": [
+            {
+                "name": "l2",
+                "type": "address",
+                "indexed": true,
+                "internalType": "address"
+            }
+        ],
+        "anonymous": false
+    },
+    {
+        "type": "event",
+        "name": "UpdateRewardL2",
+        "inputs": [
+            {
+                "name": "l2",
+                "type": "address",
+                "indexed": true,
+                "internalType": "address"
+            }
+        ],
+        "anonymous": false
+    },
+    {
+        "type": "event",
         "name": "WithdrawReward",
         "inputs": [
             {
@@ -667,45 +852,7 @@ export const nftStakeABI = [
     },
     {
         "type": "error",
-        "name": "AccessManagedInvalidAuthority",
-        "inputs": [
-            {
-                "name": "authority",
-                "type": "address",
-                "internalType": "address"
-            }
-        ]
-    },
-    {
-        "type": "error",
-        "name": "AccessManagedRequiredDelay",
-        "inputs": [
-            {
-                "name": "caller",
-                "type": "address",
-                "internalType": "address"
-            },
-            {
-                "name": "delay",
-                "type": "uint32",
-                "internalType": "uint32"
-            }
-        ]
-    },
-    {
-        "type": "error",
-        "name": "AccessManagedUnauthorized",
-        "inputs": [
-            {
-                "name": "caller",
-                "type": "address",
-                "internalType": "address"
-            }
-        ]
-    },
-    {
-        "type": "error",
-        "name": "NFTStakingCurrencyInvalid",
+        "name": "DoubleLayerStakingCurrencyInvalid",
         "inputs": [
             {
                 "name": "currency",
@@ -716,7 +863,7 @@ export const nftStakeABI = [
     },
     {
         "type": "error",
-        "name": "NFTStakingERC7527AgencyInvalid",
+        "name": "DoubleLayerStakingERC7527AgencyInvalid",
         "inputs": [
             {
                 "name": "ERC7527Agency",
@@ -727,7 +874,7 @@ export const nftStakeABI = [
     },
     {
         "type": "error",
-        "name": "NFTStakingNFTInvalid",
+        "name": "DoubleLayerStakingNFTInvalid",
         "inputs": [
             {
                 "name": "nft",
@@ -738,7 +885,7 @@ export const nftStakeABI = [
     },
     {
         "type": "error",
-        "name": "NFTStakingNotForcePushed",
+        "name": "DoubleLayerStakingNotForcePushed",
         "inputs": [
             {
                 "name": "nft",
@@ -749,7 +896,7 @@ export const nftStakeABI = [
     },
     {
         "type": "error",
-        "name": "NFTStakingNotOwnerOrApproved",
+        "name": "DoubleLayerStakingNotOwnerOrApproved",
         "inputs": [
             {
                 "name": "tokenId",
@@ -760,7 +907,7 @@ export const nftStakeABI = [
     },
     {
         "type": "error",
-        "name": "NFTStakingNotStaked",
+        "name": "DoubleLayerStakingNotStaked",
         "inputs": [
             {
                 "name": "tokenId",
@@ -771,7 +918,7 @@ export const nftStakeABI = [
     },
     {
         "type": "error",
-        "name": "NFTStakingStaked",
+        "name": "DoubleLayerStakingStaked",
         "inputs": [
             {
                 "name": "tokenId",
@@ -782,11 +929,32 @@ export const nftStakeABI = [
     },
     {
         "type": "error",
-        "name": "NFTStakingZeroAddressInvalid",
+        "name": "DoubleLayerStakingZeroAddressInvalid",
         "inputs": []
+    },
+    {
+        "type": "error",
+        "name": "OwnableInvalidOwner",
+        "inputs": [
+            {
+                "name": "owner",
+                "type": "address",
+                "internalType": "address"
+            }
+        ]
+    },
+    {
+        "type": "error",
+        "name": "OwnableUnauthorizedAccount",
+        "inputs": [
+            {
+                "name": "account",
+                "type": "address",
+                "internalType": "address"
+            }
+        ]
     }
 ] as const;
-
 
 export const lpStakeABI = [
     {
@@ -1044,14 +1212,14 @@ export const lpStakeABI = [
         "name": "ReentrancyGuardReentrantCall",
         "inputs": []
     }
-] as const ;
+] as const;
 
 export const nftStake = {
-    address: "0x3ac14660950b8A813c7A9743F100FB6567Af26e1",
+    address: "0x28D88A6B210b1BD9ef7961846E6D46e501EF7CCD",
     abi: nftStakeABI
 } as const;
 
 export const lpStake = {
-    address: "0xbb95f85B8E4187e967000DbE5e2B4d9729da9e9a" as `0x${string}`,
+    address: "0xeAc517A544ADf01a257cb5059e2eF0CFaEc2888F" as `0x${string}`,
     abi: lpStakeABI
 }

@@ -1710,6 +1710,6 @@ export const dotAgencyABI = [
 ] as const;
 
 export const dotAgency = {
-    address: "0x0E5D74051cA74395d84a52174946E5630F006144",
+    address: "0xC27f04ea8A674743E90B891f880CdB5dBb375B03",
     abi: dotAgencyABI
 } as const;

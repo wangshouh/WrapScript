@@ -1,6 +1,6 @@
 import { createWalletClient, createPublicClient, http, PublicClient, WalletClient } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
-import { localhost, mainnet } from 'viem/chains'
+import { localhost, mainnet, sepolia } from 'viem/chains'
 import fs from 'fs'
 // https://1rpc.io/sepolia
 // 0xEd78bF31CD8E36c628e048D0e47e9a38913d34eF
@@ -26,15 +26,15 @@ export const rpcUrl = process.env.RPC_URL
 // console.log(rpcUrl)
 export const walletClient: WalletClient = createWalletClient({
   account,
-  chain: mainnet,
-  transport: http(rpcUrl)
-  // transport: http("http://127.0.0.1:8545")
+  chain: sepolia,
+  // transport: http(rpcUrl)
+  transport: http("http://127.0.0.1:8545")
 })
 
 export const publicClient: PublicClient = createPublicClient({
-  chain: mainnet,
-  transport: http(rpcUrl)
-  // transport: http("http://127.0.0.1:8545")
+  chain: sepolia,
+  // transport: http(rpcUrl)
+  transport: http("http://127.0.0.1:8545")
 }) as PublicClient;
 
 export const agencyAndAppConfig = [
@@ -49,8 +49,8 @@ export const agencyAndAppConfig = [
     "name": "WrapV1Auction",
     "value": "auctionConfig",
     "description": "Minting prices are obtained through auctions",
-    "agencyImplementation": "0x9d79146577C292fd6869fad1255Dd8866bEEFc80",
-    "appImplementation": "0x5853c2c35ceE0d233f2E0D3767c2FFA83600861f"
+    "agencyImplementation": "0x9274d322e5E79568336AA74aB42ca38663af28Ed",
+    "appImplementation": "0x2c0CA12E536C464A37803449185D5910D117e81a"
   },
   // {
   //   "name": "WrapV1RandomWalker",
@@ -61,22 +61,22 @@ export const agencyAndAppConfig = [
   // }
 ]
 
-export const uniswapV2Pair = "0xd307a14e1be868c7908f49B79eDCE1834bF4C691" as `0x${string}`
+export const uniswapV2Pair = "0xB72b050b451f410FE0C5dB04C14FDDC871e72F4a" as `0x${string}`
 
-export const defaultDotAgencyTokenURI = "0x6438493b25269f096E0ad5e52594B5370dc5d403" as `0x${string}`
-export const defaultAgentTokenURI = "0x689B0d2F72906CB2F37e061363Ef087CC27CE52D" as `0x${string}`
+export const defaultDotAgencyTokenURI = "0xC930e98Bd31a60D8e3D36ed9c29FD63A3502A918" as `0x${string}`
+export const defaultAgentTokenURI = "0x847288d1515c970082CA0a6867cfD5685880f3Ab" as `0x${string}`
 
 export const defaultAgentResolver = "0x59d711c45a622890Ad2368D6Fa7e7290fec3fd66" as `0x${string}`
 export const defaultDotAgencyResolver = "0x6aCca1410C16FfDD60866be84b541492C2398C4e" as `0x${string}`
 
-export const WrapCoinAddress = "0x148184F96C73152166AAfD1C22CF82f5ae7349EE" as `0x${string}`
+export const WrapCoinAddress = "0x1403a89954db2f88898d99D627549299E91209F5" as `0x${string}`
 
 export const tokenURIEngineConfig = [
   {
-    "name": "Mairo",
-    "value": "0x689B0d2F72906CB2F37e061363Ef087CC27CE52D" as `0x${string}`,
+    "name": "Mobius",
+    "value": "0x847288d1515c970082CA0a6867cfD5685880f3Ab" as `0x${string}`,
     "description": "Generate Mario-style on-chain images",
-  },
+  }
   // {
   //   "name": "CCIP Azimuth",
   //   "value": "0xCCf1FD8F8629c1b5Aa1a8E1F92629637d5ab1a5e" as `0x${string}`,

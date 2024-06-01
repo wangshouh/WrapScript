@@ -430,4 +430,4 @@ export const erc6551AccountABI = [
     }
 ] as const;
 
-export const erc6551Implementation: `0x${string}` = "0x2823c188d7897f69472f003027b326C0E78CE7F6"
+export const erc6551Implementation: `0x${string}` = "0x85a93cCe090E70fE26F84C8F41495B44DD76dbb4"
