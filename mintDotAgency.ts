@@ -45,7 +45,7 @@ export const mintDotAgency = async () => {
             dotAgencyName = (await input({ message: 'Enter .Agency Name: ' })).toLowerCase()
         }
 
-        const userPrice = await inputETHNumber("Maximum cost available for mint(ETH): ", formatEther(nowDotAgencyPrice))
+        const userPrice = await inputETHNumber("Maximum cost available for mint(ETH): ", formatEther(nowDotAgencyPrice * BigInt(11) / BigInt(10)))
         const priceNonce = await getPriceNonce()
         await mintDotAgencyName(dotAgencyName, userPrice, priceNonce)
     }
@@ -188,7 +188,7 @@ export const wrap = async () => {
 
     displayNotFundAndExit(nowAgencyPrice[0] + nowAgencyPrice[1], userBalance)
     
-    const userSlippagePrice = await inputTokenNumber("Maximum cost available for mint: ", tokeDecimals, formatUnits(nowAgencyPrice[0] + nowAgencyPrice[1], tokeDecimals))
+    const userSlippagePrice = await inputTokenNumber("Maximum cost available for mint: ", tokeDecimals, formatUnits((nowAgencyPrice[0] + nowAgencyPrice[1]) * BigInt(11) / BigInt(10), tokeDecimals))
     let agencyTokenName = (await input({ message: 'Enter Agent Name: ' })).toLowerCase()
 
     while (await existAgentName(agencyTokenName, agencyStrategy[0])) {
