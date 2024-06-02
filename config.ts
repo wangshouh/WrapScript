@@ -63,7 +63,7 @@ export const agencyAndAppConfig = [
 
 export const uniswapV2Pair = "0xB72b050b451f410FE0C5dB04C14FDDC871e72F4a" as `0x${string}`
 
-export const defaultDotAgencyTokenURI = "0xC930e98Bd31a60D8e3D36ed9c29FD63A3502A918" as `0x${string}`
+export const defaultDotAgencyTokenURI = "0xA11DE9A0e0c757959911D0612fd1F2BC12C27a49" as `0x${string}`
 export const defaultAgentTokenURI = "0x847288d1515c970082CA0a6867cfD5685880f3Ab" as `0x${string}`
 
 export const defaultAgentResolver = "0x59d711c45a622890Ad2368D6Fa7e7290fec3fd66" as `0x${string}`
