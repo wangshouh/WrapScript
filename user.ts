@@ -31,11 +31,11 @@ const userSelect = await select({
             value: "createERC6551Account",
             description: `Create an ERC6551 account for the NFT with the specified tokenId`
         },
-        // {
-        //     name: "Manage Resolver",
-        //     value: "manageResolver",
-        //     description: `Manage Resolver`
-        // }
+        {
+            name: "Manage Resolver",
+            value: "manageResolver",
+            description: `Manage Resolver`
+        }
     ]
 })
 
