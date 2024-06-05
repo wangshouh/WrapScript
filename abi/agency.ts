@@ -28,11 +28,6 @@ export const agencyABI = [
                 "internalType": "address"
             },
             {
-                "name": "lendingVault_",
-                "type": "address",
-                "internalType": "address"
-            },
-            {
                 "name": "stakingVault_",
                 "type": "address",
                 "internalType": "address"
@@ -48,6 +43,19 @@ export const agencyABI = [
     {
         "type": "receive",
         "stateMutability": "payable"
+    },
+    {
+        "type": "function",
+        "name": "_getPrice",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "currentPrice",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "stateMutability": "view"
     },
     {
         "type": "function",
@@ -257,7 +265,7 @@ export const agencyABI = [
         "name": "getUnwrapOracle",
         "inputs": [
             {
-                "name": "data",
+                "name": "",
                 "type": "bytes",
                 "internalType": "bytes"
             }
@@ -274,14 +282,14 @@ export const agencyABI = [
                 "internalType": "uint256"
             }
         ],
-        "stateMutability": "pure"
+        "stateMutability": "view"
     },
     {
         "type": "function",
         "name": "getWrapOracle",
         "inputs": [
             {
-                "name": "data",
+                "name": "",
                 "type": "bytes",
                 "internalType": "bytes"
             }
@@ -298,7 +306,7 @@ export const agencyABI = [
                 "internalType": "uint256"
             }
         ],
-        "stateMutability": "pure"
+        "stateMutability": "view"
     },
     {
         "type": "function",
@@ -374,13 +382,26 @@ export const agencyABI = [
     },
     {
         "type": "function",
-        "name": "lendingVault",
+        "name": "isRenounceForceApprove",
         "inputs": [],
         "outputs": [
             {
                 "name": "",
-                "type": "address",
-                "internalType": "address"
+                "type": "bool",
+                "internalType": "bool"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "isRenounceForceCancel",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "",
+                "type": "bool",
+                "internalType": "bool"
             }
         ],
         "stateMutability": "view"
@@ -415,6 +436,32 @@ export const agencyABI = [
         "type": "function",
         "name": "rebase",
         "inputs": [],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "renounceForceApprove",
+        "inputs": [
+            {
+                "name": "data",
+                "type": "bytes",
+                "internalType": "bytes"
+            }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "renounceForceCancel",
+        "inputs": [
+            {
+                "name": "data",
+                "type": "bytes",
+                "internalType": "bytes"
+            }
+        ],
         "outputs": [],
         "stateMutability": "nonpayable"
     },
@@ -620,6 +667,18 @@ export const agencyABI = [
     },
     {
         "type": "event",
+        "name": "RenounceForceApprove",
+        "inputs": [],
+        "anonymous": false
+    },
+    {
+        "type": "event",
+        "name": "RenounceForceCancel",
+        "inputs": [],
+        "anonymous": false
+    },
+    {
+        "type": "event",
         "name": "Unwrap",
         "inputs": [
             {
@@ -635,7 +694,7 @@ export const agencyABI = [
                 "internalType": "uint256"
             },
             {
-                "name": "price",
+                "name": "premium",
                 "type": "uint256",
                 "indexed": false,
                 "internalType": "uint256"
@@ -666,7 +725,7 @@ export const agencyABI = [
                 "internalType": "uint256"
             },
             {
-                "name": "price",
+                "name": "premium",
                 "type": "uint256",
                 "indexed": false,
                 "internalType": "uint256"
@@ -682,6 +741,17 @@ export const agencyABI = [
     },
     {
         "type": "error",
+        "name": "AddressEmptyCode",
+        "inputs": [
+            {
+                "name": "target",
+                "type": "address",
+                "internalType": "address"
+            }
+        ]
+    },
+    {
+        "type": "error",
         "name": "AddressInsufficientBalance",
         "inputs": [
             {
@@ -694,6 +764,32 @@ export const agencyABI = [
     {
         "type": "error",
         "name": "FailedInnerCall",
+        "inputs": []
+    },
+    {
+        "type": "error",
+        "name": "ForceApproveRenounced",
+        "inputs": []
+    },
+    {
+        "type": "error",
+        "name": "ForceCancelRenounced",
+        "inputs": []
+    },
+    {
+        "type": "error",
+        "name": "InvalidPullTarget",
+        "inputs": [
+            {
+                "name": "target",
+                "type": "address",
+                "internalType": "address"
+            }
+        ]
+    },
+    {
+        "type": "error",
+        "name": "MustRenounce",
         "inputs": []
     },
     {
@@ -724,7 +820,45 @@ export const agencyABI = [
     },
     {
         "type": "error",
-        "name": "WrapV1LinearExceededSlippagePrice",
+        "name": "SafeERC20FailedOperation",
+        "inputs": [
+            {
+                "name": "token",
+                "type": "address",
+                "internalType": "address"
+            }
+        ]
+    },
+    {
+        "type": "error",
+        "name": "TokenIdNotMatch",
+        "inputs": [
+            {
+                "name": "",
+                "type": "uint256",
+                "internalType": "uint256"
+            },
+            {
+                "name": "",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ]
+    },
+    {
+        "type": "error",
+        "name": "WrapV2AutionCallerNotApp",
+        "inputs": [
+            {
+                "name": "",
+                "type": "address",
+                "internalType": "address"
+            }
+        ]
+    },
+    {
+        "type": "error",
+        "name": "WrapV2AutionExceededSlippagePrice",
         "inputs": [
             {
                 "name": "required",
@@ -740,7 +874,7 @@ export const agencyABI = [
     },
     {
         "type": "error",
-        "name": "WrapV1LinearInsufficientFunds",
+        "name": "WrapV2AutionInsufficientFunds",
         "inputs": [
             {
                 "name": "expectation",
@@ -756,7 +890,7 @@ export const agencyABI = [
     },
     {
         "type": "error",
-        "name": "WrapV1LinearLessThanMinimumValue",
+        "name": "WrapV2AutionLessThanMinimumValue",
         "inputs": [
             {
                 "name": "required",
@@ -772,7 +906,7 @@ export const agencyABI = [
     },
     {
         "type": "error",
-        "name": "WrapV1LinearNotOwnerAndNotApproved",
+        "name": "WrapV2AutionNotOwnerAndNotApproved",
         "inputs": [
             {
                 "name": "",
@@ -783,7 +917,7 @@ export const agencyABI = [
     },
     {
         "type": "error",
-        "name": "WrapV1LinearNotOwnerOfApp",
+        "name": "WrapV2AutionNotOwnerOfApp",
         "inputs": [
             {
                 "name": "",
@@ -794,7 +928,7 @@ export const agencyABI = [
     },
     {
         "type": "error",
-        "name": "WrapV1LinearNotOwnerOfDotAgency",
+        "name": "WrapV2AutionNotOwnerOfDotAgency",
         "inputs": [
             {
                 "name": "",

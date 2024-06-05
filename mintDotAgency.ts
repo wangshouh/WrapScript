@@ -4,7 +4,7 @@ import { factoryABI, wrapFactory } from "./abi/factory"
 import { agencyABI, appABI } from './abi/agency'
 import { agentABI } from './abi/agent'
 import { erc6551AccountABI, erc6551Implementation, erc6551RegistryABI } from './abi/erc6551'
-import { concat, encodeAbiParameters, formatEther, getAddress, getFunctionSelector, keccak256, toHex, parseAbi, encodeFunctionData, formatUnits, parseUnits } from "viem"
+import { concat, encodeAbiParameters, formatEther, getAddress, getFunctionSelector, keccak256, toHex, parseAbi, encodeFunctionData, formatUnits, parseUnits, encodePacked } from "viem"
 import { confirm } from '@inquirer/prompts';
 import { displayNotFundAndExit, inputAddress, selectWrapAddress, selectTokenId, inputETHNumber, inputMoreThanMinimumValue, chooseAgencyNFTWithTokenId, getExtraAgencyConfig, selectDotAgency, inputTokenNumber } from './utils/display'
 import { exit } from 'node:process';
@@ -146,7 +146,7 @@ export const rebaseFee = async () => {
 
     const dotAgencyNFTERC6551Address = await getDotAgencyERC6551Address(agencyAddress)
 
-    console.log(`Agency NFT ERC6551 Address: ${chalk.blue(dotAgencyNFTERC6551Address)}`)
+    console.log(`.Agency NFT ERC6551 Address: ${chalk.blue(dotAgencyNFTERC6551Address)}`)
 
     const agencyFee = await publicClient.readContract({
         address: agencyAddress,
@@ -705,4 +705,73 @@ export const claimLockWrapCoin = async () => {
     }
 }
 
+export const renouncePush = async () => {
+    const agencyAddress = await selectWrapAddress(userConfig)
+    const [ isRenounceForceApprove, isRenounceForceCancel, dotAgencyTokenId ] = await publicClient.multicall({
+        contracts: [
+            {
+                address: agencyAddress,
+                abi: agencyABI,
+                functionName: "isRenounceForceApprove"
+            },
+            {
+                address: agencyAddress,
+                abi: agencyABI,
+                functionName: "isRenounceForceCancel"
+            },
+            {
+                address: agencyAddress,
+                abi: agencyABI,
+                functionName: "tokenIdOfDotAgency"
+            }
+        ]
+    })
+
+    // console.log(`isRenounceForceApprove: ${chalk.blue(isRenounceForceApprove.result)}`)
+    if (!isRenounceForceApprove.result) {
+        const renounceForceApprove = await confirm({ message: 'Renounce Force Approve?' })
+        if (renounceForceApprove) {
+            const { request } = await publicClient.simulateContract({
+                account,
+                address: agencyAddress,
+                abi: agencyABI,
+                functionName: "renounceForceApprove",
+                args: [
+                    encodeAbiParameters(
+                        [{name: 'tokenId', type: 'uint256'}, {name: 'burn', type: 'bool'}],
+                        [dotAgencyTokenId.result!, true]
+                    )
+                ]
+            })
+
+            const renounceForceApproveHash = await walletClient.writeContract(request)
+            console.log(`Renounce Force Approve Hash: ${chalk.blue(renounceForceApproveHash)}`)
+        }
+    }
+
+    if (!isRenounceForceCancel.result) {
+        const renounceForceCancel = await confirm({ message: 'Renounce Force Cancel?' })
+        if (renounceForceCancel) {
+            const { request } = await publicClient.simulateContract({
+                account,
+                address: agencyAddress,
+                abi: agencyABI,
+                functionName: "renounceForceCancel",
+                args: [
+                    encodeAbiParameters(
+                        [{name: 'tokenId', type: 'uint256'}, {name: 'burn', type: 'bool'}],
+                        [dotAgencyTokenId.result!, true]
+                    )
+                ]
+            })
+
+            const renounceForceCancelHash = await walletClient.writeContract(request)
+            console.log(`Renounce Force Cancel Hash: ${chalk.blue(renounceForceCancelHash)}`)
+        } 
+    }
+
+    if (isRenounceForceApprove.result && isRenounceForceCancel.result) {
+        console.log(`All Renounce Done.`)
+    }
+}
 // claimLockWrapCoin()

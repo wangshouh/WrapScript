@@ -1,5 +1,5 @@
 import select from '@inquirer/select'
-import { mintDotAgency, deployAppAndAgency, setTokenURIEngine, changeDotAgencyTokenURI, rebaseFee, claimLockWrapCoin } from './mintDotAgency'
+import { mintDotAgency, deployAppAndAgency, setTokenURIEngine, changeDotAgencyTokenURI, rebaseFee, claimLockWrapCoin, renouncePush } from './mintDotAgency'
 import { approvePush } from "./utils/stake"
 import chalk from 'chalk'
 
@@ -32,13 +32,18 @@ const userSelect = await select({
             description: `Exact fee from agency to dotAgency NFT ERC6551 Account.`
         },
         {
+            name: "Claim Lock Wrap Coin",
+            value: "claimLockWrapCoin",
+        },
+        {
             name: "Config Stake Push",
             value: "approvePush",
             description: `Config Push to Stake NFT.`
         },
         {
-            name: "Claim Lock Wrap Coin",
-            value: "claimLockWrapCoin",
+            name: "Renounce push management",
+            value: "renouncePush",
+            description: "Renounce forceApprove or forceCancel"
         }
     ]
 })
@@ -72,6 +77,11 @@ switch (userSelect) {
     case "claimLockWrapCoin":
         claimLockWrapCoin()
         break;
+    
+    case "renouncePush":
+        renouncePush()
+        break;
+        
     default:
         break;
 }

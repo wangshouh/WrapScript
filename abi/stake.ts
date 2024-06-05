@@ -23,11 +23,6 @@ export const nftStakeABI = [
                 "internalType": "address"
             },
             {
-                "name": "erc6551AccountImp_",
-                "type": "address",
-                "internalType": "address"
-            },
-            {
                 "name": "stakingVault_",
                 "type": "address",
                 "internalType": "address"
@@ -155,19 +150,6 @@ export const nftStakeABI = [
     },
     {
         "type": "function",
-        "name": "erc6551AccountImp",
-        "inputs": [],
-        "outputs": [
-            {
-                "name": "",
-                "type": "address",
-                "internalType": "address"
-            }
-        ],
-        "stateMutability": "view"
-    },
-    {
-        "type": "function",
         "name": "exec",
         "inputs": [
             {
@@ -181,7 +163,13 @@ export const nftStakeABI = [
                 "internalType": "bytes"
             }
         ],
-        "outputs": [],
+        "outputs": [
+            {
+                "name": "result",
+                "type": "bytes",
+                "internalType": "bytes"
+            }
+        ],
         "stateMutability": "nonpayable"
     },
     {
@@ -463,11 +451,6 @@ export const nftStakeABI = [
                 "name": "currencyType",
                 "type": "uint8",
                 "internalType": "enum DoubleLayerStaking.Type"
-            },
-            {
-                "name": "cooldownBlockOfEpoch",
-                "type": "uint256",
-                "internalType": "uint256"
             }
         ],
         "stateMutability": "view"
@@ -852,6 +835,44 @@ export const nftStakeABI = [
     },
     {
         "type": "error",
+        "name": "AddressEmptyCode",
+        "inputs": [
+            {
+                "name": "target",
+                "type": "address",
+                "internalType": "address"
+            }
+        ]
+    },
+    {
+        "type": "error",
+        "name": "AddressInsufficientBalance",
+        "inputs": [
+            {
+                "name": "account",
+                "type": "address",
+                "internalType": "address"
+            }
+        ]
+    },
+    {
+        "type": "error",
+        "name": "DoubleLayerNoRewardsToClaim",
+        "inputs": []
+    },
+    {
+        "type": "error",
+        "name": "DoubleLayerStakingAgencyInvalid",
+        "inputs": [
+            {
+                "name": "agency",
+                "type": "address",
+                "internalType": "address"
+            }
+        ]
+    },
+    {
+        "type": "error",
         "name": "DoubleLayerStakingCurrencyInvalid",
         "inputs": [
             {
@@ -889,6 +910,17 @@ export const nftStakeABI = [
         "inputs": [
             {
                 "name": "nft",
+                "type": "address",
+                "internalType": "address"
+            }
+        ]
+    },
+    {
+        "type": "error",
+        "name": "DoubleLayerStakingNotOwner",
+        "inputs": [
+            {
+                "name": "accout",
                 "type": "address",
                 "internalType": "address"
             }
@@ -934,6 +966,11 @@ export const nftStakeABI = [
     },
     {
         "type": "error",
+        "name": "FailedInnerCall",
+        "inputs": []
+    },
+    {
+        "type": "error",
         "name": "OwnableInvalidOwner",
         "inputs": [
             {
@@ -953,8 +990,19 @@ export const nftStakeABI = [
                 "internalType": "address"
             }
         ]
+    },
+    {
+        "type": "error",
+        "name": "SafeERC20FailedOperation",
+        "inputs": [
+            {
+                "name": "token",
+                "type": "address",
+                "internalType": "address"
+            }
+        ]
     }
-] as const;
+] as const ;
 
 export const lpStakeABI = [
     {
@@ -1215,7 +1263,7 @@ export const lpStakeABI = [
 ] as const;
 
 export const nftStake = {
-    address: "0x28D88A6B210b1BD9ef7961846E6D46e501EF7CCD",
+    address: "0xE17E3e854F0301B4C5287e74AE4385113fb46952",
     abi: nftStakeABI
 } as const;
 

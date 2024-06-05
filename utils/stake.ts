@@ -5,7 +5,7 @@ import { chooseAgencyNFTWithTokenId, displayConfirmAndExit, inputETHNumber, sele
 import select from '@inquirer/select'
 import chalk from 'chalk'
 import { getAgencyStrategy, getAgentERC6551AddressByTokenID, getERC20Approve } from "./data"
-import { formatEther } from "viem"
+import { formatEther, formatUnits } from "viem"
 import { erc20Abi } from "../abi/erc20Abi"
 import { sleep } from "bun"
 
@@ -245,7 +245,7 @@ const claimDotAgencyReward = async () => {
         args: [tokenIdOfDotAgency]
     })
 
-    console.log(`Claim Reward: ${chalk.blue(formatEther(reward))} Wrap Coin`)
+    console.log(`Claim Reward: ${chalk.blue(formatUnits(reward, 30))} Wrap Coin`)
 
     displayConfirmAndExit("Continue to Claim .Agency reward?")
 
