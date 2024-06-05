@@ -214,22 +214,22 @@ export const setDotAgencyResolverAddrInCLI = async () => {
 export const getResolverBondInCLI = async () => {
     const { agentAddress, nodeHash, fullDomain } = await resolverInputAndAuth()
     const resolverAddress = await getResolver(agentAddress, nodeHash)
-    const answer = await confirm({ message: `Are you sure to read the bond of ${fullDomain}?` });
+    // const answer = await confirm({ message: `Are you sure to read the bond of ${fullDomain}?` });
+    console.log("Read the bond of " + fullDomain)
+    // if (answer) {
+    const bondKey = toHex(await input({ message: "Enter bond key: "}))
+    const bondKeyHash = keccak256(bondKey)
+    const readBond = await publicClient.readContract({
+        address: resolverAddress,
+        abi: AgentResolverABI,
+        functionName: "text",
+        args: [nodeHash, bondKeyHash]
+    })
 
-    if (answer) {
-        const bondKey = toHex(await input({ message: "Enter bond key: "}))
-        const bondKeyHash = keccak256(bondKey)
-        const readBond = await publicClient.readContract({
-            address: resolverAddress,
-            abi: AgentResolverABI,
-            functionName: "text",
-            args: [nodeHash, bondKeyHash]
-        })
-
-        console.log(`Bond Value: ${chalk.blue(bytesToString(toBytes(readBond)))}`)
-    } else {
-        return
-    }
+    console.log(`Bond Value: ${chalk.blue(bytesToString(toBytes(readBond)))}`)
+    // } else {
+    //     return
+    // }
     
 }
 
