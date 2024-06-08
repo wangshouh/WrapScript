@@ -46,11 +46,11 @@ export const agencyAndAppConfig = [
   //   "appImplementation": "0x1C91bEB7d3249846E226A029DE93BEb5eA1e4CFe"
   // },
   {
-    "name": "WrapV1Auction",
+    "name": "WrapV2Auction",
     "value": "auctionConfig",
     "description": "Minting prices are obtained through auctions",
-    "agencyImplementation": "0x9274d322e5E79568336AA74aB42ca38663af28Ed",
-    "appImplementation": "0x2c0CA12E536C464A37803449185D5910D117e81a"
+    "agencyImplementation": "0xc4D5dD95E04860140e0200E5B19B34EAA482fda6",
+    "appImplementation": "0x80596E288774eCC2d50bA934B960e208F8D884d6"
   },
   // {
   //   "name": "WrapV1RandomWalker",
@@ -61,20 +61,20 @@ export const agencyAndAppConfig = [
   // }
 ]
 
-export const uniswapV2Pair = "0xB72b050b451f410FE0C5dB04C14FDDC871e72F4a" as `0x${string}`
+export const uniswapV2Pair = "0x8f41Fe4165B20EA3d325be3ff0AA898A630428C2" as `0x${string}`
 
-export const defaultDotAgencyTokenURI = "0xA11DE9A0e0c757959911D0612fd1F2BC12C27a49" as `0x${string}`
-export const defaultAgentTokenURI = "0x847288d1515c970082CA0a6867cfD5685880f3Ab" as `0x${string}`
+export const defaultDotAgencyTokenURI = "0xc256d4417d7F667a90bd72f1CABBdA0ce8794265" as `0x${string}`
+export const defaultAgentTokenURI = "0x6fECBE5Ce12F7EbC883328c1Ee593986424b8105" as `0x${string}`
 
-export const defaultAgentResolver = "0x37BD7d8109157067FC9Ce0E638B50bA5BB59654a" as `0x${string}`
+export const defaultAgentResolver = "0x3e9F9c9223B503aCCe33abe896FD5AE7bdBDF5Fe" as `0x${string}`
 export const defaultDotAgencyResolver = "0x6aCca1410C16FfDD60866be84b541492C2398C4e" as `0x${string}`
 
-export const WrapCoinAddress = "0x1403a89954db2f88898d99D627549299E91209F5" as `0x${string}`
+export const WrapCoinAddress = "0x72446FA9dE18C24625568bC4D1335Fe9745E06BB" as `0x${string}`
 
 export const tokenURIEngineConfig = [
   {
     "name": "Mobius",
-    "value": "0x847288d1515c970082CA0a6867cfD5685880f3Ab" as `0x${string}`,
+    "value": "0x6fECBE5Ce12F7EbC883328c1Ee593986424b8105" as `0x${string}`,
     "description": "Generate Mario-style on-chain images",
   }
   // {

@@ -258,8 +258,8 @@ export const updateAgenctConfig = async () => {
         + `Currency: ${chalk.blue(tokenName)}\n`
         + `Currency Address: ${chalk.blue(agencySettings[1].currency)}\n`
         + `Base Premium: ${chalk.blue(agencySettings[1].basePremium.toString(10))}\n`
-        + `Mint Fee Percent: ${chalk.blue(agencySettings[1].mintFeePercent.toString(10))}\n`
-        + `Burn Fee Percent: ${chalk.blue(agencySettings[1].burnFeePercent.toString(10))}\n`
+        + `Mint Fee Percent: 5%\n`
+        + `Burn Fee Percent: 5%\n`
         + `Max Supply: ${chalk.blue(agentMaxSupply.toString(10))}`, { padding: 1 }))
     console.log(`NFT Address: ${agencySettings[0]}`)
     const answer = await confirm({ message: 'Continue Update Agency Config?' })
@@ -479,13 +479,13 @@ const getAgencyConfig = async (agencyImplementation: `0x${string}`, appImplement
     const { name: currencyName, decimals: tokeDecimals } = await getTokenBaseInfo(currency)
     const basePremium = parseUnits(await input({ message: 'Enter Base Premium:' }), tokeDecimals)
     const feeRecipient = getAddress('0x0000000000000000000000000000000000000000')
-    const mintFeePercent = await inputMoreThanMinimumValue('Enter Mint Fee Percent(>=500):')
-    const burnFeePercent = await inputMoreThanMinimumValue('Enter Burn Fee Percent(>=500):')
+    const mintFeePercent = 0
+    const burnFeePercent = 0
     const maxSupply = Number.parseInt(await input({ message: 'Enter Max Supply(If set to 0, unlimited supply): ', default: "0" }), 10)
 
     const extraAgencyData = await getExtraAgencyConfig(agencyImplementation)
 
-    console.log(boxen(`Currency: ${chalk.blue(currencyName)}\nBase Premium: ${chalk.blue(basePremium.toString(10))}\nMint Fee Percent: ${chalk.blue(mintFeePercent)}\nBurn Fee Percent: ${chalk.blue(burnFeePercent)}\nMax Supply: ${chalk.blue(maxSupply === 0 ? 'Unlimited' : maxSupply)}`, { padding: 1 }))
+    console.log(boxen(`Currency: ${chalk.blue(currencyName)}\nBase Premium: ${chalk.blue(basePremium.toString(10))}\nMint Fee Percent: 5%\nBurn Fee Percent: 5%\nMax Supply: ${chalk.blue(maxSupply === 0 ? 'Unlimited' : maxSupply)}`, { padding: 1 }))
     
     return { tokenId, config: { currency, basePremium, feeRecipient, mintFeePercent, burnFeePercent, maxSupply }, extraAgencyData }
 }

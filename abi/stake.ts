@@ -1263,11 +1263,11 @@ export const lpStakeABI = [
 ] as const;
 
 export const nftStake = {
-    address: "0xE17E3e854F0301B4C5287e74AE4385113fb46952",
+    address: "0xE9D0dc778cc6be88F905e80997Bf87dAdDAC4E20",
     abi: nftStakeABI
 } as const;
 
 export const lpStake = {
-    address: "0xeAc517A544ADf01a257cb5059e2eF0CFaEc2888F" as `0x${string}`,
+    address: "0x5dE812f959d95557CAECA3505b80806D40844165" as `0x${string}`,
     abi: lpStakeABI
 }

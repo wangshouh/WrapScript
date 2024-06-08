@@ -71,6 +71,6 @@ export const WrapClaimABI = [
 ] as const;
 
 export const WrapClaim = {
-    address: "0xF7C5e244024a97BcB77649aD12D6378e0795961B" as `0x${string}`,
+    address: "0xBE752ca1Dbf8aFB4F29C31ee335eAF88Aac6234C" as `0x${string}`,
     abi: WrapClaimABI
 }
