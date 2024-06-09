@@ -45,7 +45,7 @@ export const mintDotAgency = async () => {
             dotAgencyName = (await input({ message: 'Enter .Agency Name: ' })).toLowerCase()
         }
 
-        const userPrice = await inputETHNumber("Maximum cost available for mint(ETH): ", formatEther(nowDotAgencyPrice * BigInt(11) / BigInt(10)))
+        const userPrice = await inputETHNumber("Maximum cost available for mint(ETH): ", formatEther(nowDotAgencyPrice * BigInt(21) / BigInt(20)))
         const priceNonce = await getPriceNonce()
         await mintDotAgencyName(dotAgencyName, userPrice, priceNonce)
     }
@@ -188,7 +188,7 @@ export const wrap = async () => {
 
     displayNotFundAndExit(nowAgencyPrice[0] + nowAgencyPrice[1], userBalance)
     
-    const userSlippagePrice = await inputTokenNumber("Maximum cost available for mint: ", tokeDecimals, formatUnits((nowAgencyPrice[0] + nowAgencyPrice[1]) * BigInt(11) / BigInt(10), tokeDecimals))
+    const userSlippagePrice = await inputTokenNumber("Maximum cost available for mint: ", tokeDecimals, formatUnits((nowAgencyPrice[0] + nowAgencyPrice[1]) * BigInt(21) / BigInt(20), tokeDecimals))
     let agencyTokenName = (await input({ message: 'Enter Agent Name: ' })).toLowerCase()
 
     while (await existAgentName(agencyTokenName, agencyStrategy[0])) {
@@ -260,7 +260,7 @@ export const updateAgenctConfig = async () => {
         + `Base Premium: ${chalk.blue(agencySettings[1].basePremium.toString(10))}\n`
         + `Mint Fee Percent: 5%\n`
         + `Burn Fee Percent: 5%\n`
-        + `Max Supply: ${chalk.blue(agentMaxSupply.toString(10))}`, { padding: 1 }))
+        + `Max Supply: ${chalk.blue(agentMaxSupply === BigInt(0) ? 'Unlimited' : agentMaxSupply)}`, { padding: 1 }))
     console.log(`NFT Address: ${agencySettings[0]}`)
     const answer = await confirm({ message: 'Continue Update Agency Config?' })
 

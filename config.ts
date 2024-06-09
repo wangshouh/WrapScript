@@ -49,7 +49,7 @@ export const agencyAndAppConfig = [
     "name": "WrapV2Auction",
     "value": "auctionConfig",
     "description": "Minting prices are obtained through auctions",
-    "agencyImplementation": "0xc4D5dD95E04860140e0200E5B19B34EAA482fda6",
+    "agencyImplementation": "0x476992b294E0793AD601a4531FC5e7bd55e1bb0E",
     "appImplementation": "0x80596E288774eCC2d50bA934B960e208F8D884d6"
   },
   // {
