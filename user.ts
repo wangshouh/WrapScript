@@ -19,7 +19,7 @@ const userSelect = await select({
         {
             name: "Add Agency",
             value: "updateAgenctConfig",
-            description: `Update Agent Config`
+            description: `Update ERC7527 Config`
         },
         {
             name: "Set TokenURI Engine",
@@ -47,7 +47,7 @@ const resolverManage = async () => {
             {
                 name: "Set Resolver",
                 value: "setResolver",
-                description: `Set Agent Resolver`
+                description: `Set ERC7527 Resolver`
             },
             {
                 name: "Bond AI APP",
