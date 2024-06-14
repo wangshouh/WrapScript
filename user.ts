@@ -14,7 +14,7 @@ const userSelect = await select({
         {
             name: "Unwrap",
             value: "unwrap",
-            description: `Unwrap ${chalk.blueBright("Agency")} ERC7527 To Receive ETH or ERC20 Token`
+            description: `Unwrap ${chalk.blueBright("ERC7527")} To Receive ETH or ERC20 Token`
         },
         {
             name: "Add Agency",
