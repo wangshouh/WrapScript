@@ -74,7 +74,7 @@ export const deployAppAndAgency = async () => {
 export const setTokenURIEngine = async () => {
     const agencyAddress = await selectWrapAddress(userConfig)
     const agencyStrategy = await getAgencyStrategy(agencyAddress)
-    const tokenURIEngineAddress = await inputAddress("Enter TokenURI Engine Address(Default is Mario-style): ", defaultAgentTokenURI)
+    const tokenURIEngineAddress = await inputAddress("Enter TokenURI Engine Address(Default is Mobius-style): ", defaultAgentTokenURI)
     const { request } = await publicClient.simulateContract({
         account,
         address: agencyStrategy[0],
