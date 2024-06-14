@@ -17,12 +17,12 @@ const userSelect = await select({
             description: `Deploy ERC7527. This process can be done after ${chalk.blueBright("Bid .Agency")}`
         },
         {
-            name: "Manage Agents TokenURI",
+            name: "Set ERC7527 TokenURI",
             value: "setTokenURIEngine",
-            description: `Manage agents' TokenURI.`
+            description: `Manage ERC7527s' TokenURI.`
         },
         {
-            name: "Change .Agency NFT TokenURI",
+            name: "Set .Agency NFT TokenURI",
             value: "changeDotAgencyTokenURI",
             description: `Change .Agency's TokenURI.`
         },
