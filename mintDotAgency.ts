@@ -196,7 +196,7 @@ export const wrap = async () => {
         agencyTokenName = (await input({ message: 'Enter Agent Name: ' })).toLowerCase()
     }
 
-    const answer = await confirm({ message: 'Continue Mint Agent NFT?' });
+    const answer = await confirm({ message: 'Continue Mint ERC7527?' });
 
     if (answer) {
         await wrapAgency(agencyTokenName, userSlippagePrice, agencyAddress, agencyStrategy[1].currency)
@@ -213,7 +213,7 @@ export const unwrap = async () => {
 
     console.log(`Burn NFT will get ${chalk.blue(formatUnits(burnGet[0] - burnGet[1], decimals))} ${tokenName}`)
 
-    const answer = await confirm({ message: 'Continue Burn Agent NFT?' })
+    const answer = await confirm({ message: 'Continue Burn ERC7527?' })
 
     if (answer) {
         const agencyTokenId = BigInt(await input({ message: 'Enter Agent NFT ID: ' }))

@@ -32,7 +32,7 @@ const userSelect = await select({
             description: `Exact fee from agency to dotAgency NFT ERC6551 Account.`
         },
         {
-            name: "Claim Lock Wrap Coin",
+            name: "Claim Locked WRAP",
             value: "claimLockWrapCoin",
         },
         {
