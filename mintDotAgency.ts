@@ -157,7 +157,7 @@ export const rebaseFee = async () => {
     const dotAgencyFee = agencyFee / BigInt(6)
     console.log(`Reward to claim: ${chalk.blue(formatUnits(dotAgencyFee * BigInt(5), decimals))}`)
 
-    const answer = await confirm({ message: 'Continue Withdraw Fee?' });
+    const answer = await confirm({ message: 'Continue Claim Reward from Agency?' });
 
     if (answer) {
         const { request } = await publicClient.simulateContract({
@@ -168,7 +168,7 @@ export const rebaseFee = async () => {
 
         const rebaseHash = await walletClient.writeContract(request)
 
-        console.log(`Withdraw Fee Hash: ${chalk.blue(rebaseHash)}`)
+        console.log(`Claim Reward Hash: ${chalk.blue(rebaseHash)}`)
     }
 }
 
