@@ -26,7 +26,7 @@ export const mintDotAgency = async () => {
         functionName: "getPrice",
     })
 
-    console.log(`.Agency NFT Price is ${chalk.blue(formatEther(nowDotAgencyPrice))} ETH`)
+    console.log(`.Agency Price is ${chalk.blue(formatEther(nowDotAgencyPrice))} ETH`)
     console.log(`Your ETH Balance is ${chalk.blue(formatEther(accountBalance))} ETH`)
 
     displayNotFundAndExit(nowDotAgencyPrice, accountBalance)
@@ -146,7 +146,7 @@ export const rebaseFee = async () => {
 
     const dotAgencyNFTERC6551Address = await getDotAgencyERC6551Address(agencyAddress)
 
-    console.log(`.Agency NFT ERC6551 Address: ${chalk.blue(dotAgencyNFTERC6551Address)}`)
+    console.log(`.Agency ERC6551 Address: ${chalk.blue(dotAgencyNFTERC6551Address)}`)
 
     const agencyFee = await publicClient.readContract({
         address: agencyAddress,
@@ -155,7 +155,7 @@ export const rebaseFee = async () => {
     })
 
     const dotAgencyFee = agencyFee / BigInt(6)
-    console.log(`Withdraw Fee: ${chalk.blue(formatUnits(dotAgencyFee * BigInt(5), decimals))}`)
+    console.log(`Reward to claim: ${chalk.blue(formatUnits(dotAgencyFee * BigInt(5), decimals))}`)
 
     const answer = await confirm({ message: 'Continue Withdraw Fee?' });
 
@@ -211,7 +211,7 @@ export const unwrap = async () => {
 
     const burnGet = await getAgenctBurnPrice(agencyAddress, agencyStrategy[0])
 
-    console.log(`Burn NFT will get ${chalk.blue(formatUnits(burnGet[0] - burnGet[1], decimals))} ${tokenName}`)
+    console.log(`Burn ERC7527 will get ${chalk.blue(formatUnits(burnGet[0] - burnGet[1], decimals))} ${tokenName}`)
 
     const answer = await confirm({ message: 'Continue Burn ERC7527?' })
 
@@ -261,7 +261,7 @@ export const updateAgenctConfig = async () => {
         + `Mint Fee Percent: 5%\n`
         + `Burn Fee Percent: 5%\n`
         + `Max Supply: ${chalk.blue(agentMaxSupply === BigInt(0) ? 'Unlimited' : agentMaxSupply)}`, { padding: 1 }))
-    console.log(`NFT Address: ${agencySettings[0]}`)
+    console.log(`ERC7527 Address: ${agencySettings[0]}`)
     const answer = await confirm({ message: 'Continue Update Agency Config?' })
 
     if (answer) {
@@ -578,7 +578,7 @@ const getAgenctBurnPrice = async (agencyAddress: `0x${string}`, appAddress: `0x$
 }
 
 const wrapAgency = async (name: string, price: bigint, agencyAddress: `0x${string}`, tokenAddress: `0x${string}`) => {
-    const toAddress = await inputAddress('Enter NFT Receiver Address: ', account.address)
+    const toAddress = await inputAddress('Enter ERC7527 Receiver Address: ', account.address)
     const args = encodeAbiParameters(
         [{ 'name': 'slippagePrice', 'type': 'uint256' }, { 'name': 'name', 'type': 'bytes' }],
         [price, encodeAbiParameters([{ 'name': 'name', 'type': 'string' }], [name])]

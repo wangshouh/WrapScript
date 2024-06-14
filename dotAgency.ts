@@ -22,14 +22,14 @@ const userSelect = await select({
             description: `Manage ERC7527s' TokenURI.`
         },
         {
-            name: "Set .Agency NFT TokenURI",
+            name: "Set .Agency TokenURI",
             value: "changeDotAgencyTokenURI",
             description: `Change .Agency's TokenURI.`
         },
         {
-            name: "Exact Fee From Agency",
+            name: "Claim Reward From Agency",
             value: "rebaseFee",
-            description: `Exact fee from agency to dotAgency NFT ERC6551 Account.`
+            description: `Claim Reward from agency to dotAgency ERC6551 Account.`
         },
         {
             name: "Claim Locked WRAP",
@@ -38,7 +38,7 @@ const userSelect = await select({
         {
             name: "Config Stake Push",
             value: "approvePush",
-            description: `Config Push to Stake NFT.`
+            description: `Config Push to Stake ERC7527.`
         },
         {
             name: "Renounce push management",
