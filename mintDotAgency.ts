@@ -354,7 +354,7 @@ const getPriceNonce = async () => {
         await sleep(12000)
     }
     
-    console.log(`Bid Wrap Price: ${chalk.blue(formatEther(oneEthToWrap))}`)
+    console.log(`WRAP per ETH: ${chalk.blue(formatEther(oneEthToWrap))}`)
 
     return result
 }

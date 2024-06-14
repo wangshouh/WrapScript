@@ -178,8 +178,8 @@ const updatePoolL2 = async () => {
 
 const withdrawReward = async () => {
     const { agencyTokenId, agencyStrategy } = await chooseAgencyNFTWithTokenId(userConfig)
-    const agentERC6551Address = await getAgentERC6551AddressByTokenID(agencyStrategy[0], agencyTokenId)
-    console.log(`Agent ERC6551 Address: ${chalk.blue(agentERC6551Address)}`)
+    // const agentERC6551Address = await getAgentERC6551AddressByTokenID(agencyStrategy[0], agencyTokenId)
+    // console.log(`Agent ERC6551 Address: ${chalk.blue(agentERC6551Address)}`)
 
     const reward = await publicClient.readContract({
         ...nftStake,
