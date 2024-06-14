@@ -245,7 +245,7 @@ const claimDotAgencyReward = async () => {
         args: [tokenIdOfDotAgency]
     })
 
-    console.log(`Claim Reward: ${chalk.blue(formatUnits(reward, 30))} Wrap Coin`)
+    console.log(`Claim Reward: ${chalk.blue(formatUnits(reward, 30))} WRAP`)
 
     displayConfirmAndExit("Continue to Claim .Agency reward?")
 

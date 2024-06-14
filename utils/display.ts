@@ -110,7 +110,7 @@ export const chooseAgencyNFTWithTokenId = async (userConfig: UserConfig) => {
     const agencyAddress = await selectWrapAddress(userConfig)
     const agencyStrategy = await getAgencyStrategy(agencyAddress)
 
-    const agencyTokenId = BigInt(await input({ message: 'Enter Agent NFT ID: ' }))
+    const agencyTokenId = BigInt(await input({ message: 'Enter ERC7527 ID: ' }))
     const authorityExist = await isApproveOrOwner(agencyStrategy[0], agencyTokenId)
 
     if (!authorityExist) {

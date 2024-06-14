@@ -14,7 +14,7 @@ const userSelect = await select({
         {
             name: "Unwrap",
             value: "unwrap",
-            description: `Unwrap ${chalk.blueBright("Agency")} NFT To Receive ETH or ERC20 Token`
+            description: `Unwrap ${chalk.blueBright("Agency")} ERC7527 To Receive ETH or ERC20 Token`
         },
         {
             name: "Add Agency",
@@ -24,12 +24,12 @@ const userSelect = await select({
         {
             name: "Set TokenURI Engine",
             value: "setUserTokenURIEngine",
-            description: `Set up your NFT tokenURI Engine`
+            description: `Set up your ERC7527 tokenURI Engine`
         },
         {
             name: "Create ERC6551 Account",
             value: "createERC6551Account",
-            description: `Create an ERC6551 account for the NFT with the specified tokenId`
+            description: `Create an ERC6551 account for the ERC7527 with the specified tokenId`
         },
         {
             name: "Manage Resolver",
