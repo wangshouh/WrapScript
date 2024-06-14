@@ -9,7 +9,7 @@ const userSelect = await select({
         {
             name: "Bid .Agency",
             value: "mintDotAgency",
-            description: "Spend ETH to mint agency to participate"
+            description: "Spend ETH to mint .agency to participate"
         },
         {
             name: "Deploy ERC7527",
