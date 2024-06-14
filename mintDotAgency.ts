@@ -183,17 +183,17 @@ export const wrap = async () => {
 
     const nowAgencyPrice = await getAgentMintPrice(agencyAddress, agencyStrategy[0])
     
-    console.log(`Agent NFT Price is ${chalk.blue(formatUnits(nowAgencyPrice[0], tokeDecimals))} ${tokenName}, Fee is ${chalk.blue(formatUnits(nowAgencyPrice[1], tokeDecimals))} ${tokenName}`)
+    console.log(`ERC7527 Price is ${chalk.blue(formatUnits(nowAgencyPrice[0], tokeDecimals))} ${tokenName}, Fee is ${chalk.blue(formatUnits(nowAgencyPrice[1], tokeDecimals))} ${tokenName}`)
     console.log(`Your Balance is ${chalk.blue(formatUnits(userBalance, tokeDecimals))} ${tokenName}`)
 
     displayNotFundAndExit(nowAgencyPrice[0] + nowAgencyPrice[1], userBalance)
     
     const userSlippagePrice = await inputTokenNumber("Maximum cost available for mint: ", tokeDecimals, formatUnits((nowAgencyPrice[0] + nowAgencyPrice[1]) * BigInt(21) / BigInt(20), tokeDecimals))
-    let agencyTokenName = (await input({ message: 'Enter Agent Name: ' })).toLowerCase()
+    let agencyTokenName = (await input({ message: 'Enter ERC7527 Name: ' })).toLowerCase()
 
     while (await existAgentName(agencyTokenName, agencyStrategy[0])) {
         console.log(chalk.red("Name has been registered"))
-        agencyTokenName = (await input({ message: 'Enter Agent Name: ' })).toLowerCase()
+        agencyTokenName = (await input({ message: 'Enter ERC7527 Name: ' })).toLowerCase()
     }
 
     const answer = await confirm({ message: 'Continue Mint ERC7527?' });
@@ -216,7 +216,7 @@ export const unwrap = async () => {
     const answer = await confirm({ message: 'Continue Burn ERC7527?' })
 
     if (answer) {
-        const agencyTokenId = BigInt(await input({ message: 'Enter Agent NFT ID: ' }))
+        const agencyTokenId = BigInt(await input({ message: 'Enter ERC7257 ID: ' }))
         const authorityExist = await isApproveOrOwner(agencyStrategy[0], agencyTokenId)
 
         if (!authorityExist) {
@@ -275,7 +275,7 @@ export const createERC6551Account = async () => {
     const agencyAddress = await selectWrapAddress(userConfig)
     const agencyStrategy = await getAgencyStrategy(agencyAddress)
     let userInputSalt = toHex("DEFAULT_ACCOUNT_SALT", { size: 32 })
-    const tokenId = BigInt(await input({ message: 'Enter Agent NFT ID: ' }))
+    const tokenId = BigInt(await input({ message: 'Enter ERC7527 ID: ' }))
     const { request, result } = await publicClient.simulateContract({
         account,
         abi: erc6551RegistryABI,
@@ -597,7 +597,7 @@ const wrapAgency = async (name: string, price: bigint, agencyAddress: `0x${strin
             ]
         })
 
-        console.log(`Wrap Agent ID: ${chalk.blue(result)}`)
+        console.log(`Wrap ERC7527 ID: ${chalk.blue(result)}`)
         const mintHash = await walletClient.writeContract(request)
         console.log(`Mint Hash: ${chalk.blue(mintHash)}`)
     } else {
@@ -625,7 +625,7 @@ const wrapAgency = async (name: string, price: bigint, agencyAddress: `0x${strin
                 ]
             })
 
-            console.log(`Wrap Agent ID: ${chalk.blue(result)}`)
+            console.log(`Wrap ERC7527 ID: ${chalk.blue(result)}`)
             const mintHash = await walletClient.writeContract(request)
             console.log(`Mint Hash: ${chalk.blue(mintHash)}`)
         } else {
@@ -640,7 +640,7 @@ const wrapAgency = async (name: string, price: bigint, agencyAddress: `0x${strin
                 ]
             })
 
-            console.log(`Wrap Agent ID: ${chalk.blue(result)}`)
+            console.log(`Wrap ERC7527 ID: ${chalk.blue(result)}`)
             const mintHash = await walletClient.writeContract(request)
             console.log(`Mint Hash: ${chalk.blue(mintHash)}`)
         }
@@ -679,7 +679,7 @@ export const claimLockWrapCoin = async () => {
         args: [dotAgencyTokenId]
     })
 
-    console.log(`You will receive ${formatEther(unlockWrapCoin)} Wrap Coin`)
+    console.log(`You will receive ${formatEther(unlockWrapCoin)} WRAP`)
 
     const answer = await confirm({ message: 'Continue Claim?' })
 
