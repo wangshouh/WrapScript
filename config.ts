@@ -75,7 +75,7 @@ export const tokenURIEngineConfig = [
   {
     "name": "Mobius",
     "value": "0x6fECBE5Ce12F7EbC883328c1Ee593986424b8105" as `0x${string}`,
-    "description": "Generate Mario-style on-chain images",
+    "description": "Generate Mobius-style on-chain images",
   }
   // {
   //   "name": "CCIP Azimuth",

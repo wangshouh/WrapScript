@@ -96,7 +96,7 @@ export const changeDotAgencyTokenURI = async () => {
         console.log(chalk.red('Not NFT Approve or Owner'))
         return
     } else {
-        const tokenURI = await inputAddress('Enter TokenURI Engine Address(Default is histogram-style): ', defaultDotAgencyTokenURI)
+        const tokenURI = await inputAddress('Enter TokenURI Engine Address: ', defaultDotAgencyTokenURI)
         const { request } = await publicClient.simulateContract({
             account,
             ...dotAgency,
@@ -477,7 +477,7 @@ const getAgencyConfig = async (agencyImplementation: `0x${string}`, appImplement
     const currency = await inputAddress('Enter ERC20 address (zero address is ETH):', WrapCoinAddress)
     // const currencyName = await getERC20Name(currency)
     const { name: currencyName, decimals: tokeDecimals } = await getTokenBaseInfo(currency)
-    const basePremium = parseUnits(await input({ message: 'Enter Base Premium:' }), tokeDecimals)
+    const basePremium = parseUnits(await input({ message: 'Enter Base Premium:' , default: "1"}), tokeDecimals)
     const feeRecipient = getAddress('0x0000000000000000000000000000000000000000')
     const mintFeePercent = 0
     const burnFeePercent = 0
