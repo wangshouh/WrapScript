@@ -266,7 +266,7 @@ export const updateAgenctConfig = async () => {
         + `Mint Fee Percent: 5%\n`
         + `Burn Fee Percent: 5%\n`
         + `Max Supply: ${chalk.blue(agentMaxSupply === BigInt(0) ? 'Unlimited' : agentMaxSupply)}`, { padding: 1 }))
-    console.log(`ERC7527 Address: ${agencySettings[0]}`)
+    console.log(`ERC7527 App Address: ${agencySettings[0]}`)
     const answer = await confirm({ message: 'Continue Update Agency Config?' })
 
     if (answer) {
