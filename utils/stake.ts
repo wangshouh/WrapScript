@@ -299,7 +299,7 @@ const nftStakeStep = async () => {
             {
                 name: "Withdraw ERC7527 Stake Reward",
                 value: "withdrawReward",
-                description: "Withdraw staking rewards"
+                description: "Withdraw staking ERC7527 rewards"
             },
         ]
     })

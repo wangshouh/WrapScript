@@ -1,7 +1,7 @@
 import { exit } from 'node:process';
 import chalk from 'chalk'
 import { isAddress, getAddress, parseEther, toHex, parseUnits } from "viem"
-import { UserConfig } from '../config'
+import { UserConfig, tokenURIEngineConfig } from '../config'
 import { select, input } from '@inquirer/prompts';
 import fs from 'fs'
 import { getAgencyStrategy, isApproveOrOwner } from './data';
@@ -119,6 +119,19 @@ export const chooseAgencyNFTWithTokenId = async (userConfig: UserConfig) => {
     }
 
     return { agencyTokenId, agencyStrategy }
+}
+
+export const selectOrInputTokenURIEngineAddress = async () => {
+    let tokenURIEngineAddress = await select({
+        message: "TokenURI Engine Selection",
+        choices: tokenURIEngineConfig
+    })
+
+    if (tokenURIEngineAddress === "0x0") {
+        tokenURIEngineAddress = await inputAddress("Enter TokenURI Engine Address: ")
+    }
+
+    return tokenURIEngineAddress
 }
 
 const updateConfig = async (userConfig: UserConfig, tokenId?: { name: string, value: number }, agency?: { value: string, description: string }) => {
