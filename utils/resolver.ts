@@ -162,14 +162,14 @@ export const setResolverBondInCLI = async () => {
         if (answer) {
             const resolverAddress = await getResolver(agentAddress, nodeHash)
             const bondKey = toHex(await input({ message: "Enter bond key: "}))
-            const bondKeyHash = keccak256(bondKey)
+            // const bondKeyHash = keccak256(bondKey)
             const bondValue = toHex(await input({ message: "Enter bond value: "}))
             // await setResolverAddr(agentAddress, nodeHash, resolverAddress)
             const { request } = await publicClient.simulateContract({
                 address: resolverAddress,
                 abi: AgentResolverABI,
                 functionName: "setText",
-                args: [agentAddress, nodeHash, bondKeyHash, bondValue]
+                args: [agentAddress, nodeHash, bondKey, bondValue]
             })
 
             const setBondHash = await walletClient.writeContract(request)
@@ -218,12 +218,12 @@ export const getResolverBondInCLI = async () => {
     console.log("Read the bond of " + fullDomain)
     // if (answer) {
     const bondKey = toHex(await input({ message: "Enter bond key: "}))
-    const bondKeyHash = keccak256(bondKey)
+    // const bondKeyHash = keccak256(bondKey)
     const readBond = await publicClient.readContract({
         address: resolverAddress,
         abi: AgentResolverABI,
         functionName: "text",
-        args: [nodeHash, bondKeyHash]
+        args: [nodeHash, bondKey]
     })
 
     console.log(`Bond Value: ${chalk.blue(bytesToString(toBytes(readBond)))}`)

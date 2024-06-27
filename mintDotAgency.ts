@@ -1,4 +1,4 @@
-import { account, walletClient, publicClient, agencyAndAppConfig, userConfig, defaultDotAgencyTokenURI, defaultAgentTokenURI, WrapCoinAddress } from "./config"
+import { account, walletClient, publicClient, agencyAndAppConfig, userConfig, defaultDotAgencyTokenURI, defaultAgentTokenURI, WrapCoinAddress, tokenURIEngineConfig } from "./config"
 import { dotAgency } from "./abi/dotAgency"
 import { factoryABI, wrapFactory } from "./abi/factory"
 import { agencyABI, appABI } from './abi/agency'
@@ -74,7 +74,12 @@ export const deployAppAndAgency = async () => {
 export const setTokenURIEngine = async () => {
     const agencyAddress = await selectWrapAddress(userConfig)
     const agencyStrategy = await getAgencyStrategy(agencyAddress)
-    const tokenURIEngineAddress = await inputAddress("Enter TokenURI Engine Address(Default is Mobius-style): ", defaultAgentTokenURI)
+    // const tokenURIEngineAddress = await inputAddress("Enter TokenURI Engine Address(Default is Mobius-style): ", defaultAgentTokenURI)
+    const tokenURIEngineAddress = await select({
+        message: "TokenURI Engine Selection",
+        choices: tokenURIEngineConfig
+    })
+    
     const { request } = await publicClient.simulateContract({
         account,
         address: agencyStrategy[0],
@@ -528,7 +533,7 @@ const deployAgencyAndApp = async (
             {
                 implementation: appImplementation,
                 immutableData: appImmutableData,
-                initData: getFunctionSelector("init()")
+                initData: "0x" //getFunctionSelector("init()")
             },
             toHex(tokenId, { size: 32 })
         ]

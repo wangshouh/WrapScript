@@ -49,8 +49,8 @@ export const agencyAndAppConfig = [
     "name": "WrapV2Auction",
     "value": "auctionConfig",
     "description": "Minting prices are obtained through auctions",
-    "agencyImplementation": "0x476992b294E0793AD601a4531FC5e7bd55e1bb0E",
-    "appImplementation": "0x80596E288774eCC2d50bA934B960e208F8D884d6"
+    "agencyImplementation": "0x362C7cD8Cd6919D972c4B32B2Bd1309138231574",
+    "appImplementation": "0x377b1f57Af8cdF3b9840226bD3256435dcDc0040"
   },
   // {
   //   "name": "WrapV1RandomWalker",
@@ -61,21 +61,29 @@ export const agencyAndAppConfig = [
   // }
 ]
 
-export const uniswapV2Pair = "0x8f41Fe4165B20EA3d325be3ff0AA898A630428C2" as `0x${string}`
+export const uniswapV2Pair = "0xf3A9c1B2c707118ee1948633D4666b230e5F3664" as `0x${string}`
 
-export const defaultDotAgencyTokenURI = "0xc256d4417d7F667a90bd72f1CABBdA0ce8794265" as `0x${string}`
-export const defaultAgentTokenURI = "0x6fECBE5Ce12F7EbC883328c1Ee593986424b8105" as `0x${string}`
+export const defaultDotAgencyTokenURI = "0x111381d60A4A13d4074a258fD980d70Ddc1734D0" as `0x${string}`
+export const defaultAgentTokenURI = "0x7069bcD56B838492CCF9bd6af82Ed976A1615DC8" as `0x${string}`
 
-export const defaultAgentResolver = "0x3e9F9c9223B503aCCe33abe896FD5AE7bdBDF5Fe" as `0x${string}`
+export const defaultAgentResolver = "0x63d343c6f9fA2E3dD3840B9eDfCE30bC867Dc890" as `0x${string}`
 export const defaultDotAgencyResolver = "0x6aCca1410C16FfDD60866be84b541492C2398C4e" as `0x${string}`
 
-export const WrapCoinAddress = "0x72446FA9dE18C24625568bC4D1335Fe9745E06BB" as `0x${string}`
+export const WrapCoinAddress = "0x26A7Cf1326a8daA6EC04DdC07304994049E93fCd" as `0x${string}`
 
 export const tokenURIEngineConfig = [
   {
     "name": "Mobius",
-    "value": "0x6fECBE5Ce12F7EbC883328c1Ee593986424b8105" as `0x${string}`,
+    "value": "0x7069bcD56B838492CCF9bd6af82Ed976A1615DC8" as `0x${string}`,
     "description": "Generate Mobius-style on-chain images",
+  },
+  {
+    "name": "Mobius Animate Circle I",
+    "value": "0xEC5c3dd0b2A2E70bB1095645869cBfBe4a81375e" as `0x${string}`,
+  },
+  {
+    "name": "Mobius Animate Circle II",
+    "value": "0xE690575Ac08C8F134D3D00508090AEd86FE6ad7c" as `0x${string}`,
   }
   // {
   //   "name": "CCIP Azimuth",
