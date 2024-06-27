@@ -6,7 +6,7 @@ import { agentABI } from './abi/agent'
 import { erc6551AccountABI, erc6551Implementation, erc6551RegistryABI } from './abi/erc6551'
 import { concat, encodeAbiParameters, formatEther, getAddress, getFunctionSelector, keccak256, toHex, parseAbi, encodeFunctionData, formatUnits, parseUnits, encodePacked } from "viem"
 import { confirm } from '@inquirer/prompts';
-import { displayNotFundAndExit, inputAddress, selectWrapAddress, selectTokenId, inputETHNumber, inputMoreThanMinimumValue, chooseAgencyNFTWithTokenId, getExtraAgencyConfig, selectDotAgency, inputTokenNumber } from './utils/display'
+import { displayNotFundAndExit, inputAddress, selectWrapAddress, selectTokenId, inputETHNumber, inputMoreThanMinimumValue, chooseAgencyNFTWithTokenId, getExtraAgencyConfig, selectDotAgency, inputTokenNumber, selectOrInputTokenURIEngineAddress } from './utils/display'
 import { exit } from 'node:process';
 import input from '@inquirer/input';
 import select from '@inquirer/select'
@@ -75,11 +75,8 @@ export const setTokenURIEngine = async () => {
     const agencyAddress = await selectWrapAddress(userConfig)
     const agencyStrategy = await getAgencyStrategy(agencyAddress)
     // const tokenURIEngineAddress = await inputAddress("Enter TokenURI Engine Address(Default is Mobius-style): ", defaultAgentTokenURI)
-    const tokenURIEngineAddress = await select({
-        message: "TokenURI Engine Selection",
-        choices: tokenURIEngineConfig
-    })
-    
+    const tokenURIEngineAddress = await selectOrInputTokenURIEngineAddress()
+    // console.log(tokenURIEngineAddress)
     const { request } = await publicClient.simulateContract({
         account,
         address: agencyStrategy[0],
@@ -236,7 +233,8 @@ export const unwrap = async () => {
 
 export const setUserTokenURIEngine = async () => {
     const agencySelectConfig = await chooseAgencyNFTWithTokenId(userConfig)
-    const tokenURIEngineAddress = await inputAddress("Enter TokenURI Engine Address: ")
+    // const tokenURIEngineAddress = await inputAddress("Enter TokenURI Engine Address: ")
+    const tokenURIEngineAddress = await selectOrInputTokenURIEngineAddress()
     const { request } = await publicClient.simulateContract({
         account,
         address: agencySelectConfig.agencyStrategy[0],

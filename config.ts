@@ -84,6 +84,11 @@ export const tokenURIEngineConfig = [
   {
     "name": "Mobius Animate Circle II",
     "value": "0xE690575Ac08C8F134D3D00508090AEd86FE6ad7c" as `0x${string}`,
+  },
+  {
+    "name": "Other",
+    "value": "0x0" as `0x${string}`,
+    "description": "Manually enter the address of TokenURI Engine"
   }
   // {
   //   "name": "CCIP Azimuth",
