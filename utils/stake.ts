@@ -275,7 +275,6 @@ const nftStakeStep = async () => {
             {
                 name: "Unstake ERC7527",
                 value: "unstakeAgencyNFT",
-                description: "Unstake NFT"
             },
             {
                 name: "Update Pool L1",
