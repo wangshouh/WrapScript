@@ -266,14 +266,14 @@ const claimDotAgencyReward = async () => {
 
 const nftStakeStep = async () => {
     const selectStake = await select({
-        message: "Select the NFT stake steps",
+        message: "Select the ERC7527 stake steps",
         choices: [
             {
-                name: "Stake NFT",
+                name: "Stake ERC7527",
                 value: "stakeAgencyNFT",
             },
             {
-                name: "Unstake NFT",
+                name: "Unstake ERC7527",
                 value: "unstakeAgencyNFT",
                 description: "Unstake NFT"
             },
@@ -298,7 +298,7 @@ const nftStakeStep = async () => {
                 description: "Claim rewards allocated to .Agency"
             },
             {
-                name: "Withdraw NFT Stake Reward",
+                name: "Withdraw ERC7527 Stake Reward",
                 value: "withdrawReward",
                 description: "Withdraw staking rewards"
             },
@@ -503,7 +503,7 @@ export const stakeSelect = async () => {
         message: "Select the stake",
         choices: [
             {
-                name: "NFT Stake",
+                name: "ERC7527 Stake",
                 value: "stakeNFT",
             },
             {
