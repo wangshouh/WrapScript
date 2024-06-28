@@ -477,7 +477,7 @@ const getAgencyConfig = async (agencyImplementation: `0x${string}`, appImplement
         exit()
     }
     // '0x0000000000000000000000000000000000000000'
-    const currency = await inputAddress('Enter ERC20 address (zero address is ETH):', WrapCoinAddress)
+    const currency = await inputAddress('Enter currency address (zero address is ETH):', WrapCoinAddress)
     // const currencyName = await getERC20Name(currency)
     const { name: currencyName, decimals: tokeDecimals } = await getTokenBaseInfo(currency)
     const basePremium = parseUnits(await input({ message: 'Enter Base Premium:' , default: "1"}), tokeDecimals)
