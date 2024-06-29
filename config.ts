@@ -26,13 +26,13 @@ export const rpcUrl = process.env.RPC_URL
 // console.log(rpcUrl)
 export const walletClient: WalletClient = createWalletClient({
   account,
-  chain: sepolia,
+  chain: mainnet,
   transport: http(rpcUrl)
   // transport: http("http://127.0.0.1:8545")
 })
 
 export const publicClient: PublicClient = createPublicClient({
-  chain: sepolia,
+  chain: mainnet,
   transport: http(rpcUrl)
   // transport: http("http://127.0.0.1:8545")
 }) as PublicClient;
@@ -49,8 +49,8 @@ export const agencyAndAppConfig = [
     "name": "WrapV2Auction",
     "value": "auctionConfig",
     "description": "Minting prices are obtained through auctions",
-    "agencyImplementation": "0x362C7cD8Cd6919D972c4B32B2Bd1309138231574",
-    "appImplementation": "0x377b1f57Af8cdF3b9840226bD3256435dcDc0040"
+    "agencyImplementation": "0x120E8cC16D6Bd9BCc4E94609D668F96aB8BAA3D9",
+    "appImplementation": "0x48534DAEb3F0b7d91FcB2618C651aD075703f07E"
   },
   // {
   //   "name": "WrapV1RandomWalker",
@@ -61,29 +61,23 @@ export const agencyAndAppConfig = [
   // }
 ]
 
-export const uniswapV2Pair = "0xf3A9c1B2c707118ee1948633D4666b230e5F3664" as `0x${string}`
+export const uniswapV2Pair = "0x5Ff788F688650d3b0cB37E976e71d604D8229064" as `0x${string}`
 
-export const defaultDotAgencyTokenURI = "0x65149562BF8c2B5dA459bfA93eEf4027Ff5a3c9d" as `0x${string}`
-export const defaultAgentTokenURI = "0x7069bcD56B838492CCF9bd6af82Ed976A1615DC8" as `0x${string}`
+export const defaultDotAgencyTokenURI = "0x6077dECB9a55093626754653a34276Cf49C5E684" as `0x${string}`
 
 export const defaultAgentResolver = "0x63d343c6f9fA2E3dD3840B9eDfCE30bC867Dc890" as `0x${string}`
 export const defaultDotAgencyResolver = "0x6aCca1410C16FfDD60866be84b541492C2398C4e" as `0x${string}`
 
-export const WrapCoinAddress = "0x26A7Cf1326a8daA6EC04DdC07304994049E93fCd" as `0x${string}`
+export const WrapCoinAddress = "0x989436e4194af162546F595Afc6336A15b3DCa7d" as `0x${string}`
 
 export const tokenURIEngineConfig = [
   {
-    "name": "Mobius",
-    "value": "0x7069bcD56B838492CCF9bd6af82Ed976A1615DC8" as `0x${string}`,
-    "description": "Generate Mobius-style on-chain images",
+    "name": "Animated Mobius Loop I",
+    "value": "0x2c7d1dd08844ae0BcEFC69c1ce915220A6d84D24" as `0x${string}`,
   },
   {
-    "name": "Mobius Animate Circle I",
-    "value": "0xEC5c3dd0b2A2E70bB1095645869cBfBe4a81375e" as `0x${string}`,
-  },
-  {
-    "name": "Mobius Animate Circle II",
-    "value": "0xE690575Ac08C8F134D3D00508090AEd86FE6ad7c" as `0x${string}`,
+    "name": "Animated Mobius Loop II",
+    "value": "0x921A6d5ce62057167d4b34a5B0Ff7aA37104fDD4" as `0x${string}`,
   },
   {
     "name": "Other",

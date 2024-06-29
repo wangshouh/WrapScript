@@ -1,4 +1,4 @@
-import { account, walletClient, publicClient, agencyAndAppConfig, userConfig, defaultDotAgencyTokenURI, defaultAgentTokenURI, WrapCoinAddress, tokenURIEngineConfig } from "./config"
+import { account, walletClient, publicClient, agencyAndAppConfig, userConfig, defaultDotAgencyTokenURI, WrapCoinAddress, tokenURIEngineConfig } from "./config"
 import { dotAgency } from "./abi/dotAgency"
 import { factoryABI, wrapFactory } from "./abi/factory"
 import { agencyABI, appABI } from './abi/agency'
