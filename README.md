@@ -29,7 +29,7 @@ Before performing the following operations, you need to configure `.env` file:
 
 ```
 PRIVATE_KEY=<YOUR PRIVATE KEY>
-RPC_URL=<ETHEREUM SEPOLIA RPC URL>
+RPC_URL=<ETHEREUM RPC URL>
 ```
 
 > `RPC_URL` is optional.
