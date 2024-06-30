@@ -65,7 +65,7 @@ export const uniswapV2Pair = "0x5Ff788F688650d3b0cB37E976e71d604D8229064" as `0x
 
 export const defaultDotAgencyTokenURI = "0x6077dECB9a55093626754653a34276Cf49C5E684" as `0x${string}`
 
-export const defaultAgentResolver = "0x63d343c6f9fA2E3dD3840B9eDfCE30bC867Dc890" as `0x${string}`
+export const defaultAgentResolver = "0x21244259bE899fE7FB798B198a8BD70AB9873ABB" as `0x${string}`
 export const defaultDotAgencyResolver = "0x6aCca1410C16FfDD60866be84b541492C2398C4e" as `0x${string}`
 
 export const WrapCoinAddress = "0x989436e4194af162546F595Afc6336A15b3DCa7d" as `0x${string}`
