@@ -86,3 +86,9 @@ The script only contains the following five functions:
     - `Stake LP Token` Staking LP Token
     - `Claim LP Token Reward` Claim LP Token rewards
     - `Unstake LP Token` Withdraw LP Token
+
+```bash
+bun run erc6551.ts
+```
+
+This script is used to withdraw ERC20 assets from ERC6551 accounts. Users can find the ERC6551 account address through `.Agency ERC6551 Address` etc.
