@@ -249,7 +249,14 @@ export const setUserTokenURIEngine = async () => {
 }
 
 export const updateAgenctConfig = async () => {
-    const agencyAddress = await inputAddress('Enter Your Agency Address: ')
+    const appAddress = await inputAddress('Enter Your App Address: ')
+    const agencyAddress = await publicClient.readContract({
+        abi: agentABI,
+        address: appAddress,
+        functionName: "getAgency"
+    })
+
+    // const agencyAddress = await inputAddress('Enter Your Agency Address: ')
 
     const agencySettings = await getAgencyStrategy(agencyAddress)
 
@@ -266,6 +273,7 @@ export const updateAgenctConfig = async () => {
         + `Burn Fee Percent: 5%\n`
         + `Max Supply: ${chalk.blue(agentMaxSupply === BigInt(0) ? 'Unlimited' : agentMaxSupply)}`, { padding: 1 }))
     console.log(`ERC7527 App Address: ${agencySettings[0]}`)
+    console.log(`ERC7527 Agency Address: ${agencyAddress}`)
     const answer = await confirm({ message: 'Continue Update Agency Config?' })
 
     if (answer) {
@@ -379,9 +387,9 @@ const mintDotAgencyName = async (name: string, price: bigint, priceNonce: bigint
             functionName: 'mint',
             args: [name, priceNonce]
         })
-    
+
         const mintHash = await walletClient.writeContract(request)
-    
+
         console.log(`Token ID: ${chalk.blue(result.toString(10))}`)
         updateConfig({ name: name, value: Number(result) })
         console.log(`Mint Hash: ${chalk.blue(mintHash)}`)
